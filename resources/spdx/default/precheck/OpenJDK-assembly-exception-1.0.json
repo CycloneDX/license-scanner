@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "linking this openjdk code statically or dynamically with other code is making a combined work based on this library. thus,the terms and conditions of gpl2 cover the whole combination. as a special exception,oracle gives you permission to link this openjdk code with certain code licensed by oracle as indicated at http://openjdk.java.net/legal/exception-modules-2007-05-08.html ('designated exception modules') to produce an executable,regardless of the license terms of the designated exception modules,and to copy and distribute the resulting executable under gpl2,provided that the designated exception modules continue to be governed by the licenses under which they were offered by oracle."
+  ]
+}

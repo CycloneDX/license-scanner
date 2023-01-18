@@ -1,0 +1,11 @@
+{
+  "name": "BSD 2-clause \"Simplified\" License",
+  "family": "BSD",
+  "spdx_standard": true,
+  "osi_approved": true,
+  "aliases":[
+    "2-clause BSDL"
+  ],
+  "alias_prechecks": "BSD_weak",
+  "urls":["https://opensource.org/licenses/bsd-license.php", "https://spdx.org/licenses/BSD-2-Clause.html"]
+}

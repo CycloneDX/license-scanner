@@ -1,0 +1,11 @@
+{
+  "name": "BSD Zero Clause License",
+  "family": "BSD",
+  "spdx_standard": true,
+  "osi_approved": true,
+  "aliases":[
+    "Free Public License 1.0.0"
+  ],
+  "alias_prechecks": "BSD_weak",
+  "urls":["https://spdx.org/licenses/0BSD.html", "https://opensource.org/licenses/FPL-1.0.0"]
+}

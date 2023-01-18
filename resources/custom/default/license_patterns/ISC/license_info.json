@@ -1,0 +1,10 @@
+{
+  "name": "ISC License",
+  "family": "ISC",
+  "spdx_standard": true,
+  "osi_approved": true,
+  "ignore_id_match": true,
+  "alias_prechecks": "ISC_weak",
+  "eligible_licenses": "Other-Approved",
+  "is_mutator": true
+}

@@ -1,0 +1,10 @@
+{
+  "name": "MIT License",
+  "family": "MIT",
+  "spdx_standard": true,
+  "osi_approved": true,
+  "ignore_id_match": true,
+  "ignore_name_match": false,
+  "alias_prechecks": "MIT_weak",
+  "urls":["http://www.opensource.org/licenses/mit-license.php", "https://opensource.org/licenses/MIT"]
+}

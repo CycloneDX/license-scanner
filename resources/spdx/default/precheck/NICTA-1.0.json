@@ -1,0 +1,16 @@
+{
+  "StaticBlocks": [
+    "by this license,national ict australia ltd (nicta) grants permission,free of charge,to any person who obtains a copy of this software and any associated documentation files ('the software') to use and deal with the software in source code and binary forms without restriction,with or without modification,and to permit persons to whom the software is furnished to do so,provided that the following conditions are met:",
+    "redistribution of source code must retain the above copyright notice,this list of conditions and the following disclaimers.",
+    "redistribution in binary form must reproduce the above copyright notice,this list of conditions and the following disclaimers in the documentation and/or other materials provided with the distribution.",
+    "the name of nicta may not be used to endorse or promote products derived from this software without specific prior written permission. except as expressly stated in this license and to the full extent permitted by applicable law,the software is provided 'as-is' and nicta makes no representations,warranties or conditions of any kind,express or implied,including,without limitation,any representations,warranties or conditions regarding the contents or accuracy of the software,or of title,merchantability,fitness for a particular purpose,noninfringement,the absence of latent or other defects,or the presence or absence of errors,whether or not discoverable. to the full extent permitted by applicable law,in no event will nicta be liable on any legal theory (including,without limitation,negligence) for any loss or damage whatsoever,including (without limitation) loss of production or operation time,loss,damage or corruption of data or records; or loss of anticipated savings,opportunity,revenue,profit or goodwill,or other economic loss; or any special,incidental,indirect,consequential,punitive or exemplary damages arising out of or in connection with this license,the software or the use of the software,even if nicta has been advised of the possibility of such damages. if applicable legislation implies warranties or conditions,or imposes obligations or liability on nicta in respect of the software that cannot be wholly or partly excluded,restricted or modified,nicta's liability is limited,to the full extent permitted by the applicable legislation,at its option,to:",
+    "in the case of goods,any one or more of the following:",
+    "the replacement of the goods or the supply of equivalent goods;",
+    "the repair of the goods;",
+    "the payment of the cost of replacing the goods or of acquiring equivalent goods;",
+    "the payment of the cost of having the goods repaired; or",
+    "in the case of services:",
+    "the supplying of the services again; or",
+    "the payment of the cost of having the services supplied again."
+  ]
+}

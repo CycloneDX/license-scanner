@@ -1,0 +1,15 @@
+{
+  "StaticBlocks": [
+    "minpack copyright notice",
+    "university of chicago. all rights reserved redistribution and use in source and binary forms,with or without modification,are permitted provided that the following conditions are met:",
+    "redistribution of source code must retain the above copyright notice,this list of conditions and the following disclaimer.",
+    "redistribution in binary form must reproduce the above copyright notice,this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+    "the end-user documentation included with the redistribution,if any,must include the following acknowledgement:'this product includes software developed by the university of chicago,as operator of argonne national laboratory. alternately,this acknowledgement may appear in the software itself,if and wherever such third-party acknowledgements normally appear.",
+    "warranty disclaimer. the software is supplied 'as is' without warranty of any kind. the copyright holder,the united states,the united states department of energy,and their employees:",
+    "disclaim any warranties,express or implied,including but not limited to any implied warranties of merchantability,fitness for a particular purpose,title or non-infringement,",
+    "do not assume any legal liability or responsibility for the accuracy,completeness,or usefulness of the software,",
+    "do not represent that use of the software would not infringe privately owned rights,",
+    "do not warrant that the software will function uninterrupted,that it is error-free or that any errors will be corrected.",
+    "limitation of liability. in no event will the copyright holder,the united states,the united states department of energy,or their employees:be liable for any indirect,incidental,consequential,special or punitive damages of any kind or nature,including but not limited to loss of profits or loss of data,for any reason whatsoever,whether such liability is asserted on the basis of contract,tort (including negligence or strict liability),or otherwise,even if any of said parties has been warned of the possibility of such loss or damages."
+  ]
+}

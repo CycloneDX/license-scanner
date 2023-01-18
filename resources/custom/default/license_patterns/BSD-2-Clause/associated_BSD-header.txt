@@ -1,0 +1,1 @@
+<<beginOptional>><<match=Software License Agreement|the>><<endOptional>> <<match=\(?BSD License\)?>>

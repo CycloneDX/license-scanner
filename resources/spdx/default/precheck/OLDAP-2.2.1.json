@@ -1,0 +1,12 @@
+{
+  "StaticBlocks": [
+    "redistribution and use of this software and associated documentation ('software'),with or without modification,are permitted provided that the following conditions are met:",
+    "redistribution of source code must retain copyright statements and notice. redistribution must also contain a copy of this document.",
+    "redistribution in binary form must reproduce the above copyright notice,this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+    "the name 'openldap' must not be used to endorse or promote products derived from this software without prior written permission of the openldap foundation.",
+    "products derived from this software may not be called 'openldap' nor may 'openldap' appear in their name without prior written permission of the openldap foundation.",
+    "due credit should be given to the openldap project (http://www.openldap.org/).",
+    "the openldap foundation may revise this license from time to time. each revision is distinguished by a version number. you may use the software under terms of this license revision or under the terms of any subsequent revision of the license. this software is provided by the openldap foundation and contributors 'as is' and any expressed or implied warranties,including,but not limited to,the implied warranties of merchantability and fitness for a particular purpose are disclaimed. in no event shall the openldap foundation or its contributors be liable for any direct,indirect,incidental,special,exemplary,or consequential damages (including,but not limited to,procurement of substitute goods or services; loss of use,data,or profits; or business interruption) however caused and on any theory of liability,whether in contract,strict liability,or tort (including negligence or otherwise) arising in any way out of the use of this software,even if advised of the possibility of such damage. openldap is a trademark of the openldap foundation.",
+    "permission to copy and distributed verbatim copies of this document is granted."
+  ]
+}

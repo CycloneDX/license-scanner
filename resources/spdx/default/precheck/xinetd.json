@@ -1,0 +1,11 @@
+{
+  "StaticBlocks": [
+    "the author (panagiotis tsirigotis) grants permission to use,copy,and distribute this software and its documentation for any purpose and without fee,provided that the above copyright notice extant in files in this distribution is not removed from files included in any redistribution and that this copyright notice is also included in any redistribution. modifications to this software may be distributed,either by distributing the modified software or by distributing patches to the original software,under the following additional terms:",
+    "the version number will be modified as follows:",
+    "the first 3 components of the version number (i.e",
+    ") will remain unchanged.",
+    "a new component will be appended to the version number to indicate the modification level. the form of this component is up to the author of the modifications.",
+    "the author of the modifications will include his/her name by appending it along with the new version number to this file and will be responsible for any wrong behavior of the modified software. the author makes no representations about the suitability of this software for any purpose. it is provided 'as is' without any express or implied warranty. modifications:version:2.1.8.7-current copyright 1998-2001 by rob braun sensor addition version:2.1.8.9pre14a copyright 2001 by steve grubb this is an exerpt from an email i recieved from the original author,allowing xinetd as maintained by me (rob braun),to use the higher version numbers:i appreciate your maintaining the version string guidelines as specified in the copyright. but i did not mean them to last as long as they did. so,if you want,you may use any 2.n.* (n \u003e=",
+    "version string for future xinetd versions that you release. note that i am excluding the 2.2.* line; using that would only create confusion. naming the next release 2.3.0 would put to rest the confusion about 2.2.1 and 2.1.8.*."
+  ]
+}

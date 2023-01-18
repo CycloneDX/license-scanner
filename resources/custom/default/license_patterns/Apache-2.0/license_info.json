@@ -1,0 +1,9 @@
+{
+  "name": "Apache License 2.0",
+  "family": "Apache",
+  "spdx_standard": true,
+  "osi_approved": true,
+  "urls": "http://www.apache.org/licenses/LICENSE-2.0",
+  "aliases": ["Apache License, Version 2.0", "Apache License v. 2.0", "Apache License Version 2.0", "Apache Software License v2.0"],
+  "alias_prechecks": "apache"
+}

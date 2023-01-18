@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "igor pavlov and amir szekely,the authors of the lzma compression module for nsis,expressly permit you to statically or dynamically link your code (or bind by name) to the files from the lzma compression module for nsis without subjecting your linked code to the terms of the common public license version 1.0. any modifications or additions to files from the lzma compression module for nsis,however,are subject to the terms of the common public license version 1.0."
+  ]
+}

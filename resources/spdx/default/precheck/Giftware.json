@@ -1,0 +1,6 @@
+{
+  "StaticBlocks": [
+    "allegro is gift-ware. it was created by a number of people working in cooperation,and is given to you freely as a gift. you may use,modify,redistribute,and generally hack it about in any way you like,and you do not have to give us anything in return. however,if you like this product you are encouraged to thank us by making a return gift to the allegro community. this could be by writing an add-on package,providing a useful bug report,making an improvement to the library,or perhaps just releasing the sources of your program so that other people can learn from them. if you redistribute parts of this code or make a game using it,it would be nice if you mentioned allegro somewhere in the credits,but you are not required to do this. we trust you not to abuse our generosity. by shawn hargreaves,18 october",
+    "disclaimer:the software is provided 'as is',without warranty of any kind,express or implied,including but not limited to the warranties of merchantability,fitness for a particular purpose,title and non-infringement. in no event shall the copyright holders or anyone distributing the software be liable for any damages or other liability,whether in contract,tort or otherwise,arising from,out of or in connection with the software or the use or other dealings in the software."
+  ]
+}

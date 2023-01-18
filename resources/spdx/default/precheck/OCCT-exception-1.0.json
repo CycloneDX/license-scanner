@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "the object code (i.e. not a source) form of a 'work that uses the library' can incorporate material from a header file that is part of the library. as a special exception to the gnu lesser general public license version 2.1,you may distribute such object code incorporating material from header files provided with the open cascade technology libraries (including code of cdl generic classes) under terms of your choice,provided that you give prominent notice in supporting documentation to this code that it makes use of or is based on facilities provided by the open cascade technology software."
+  ]
+}

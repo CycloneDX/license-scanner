@@ -1,0 +1,12 @@
+Redistribution and use <<beginOptional>>of this software<<endOptional>> in source and binary forms<<beginOptional>> of the software as well as documentation<<endOptional>>, <<beginOptional>>with or without modification,<<endOptional>> are permitted provided that the following conditions are met:
+
+<<beginOptional>><<match=1?.>><<endOptional>> Redistributions of <<match=source code|works>> must retain the <<beginOptional>><<match=above|original>><<endOptional>> copyright notices, <<match=t?his>> list of <<match=conditions,?>> and the following disclaimer<<beginOptional>> in this position and unchanged<<endOptional>> <<beginOptional>> as
+* the first lines of this file unmodified<<endOptional>>.
+
+<<beginOptional>><<match=2?.>><<endOptional>> Redistributions in binary form must reproduce the <<beginOptional>><<match=above|original>><<endOptional>> copyright <<match=notice,?>> this list of <<match=conditions,?>> and the following disclaimer <<beginOptional>>listed in this license<<endOptional>> in the documentation <<match=and/or|and|or>> other materials provided with the distribution.
+
+<<beginOptional>>
+3. [This condition was removed.]
+<<endOptional>>
+
+<<beginOptional>><<match=3?.>><<endOptional>> <<beginOptional>><<match=Neither|None of>><<endOptional>> <<beginOptional>>the<<endOptional>><<beginOptional>>my<<endOptional>> <<beginOptional>>names<<endOptional>> <<beginOptional>>of<<endOptional>> <<match=.+>> <<beginOptional>>nor the names of <<match=.+>> <<endOptional>> <<match=may|is>> <<beginOptional>>not<<endOptional>> <<beginOptional>>be<<endOptional>> used to endorse or promote products derived from this <<match=software|work>> <<beginOptional>>without specific prior written permission<<beginOptional>> of <<match=.+>><<endOptional>><<endOptional>><<match=.?>>

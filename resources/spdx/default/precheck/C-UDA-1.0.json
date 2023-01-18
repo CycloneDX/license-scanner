@@ -1,0 +1,28 @@
+{
+  "StaticBlocks": [
+    "this is the computational use of data agreement,version 1.0 (the 'c-uda'). capitalized terms are defined in section",
+    "data provider and you agree as follows:",
+    "provision of the data",
+    "you may use,modify,and distribute the data made available to you by the data provider under this c-uda for computational use if you follow the c-uda's terms.",
+    "data provider will not sue you or any downstream recipient for any claim arising out of the use,modification,or distribution of the data provided you meet the terms of the c-uda.",
+    "this c-uda does not restrict your use,modification,or distribution of any portions of the data that are in the public domain or that may be used,modified,or distributed under any other legal exception or limitation.",
+    "restrictions",
+    "you agree that you will use the data solely for computational use.",
+    "the c-uda does not impose any restriction with respect to the use,modification,or distribution of results.",
+    "redistribution of data",
+    "you may redistribute the data,so long as:",
+    "you include with any data you redistribute all credit or attribution information that you received with the data,and your terms require any downstream recipient to do the same; and",
+    "you bind each recipient to whom you redistribute the data to the terms of the c-uda.",
+    "no warranty,limitation of liability",
+    "data provider does not represent or warrant that it has any rights whatsoever in the data.",
+    "the data is provided on an 'as is' basis,without warranties or conditions of any kind,either express or implied including,without limitation,any warranties or conditions of title,non-infringement,merchantability or fitness for a particular purpose.",
+    "neither data provider nor any upstream data provider shall have any liability for any direct,indirect,incidental,special,exemplary,or consequential damages (including without limitation lost profits),however caused and on any theory of liability,whether in contract,strict liability,or tort (including negligence or otherwise) arising in any way out of the data or results,even if advised of the possibility of such damages.",
+    "definitions",
+    "'computational use' means activities necessary to enable the use of data (alone or along with other material) for analysis by a computer.",
+    "'data' means the material you receive under the c-uda in modified or unmodified form,but not including results.",
+    "'data provider' means the source from which you receive the data and with whom you enter into the c-uda.",
+    "'downstream recipient' means any person or persons who receives the data directly or indirectly from you in accordance with the c-uda.",
+    "'result' means anything that you develop or improve from your use of data that does not include more than a de minimis portion of the data on which the use is based. results may include de minimis portions of the data necessary to report on or explain use that has been conducted with the data,such as figures in scientific papers,but do not include more. artificial intelligence models trained on data (and which do not include more than a de minimis portion of data) are results.",
+    "'upstream data providers' means the source or sources from which the data provider directly or indirectly received,under the terms of the c-uda,material that is included in the data."
+  ]
+}

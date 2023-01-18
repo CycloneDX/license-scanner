@@ -1,0 +1,8 @@
+{
+  "StaticBlocks": [
+    "the qwt library and included programs are provided under the terms of the gnu lesser general public license (lgpl) with the following exceptions:",
+    "widgets that are subclassed from qwt widgets do not constitute a derivative work.",
+    "static linking of applications and widgets to the qwt library does not constitute a derivative work and does not require the author to provide source code for the application or widget,use the shared qwt libraries,or link their applications or widgets against a user-supplied version of qwt. if you link the application or widget to a modified version of qwt,then the changes to qwt must be provided under the terms of the lgpl in sections 1,2,and",
+    "you do not have to provide a copy of the qwt license with programs that are linked to the qwt library,nor do you have to identify the qwt license in your program or documentation as required by section 6 of the lgpl. however,programs must still identify their use of qwt. the following example statement can be included in user documentation to satisfy this requirement:[program/widget] is based in part on the work of the qwt project (http://qwt.sf.net).'"
+  ]
+}

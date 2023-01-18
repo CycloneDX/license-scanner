@@ -1,0 +1,18 @@
+{
+  "StaticBlocks": [
+    "use,modification and redistribution (including distribution of any modified or derived work) in source and binary forms is permitted only if each of the following conditions is met:",
+    "redistribution qualify as 'freeware' or 'open source software' under one of the following terms:",
+    "redistribution are made at no charge beyond the reasonable cost of materials and delivery.",
+    "redistribution are accompanied by a copy of the source code or by an irrevocable offer to provide a copy of the source code for up to three years at the cost of materials and delivery. such redistribution must allow further use,modification,and redistribution of the source code under substantially the same terms as this license. for the purposes of redistribution 'source code' means the complete compilable and linkable source code of sendmail and associated libraries and utilities in the sendmail distribution including all modifications.",
+    "redistribution of source code must retain the copyright notice as they appear in each source code file,these license terms,and the disclaimer/limitation of liability set forth as paragraph 6 below.",
+    "redistribution in binary form must reproduce the copyright notice,these license terms,and the disclaimer/limitation of liability set forth as paragraph 6 below,in the documentation and/or other materials provided with the distribution. for the purposes of binary distribution the 'copyright notice' refers to the following language:'copyright copyright 1998-2014 proofpoint,inc. all rights reserved.'",
+    "neither the name of proofpoint,inc. nor the university of california nor name of their contributors may be used to endorse or promote products derived from this software without specific prior written permission. the name 'sendmail' is a trademark of proofpoint,inc.",
+    "all redistribution must comply with the conditions imposed by the university of california on certain embedded code,which copyright notice and conditions for redistribution are as follows:",
+    "copyright copyright 1988,1993 the regents of the university of california. all rights reserved.",
+    "redistribution and use in source and binary forms,with or without modification,are permitted provided that the following conditions are met:",
+    "redistribution of source code must retain the above copyright notice,this list of conditions and the following disclaimer.",
+    "redistribution in binary form must reproduce the above copyright notice,this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+    "neither the name of the university nor the name of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
+    "disclaimer/limitation of liability:this software is provided by sendmail,inc. and contributors 'as is' and any express or implied warranties,including,but not limited to,the implied warranties of merchantability and fitness for a particular purpose are disclaimed. in no event shall sendmail,inc.,the regents of the university of california or contributors be liable for any direct,indirect,incidental,special,exemplary,or consequential damages (including,but not limited to,procurement of substitute goods or services; loss of use,data,or profits; or business interruption) however caused and on any theory of liability,whether in contract,strict liability,or tort (including negligence or otherwise) arising in any way out of the use of this software,even if advised of the possibility of such damages."
+  ]
+}

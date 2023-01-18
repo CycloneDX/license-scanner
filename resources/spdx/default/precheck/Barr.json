@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "this is a package of commutative diagram macros built on top of xy-pic by michael barr (email:barr@barrs.org). its use is unrestricted. it may be freely distributed,unchanged,for noncommercial or commercial use. if changed,it must be renamed. inclusion in a commercial software package is also permitted,but i would appreciate receiving a free copy for my personal examination and use. there are no guarantees that this package is good for anything. i have tested it with latex 2e,latex 2.09 and plain tex. although i know of no reason it will not work with amstex,i have not tested it."
+  ]
+}

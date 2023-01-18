@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "even though u-boot in general is covered by the gpl-2.0/gpl-2.0+,this does *not* cover the so-called 'standalone' applications that use u-boot services by means of the jump table provided by u-boot exactly for this purpose - this is merely considered normal use of u-boot,and does *not* fall under the heading of 'derived work'. the header files 'include/image.h' and 'arch/*/include/asm/u-boot.h' define interfaces to u-boot. including these (unmodified) header files in another file is considered normal use of u-boot,and does *not* fall under the heading of 'derived work'. wolfgang denk"
+  ]
+}

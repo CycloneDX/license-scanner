@@ -1,0 +1,7 @@
+{
+  "StaticBlocks": [
+    "lzma sdk is written and placed in the public domain by igor pavlov. some code in lzma is based on public domain code from another developers:",
+    "ppmd var.h (2001):dmitry shkarin",
+    "sha-256:wei dai (crypto++ library)"
+  ]
+}

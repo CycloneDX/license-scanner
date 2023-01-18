@@ -1,0 +1,16 @@
+{
+  "StaticBlocks": [
+    "redistribution and use in source and binary forms,with or without modification,are permitted provided that the conditions below are met. these conditions require a modest attribution to",
+    "(the 'author'),who hopes that its promotional value may help justify the thousands of dollars in otherwise billable time invested in writing this and other freely available,open-source software.",
+    "redistribution of source code,in whole or part and with or without modification (the 'code'),must prominently display this gpg-signed text in verifiable form.",
+    "redistribution of the code in binary form must be accompanied by this gpg-signed text in any documentation and,each time the resulting executable program or a program dependent thereon is launched,a prominent display (e.g.,splash screen or banner text) of the author's attribution information,which includes:",
+    "('author'),",
+    "('professional identification'),and",
+    "('url').",
+    "neither the name nor any trademark of the author may be used to endorse or promote products derived from this software without specific prior written permission.",
+    "users are entirely responsible,to the exclusion of the author and any other persons,for compliance with",
+    "regulations set by owners or administrators of employed equipment,",
+    "licensing terms of any other software,and",
+    "local regulations regarding use,including those regarding import,export,and use of encryption software. this free software is provided by the author 'as is' and any express or implied warranties,including,but not limited to,the implied warranties of merchantability and fitness for a particular purpose are disclaimed. in no event shall the author or any contributor be liable for any direct,indirect,incidental,special,exemplary,or consequential damages (including,but not limited to,effects of unauthorized or malicious network access; procurement of substitute goods or services; loss of use,data,or profits; or business interruption) however caused and on any theory of liability,whether in contract,strict liability,or tort (including negligence or otherwise) arising in any way out of the use of this software,even if advised of the possibility of such damage."
+  ]
+}

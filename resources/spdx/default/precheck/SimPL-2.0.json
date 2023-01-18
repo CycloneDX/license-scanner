@@ -1,0 +1,17 @@
+{
+  "StaticBlocks": [
+    "the simpl applies to the software's source and object code and comes with any rights that i have in it (other than trademarks). you agree to the simpl by copying,distributing,or making a derivative work of the software. you get the royalty free right to:",
+    "use the software for any purpose;",
+    "make derivative works of it (this is called a 'derived work');",
+    "copy and distribute it and any derived work. if you distribute the software or a derived work,you must give back to the community by:",
+    "prominently noting the date of any changes you make;",
+    "leaving other people's copyright notice,warranty disclaimers,and license terms in place;",
+    "providing the source code,build scripts,installation scripts,and interface definitions in a form that is easy to get and best to modify;",
+    "licensing it to everyone under simpl,or substantially similar terms (such as gpl 2.0),without adding further restrictions to the rights provided;",
+    "conspicuously announcing that it is available under that license. there are some things that you must shoulder:",
+    "you get no warranties. none of any kind;",
+    "if the software damages you in any way,you may only recover direct damages up to the amount you paid for it (that is zero if you did not pay anything). you may not recover any other damages,including those called 'consequential damages.' (the state or country where you live may not allow you to limit your liability in this way,so this may not apply to you); the simpl continues perpetually,except that your license rights end automatically if:",
+    "you do not abide by the 'give back to the community' terms (your licensees get to keep their rights if they abide);",
+    "anyone prevents you from distributing the software under the terms of the simpl. license for the license you may do anything that you want with the simpl text; it's a license form to use in any way that you find helpful. to avoid confusion,however,if you change the terms in any way then you may not call your license the simple public license or the simpl (but feel free to acknowledge that your license is 'based on the simple public license')."
+  ]
+}

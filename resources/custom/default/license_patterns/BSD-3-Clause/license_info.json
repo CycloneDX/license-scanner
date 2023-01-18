@@ -1,0 +1,13 @@
+{
+  "name": "BSD 3-clause \"Revised\" License",
+  "family": "BSD",
+  "spdx_standard": true,
+  "osi_approved": true,
+  "aliases":[
+    "BSD 3-clause \"New\" License",
+    "New BSD License",
+    "Modified BSD License"
+  ],
+  "alias_prechecks": "BSD_weak",
+  "urls":["https://spdx.org/licenses/BSD-3-Clause.html", "http://www.opensource.org/licenses/BSD-3-Clause", "http://www.antlr.org/license.html"]
+}

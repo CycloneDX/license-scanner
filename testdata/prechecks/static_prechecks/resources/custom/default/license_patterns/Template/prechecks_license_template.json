@@ -1,0 +1,8 @@
+{
+  "LicensePreChecks": [],
+  "StaticBlocks": [
+    "this matches template",
+    "and",
+    "it also passes the static body checks"
+  ]
+}

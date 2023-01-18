@@ -1,0 +1,1 @@
+<<beginOptional>>The<<endOptional>> MIT <<match=License[: -]*>> <<beginOptional>>(MIT)<<endOptional>>

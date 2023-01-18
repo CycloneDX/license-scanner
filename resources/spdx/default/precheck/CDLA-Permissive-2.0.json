@@ -1,0 +1,19 @@
+{
+  "StaticBlocks": [
+    "this is the community data license agreement - permissive,version 2.0 (the 'agreement'). data provider(s) and data recipient(s) agree as follows:",
+    "provision of the data",
+    "a data recipient may use,modify,and share the data made available by data provider(s) under this agreement if that data recipient follows the terms of this agreement.",
+    "this agreement does not impose any restriction on a data recipient's use,modification,or sharing of any portions of the data that are in the public domain or that may be used,modified,or shared under any other legal exception or limitation.",
+    "conditions for sharing data",
+    "a data recipient may share data,with or without modifications,so long as the data recipient makes available the text of this agreement with the shared data.",
+    "no restrictions on results",
+    "this agreement does not impose any restriction or obligations with respect to the use,modification,or sharing of results.",
+    "no warranty; limitation of liability",
+    "all data recipients receive the data subject to the following terms:the data is provided on an 'as is' basis,without representations,warranties or conditions of any kind,either express or implied including,without limitation,any warranties or conditions of title,non-infringement,merchantability or fitness for a particular purpose. no data provider shall have any liability for any direct,indirect,incidental,special,exemplary,or consequential damages (including without limitation lost profits),however caused and on any theory of liability,whether in contract,strict liability,or tort (including negligence or otherwise) arising in any way out of the data or results,even if advised of the possibility of such damages.",
+    "definitions",
+    "'data' means the material received by a data recipient under this agreement.",
+    "'data provider' means any person who is the source of data provided under this agreement and in reliance on a data recipient's agreement to its terms.",
+    "'data recipient' means any person who receives data directly or indirectly from a data provider and agrees to the terms of this agreement.",
+    "'results' means any outcome obtained by computational analysis of data,including for example machine learning models and models' insights."
+  ]
+}

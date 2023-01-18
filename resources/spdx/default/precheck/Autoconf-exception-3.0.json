@@ -1,0 +1,8 @@
+{
+  "StaticBlocks": [
+    "everyone is permitted to copy and distribute verbatim copies of this license document,but changing it is not allowed. this exception is an additional permission under section 7 of the gnu general public license,version 3 ('gplv3'). it applies to a given file that bears a notice placed by the copyright holder of the file stating that the file is governed by gplv3 along with this exception. the purpose of this exception is to allow distribution of autoconf's typical output under terms of the recipient's choice (including proprietary).",
+    "definitions. 'covered code' is the source or object code of a version of autoconf that is a covered work under this license. 'normally copied code' for a version of autoconf means all parts of its covered code which that version can copy from its code (i.e.,not from its input file) into its minimally verbose,non-debugging and non-tracing output. 'ineligible code' is covered code that is not normally copied code.",
+    "grant of additional permission. you have permission to propagate output of autoconf,even if such propagation would otherwise violate the terms of gplv3. however,if by modifying autoconf you cause any ineligible code of the version you received to become normally copied code of your modified version,then you void this exception for the resulting covered work. if you convey that resulting covered work,you must remove this exception in accordance with the second paragraph of section 7 of gplv3.",
+    "no weakening of autoconf copyleft. the availability of this exception does not imply any general presumption that third-party software is unaffected by the copyleft requirements of the license of autoconf."
+  ]
+}

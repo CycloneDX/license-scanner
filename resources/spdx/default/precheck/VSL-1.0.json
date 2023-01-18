@@ -1,0 +1,9 @@
+{
+  "StaticBlocks": [
+    "redistribution and use in source and binary forms,with or without modification,are permitted provided that the following conditions are met:",
+    "redistribution of source code must retain the above copyright notice,this list of conditions and the following disclaimer.",
+    "redistribution in binary form must reproduce the above copyright notice,this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+    "the name 'vocal','vovida open communication application library',and 'vovida open communication application library (vocal)' must not be used to endorse or promote products derived from this software without prior written permission. for written permission,please contact vocal@vovida.org.",
+    "products derived from this software may not be called 'vocal',nor may 'vocal' appear in their name,without prior written permission. this software is provided 'as is' and any expressed or implied warranties,including,but not limited to,the implied warranties of merchantability,fitness for a particular purpose,title and non-infringement are disclaimed. in no event shall vovida networks,inc. or its contributors be liable for any damages in excess of $1,000,nor for any indirect,incidental,special,exemplary,or consequential damages (including,but not limited to,procurement of substitute goods or services; loss of use,data,or profits; or business interruption) however caused and on any theory of liability,whether in contract,strict liability,or tort (including negligence or otherwise) arising in any way out of the use of this software,even if advised of the possibility of such damage."
+  ]
+}

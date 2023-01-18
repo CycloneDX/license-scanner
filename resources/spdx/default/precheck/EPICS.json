@@ -1,0 +1,23 @@
+{
+  "StaticBlocks": [
+    "epics open license terms the following is the text of the epics open software license agreement which now applies to epics base and many of the unbundled epics extensions and support modules.",
+    "is distributed subject to the following license conditions:software license agreement software:",
+    "the 'software',below,refers to",
+    "(in either source code,or binary form and accompanying documentation). each licensee is addressed as 'you' or 'licensee.'",
+    "the copyright holders shown above and their third-party licensors hereby grant licensee a royalty-free nonexclusive license,subject to the limitations stated herein and u.s. government license rights.",
+    "you may modify and make a copy or copies of the software for use within your organization,if you meet the following conditions:",
+    "copies in source code must include the copyright notice and this software license agreement.",
+    "copies in binary form must include the copyright notice and this software license agreement in the documentation and/or other materials provided with the copy.",
+    "you may modify a copy or copies of the software or any portion of it,thus forming a work based on the software,and distribute copies of such work outside your organization,if you meet all of the following conditions:",
+    "copies in source code must include the copyright notice and this software license agreement;",
+    "copies in binary form must include the copyright notice and this software license agreement in the documentation and/or other materials provided with the copy;",
+    "modified copies and works based on the software must carry prominent notice stating that you changed specified portions of the software.",
+    "portions of the software resulted from work developed under a u.s. government contract and are subject to the following license:the government is granted for itself and others acting on its behalf a paid-up,nonexclusive,irrevocable worldwide license in this computer software to reproduce,prepare derivative works,and perform publicly and display publicly.",
+    "warranty disclaimer. the software is supplied 'as is' without warranty of any kind. the copyright holders,their third party licensors,the united states,the united states department of energy,and their employees:",
+    "disclaim any warranties,express or implied,including but not limited to any implied warranties of merchantability,fitness for a particular purpose,title or non-infringement,",
+    "do not assume any legal liability or responsibility for the accuracy,completeness,or usefulness of the software,",
+    "do not repthat use of the software would not infringe privately owned rights,",
+    "do not warrant that the software will function uninterrupted,that it is error-free or that any errors will be corrected.",
+    "limitation of liability. in no event will the copyright holders,their third party licensors,the united states,the united states department of energy,or their employees:be liable for any indirect,incidental,consequential,special or punitive damages of any kind or nature,including but not limited to loss of profits or loss of data,for any reason whatsoever,whether such liability is asserted on the basis of contract,tort (including negligence or strict liability),or otherwise,even if any of said parties has been warned of the possibility of such loss or damages."
+  ]
+}
