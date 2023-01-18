@@ -11,9 +11,9 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/IBM/license-scanner/configurer"
-	"github.com/IBM/license-scanner/licenses"
-	"github.com/IBM/license-scanner/normalizer"
+	"github.com/CycloneDX/license-scanner/configurer"
+	"github.com/CycloneDX/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/normalizer"
 )
 
 func Test_generateTextBlocks(t *testing.T) {

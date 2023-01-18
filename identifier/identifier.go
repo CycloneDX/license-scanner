@@ -17,8 +17,8 @@ import (
 	"golang.org/x/exp/slices"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/IBM/license-scanner/licenses"
-	"github.com/IBM/license-scanner/normalizer"
+	"github.com/CycloneDX/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/normalizer"
 )
 
 var (

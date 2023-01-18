@@ -10,7 +10,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/IBM/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/licenses"
 )
 
 type test struct {

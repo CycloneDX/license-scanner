@@ -8,11 +8,11 @@ import (
 
 	"github.com/spf13/pflag"
 
-	"github.com/IBM/license-scanner/configurer"
+	"github.com/CycloneDX/license-scanner/configurer"
 
-	"github.com/IBM/license-scanner/identifier"
-	"github.com/IBM/license-scanner/licenses"
-	"github.com/IBM/license-scanner/normalizer"
+	"github.com/CycloneDX/license-scanner/identifier"
+	"github.com/CycloneDX/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/normalizer"
 )
 
 // NOASSERTION_SPDX_NAME in License SPDX Name signify that the license text passed through the scan without any errors but no match was found

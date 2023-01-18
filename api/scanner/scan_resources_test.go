@@ -7,8 +7,8 @@ package scanner_test
 import (
 	"testing"
 
-	"github.com/IBM/license-scanner/api/scanner"
-	"github.com/IBM/license-scanner/configurer"
+	"github.com/CycloneDX/license-scanner/api/scanner"
+	"github.com/CycloneDX/license-scanner/configurer"
 
 	"golang.org/x/exp/slices"
 )

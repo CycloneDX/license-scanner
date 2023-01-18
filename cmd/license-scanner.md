@@ -17,7 +17,7 @@ Example usage to scan LICENSE.txt, but only print the license IDs and positions 
 
     $ license-scanner --quiet -f LICENSE.txt
 
-Please give us feedback at: https://github.com/IBM/license-scanner/issues
+Please give us feedback at: https://github.com/CycloneDX/license-scanner/issues
 		
 
 ```

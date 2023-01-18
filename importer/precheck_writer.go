@@ -9,9 +9,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/IBM/license-scanner/normalizer"
+	"github.com/CycloneDX/license-scanner/normalizer"
 
-	"github.com/IBM/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/licenses"
 )
 
 var replaceRE = regexp.MustCompile(`(<<.*?>>)`)

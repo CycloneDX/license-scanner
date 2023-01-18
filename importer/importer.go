@@ -14,7 +14,7 @@ import (
 
 	"github.com/spf13/viper"
 
-	"github.com/IBM/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/licenses"
 )
 
 var (

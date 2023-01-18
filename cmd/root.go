@@ -14,11 +14,11 @@ import (
 	"github.com/spf13/cobra/doc"
 	"github.com/spf13/viper"
 
-	"github.com/IBM/license-scanner/configurer"
-	"github.com/IBM/license-scanner/debugger"
-	"github.com/IBM/license-scanner/identifier"
-	"github.com/IBM/license-scanner/importer"
-	"github.com/IBM/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/configurer"
+	"github.com/CycloneDX/license-scanner/debugger"
+	"github.com/CycloneDX/license-scanner/identifier"
+	"github.com/CycloneDX/license-scanner/importer"
+	"github.com/CycloneDX/license-scanner/licenses"
 )
 
 const (
@@ -54,7 +54,7 @@ Example usage to scan LICENSE.txt, but only print the license IDs and positions 
 
     $ license-scanner --quiet -f LICENSE.txt
 
-Please give us feedback at: https://github.com/IBM/license-scanner/issues
+Please give us feedback at: https://github.com/CycloneDX/license-scanner/issues
 		`,
 		Args:    cobra.NoArgs,
 		Version: currentVersion,

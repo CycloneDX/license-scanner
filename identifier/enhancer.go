@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/IBM/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/licenses"
 )
 
 type Enhancements struct {
