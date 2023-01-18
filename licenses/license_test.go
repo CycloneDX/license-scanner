@@ -12,7 +12,7 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/IBM/license-scanner/configurer"
+	"github.com/CycloneDX/license-scanner/configurer"
 )
 
 const (

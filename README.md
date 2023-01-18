@@ -22,7 +22,7 @@ integrate it in your own tools.
 Install the `license-scanner` CLI executable in your go environment by building from source with `go install`:
 
 ```bash
-go install github.com/IBM/license-scanner@latest
+go install github.com/CycloneDX/license-scanner@latest
 ```
 
 ### Installing for developers
@@ -32,7 +32,7 @@ For developers, `git clone` the repo and build the source code with `go build`:
 Clone the repo:
 
 ```bash
-git clone https://github.com/IBM/license-scanner.git
+git clone https://github.com/CycloneDX/license-scanner.git
 ```
 
 The commands that follow are to be run from your cloned repo root directory:
@@ -66,13 +66,13 @@ go install
 Using the `license-scanner` API is simple. First, use `go get` to install the latest version of the library.
 
 ```bash
-go get -u github.com/IBM/license-scanner@latest
+go get -u github.com/CycloneDX/license-scanner@latest
 ```
 
 Next, import the scanner API into your application:
 
 ```bash
-import "github.com/IBM/license-scanner/api/scanner"
+import "github.com/CycloneDX/license-scanner/api/scanner"
 ```
 
 ## CLI usage
@@ -204,7 +204,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/IBM/license-scanner/api/scanner"
+	"github.com/CycloneDX/license-scanner/api/scanner"
 )
 
 func GetLicense(urls map[string]string) {
@@ -331,8 +331,8 @@ Optional flags maybe used with the API to locate the config file and control run
 package main
 
 import (
-	"github.com/IBM/license-scanner/api/scanner"
-	"github.com/IBM/license-scanner/configurer"
+	"github.com/CycloneDX/license-scanner/api/scanner"
+	"github.com/CycloneDX/license-scanner/configurer"
 )
 
 func main() {
@@ -477,15 +477,15 @@ Each package has many `unit` tests in `*_test.go` which can be executed using `g
 
 ```bash
  go test ./... -tags=unit
-?       github.com/IBM/license-scanner    [no test files]
-ok      github.com/IBM/license-scanner/api/scanner        3.009s
-ok      github.com/IBM/license-scanner/cmd        8.646s
-?       github.com/IBM/license-scanner/debugger   [no test files]
-ok      github.com/IBM/license-scanner/identifier 20.923s
-ok      github.com/IBM/license-scanner/licenses   7.151s
-?       github.com/IBM/license-scanner/logging    [no test files]
-ok      github.com/IBM/license-scanner/normalizer 0.161s
-ok      github.com/IBM/license-scanner/resources  0.278s
+?       github.com/CycloneDX/license-scanner    [no test files]
+ok      github.com/CycloneDX/license-scanner/api/scanner        3.009s
+ok      github.com/CycloneDX/license-scanner/cmd        8.646s
+?       github.com/CycloneDX/license-scanner/debugger   [no test files]
+ok      github.com/CycloneDX/license-scanner/identifier 20.923s
+ok      github.com/CycloneDX/license-scanner/licenses   7.151s
+?       github.com/CycloneDX/license-scanner/logging    [no test files]
+ok      github.com/CycloneDX/license-scanner/normalizer 0.161s
+ok      github.com/CycloneDX/license-scanner/resources  0.278s
 ```
 
 ## Importing SPDX license templates

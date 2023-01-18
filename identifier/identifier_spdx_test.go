@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/IBM/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/licenses"
 )
 
 const (

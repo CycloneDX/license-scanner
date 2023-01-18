@@ -8,8 +8,8 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 
-	"github.com/IBM/license-scanner/licenses"
-	"github.com/IBM/license-scanner/normalizer"
+	"github.com/CycloneDX/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/normalizer"
 )
 
 // TODO: Commit to history, but if this is not being used anywhere, we should delete it.

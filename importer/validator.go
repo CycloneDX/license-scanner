@@ -9,10 +9,10 @@ import (
 
 	"github.com/mrutkows/sbom-utility/log"
 
-	"github.com/IBM/license-scanner/debugger"
-	"github.com/IBM/license-scanner/identifier"
-	"github.com/IBM/license-scanner/licenses"
-	"github.com/IBM/license-scanner/normalizer"
+	"github.com/CycloneDX/license-scanner/debugger"
+	"github.com/CycloneDX/license-scanner/identifier"
+	"github.com/CycloneDX/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/normalizer"
 )
 
 func ValidateSPDXTemplateWithLicenseText(id, templateFile, textFile, templateDestDir, preCheckDestDir, textDestDir string) (err error) {

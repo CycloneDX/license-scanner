@@ -5,7 +5,7 @@ package main
 import (
 	"github.com/mrutkows/sbom-utility/log"
 
-	"github.com/IBM/license-scanner/cmd"
+	"github.com/CycloneDX/license-scanner/cmd"
 )
 
 var (

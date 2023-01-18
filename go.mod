@@ -1,4 +1,4 @@
-module github.com/IBM/license-scanner
+module github.com/CycloneDX/license-scanner
 
 go 1.18
 
