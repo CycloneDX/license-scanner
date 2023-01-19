@@ -25,6 +25,32 @@ Install the `license-scanner` CLI executable in your go environment by building 
 go install github.com/CycloneDX/license-scanner@latest
 ```
 
+**Note:** If you run into this kind issue while installing a CLI or installing it as a [module](#installing-as-a-module):
+
+```shell
+go get github.com/CycloneDX/license-scanner
+go: module github.com/CycloneDX/license-scanner: git ls-remote -q origin in /Go/pkg/mod/cache/vcs/4195cda34249b1abf68da7e56a4660155fdfd914eb0e0cec2f402756880b5767: exit status 128:
+        fatal: could not read Username for 'https://github.com': terminal prompts disabled
+Confirm the import path was entered correctly.
+If this is a private repository, see https://golang.org/doc/faq#git_https for additional information.
+```
+
+This error says that the repository you are trying to access is private. Until this repository is available in public,
+you can update your `~/.gitconfig` to use SSH in place of HTTPS for URLS matching a prefix.
+
+```shell
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
+```
+
+And set `GOPRIVATE` environment variable:
+
+```shell
+export GOPRIVATE=github.com/CycloneDX/*
+```
+
+These two configuration changes should be able to help you install license-scanner package/CLI.
+
 ### Installing for developers
 
 For developers, `git clone` the repo and build the source code with `go build`:
