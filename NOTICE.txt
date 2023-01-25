@@ -1,0 +1,9 @@
+OWASP CycloneDX/license-scanner
+© Copyright 2023-present OWASP Foundation
+
+This product includes software developed at
+The OWASP Foundation's CycloneDX project (https://owasp.org/www-project-cyclonedx/).
+
+The Initial Developers of the license-scanner
+were Priti Desai (pdesai@us.ibm.com) and Mark Sturdevant (mark.sturdevant@ibm.com), working for IBM Corporation (http://www.ibm.com/)
+© Copyright IBM Corporation 2022, 2023.
