@@ -8,8 +8,8 @@ For license-scanner, we tested the unzipped dataset as-is, and also re-tested af
 
 | Detector                                                                            | Detection rate | Time to scan, sec |
 |:------------------------------------------------------------------------------------|:--------------:|:------------------|
-| [license-scanner (with READMEs)](https://github.com/go-enry/go-license-detector)    | 86%  (776/902) | 24.0              |
-| [license-scanner (without READMEs)](https://github.com/go-enry/go-license-detector) | 82%  (744/902) | 10.8              |
+| [license-scanner (with READMEs)](https://github.com/go-enry/go-license-detector)    | 90%  (813/902) | 25.4              |
+| [license-scanner (without READMEs)](https://github.com/go-enry/go-license-detector) | 87%  (781/902) | 10.7              |
 
 
 Comparison to other projects on that dataset: [here](https://github.com/go-enry/go-license-detector#quality)

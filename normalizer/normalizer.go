@@ -152,7 +152,13 @@ func (n *NormalizationData) NormalizeText() error {
 	// Check if the text contains control characters indicative of binary or non-text files.
 	// match against /[\u0000-\u0007\u000E-\u001B]/
 	if ControlCharactersRE.MatchString(n.OriginalText) {
-		return fmt.Errorf("failed to normalize data: invalid input text with control characters")
+		if n.IsTemplate {
+			return fmt.Errorf("failed to normalize data: invalid input text with control characters")
+		} else {
+			Logger.Errorf("failed to normalize data: invalid input text with control characters")
+			n.NormalizedText = ""
+			return nil // continue to allow directory scanning
+		}
 	}
 
 	// remove note tags
