@@ -109,7 +109,8 @@ func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *li
 		return IdentifierResults{}, err
 	}
 	if fi.Size() > 1000000 {
-		return IdentifierResults{}, fmt.Errorf("file too large (%v > 1000000)", fi.Size())
+		Logger.Errorf("file too large (%v > 1000000)", fi.Size()) // log error, but return nil
+		return IdentifierResults{}, nil
 	}
 
 	b, err := ioutil.ReadFile(filePath)
