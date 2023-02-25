@@ -15,23 +15,26 @@ import (
 )
 
 const (
-	AcceptableFlag = "acceptable"
-	CopyrightsFlag = "copyrights"
-	NormalizedFlag = "normalized"
-	HashFlag       = "hash"
-	KeywordsFlag   = "keywords"
-	ListFlag       = "list"
-	AddAllFlag     = "addAll"
-	AddPatternFlag = "addPattern"
-	DebugFlag      = "debug"
-	QuietFlag      = "quiet"
-	LicenseFlag    = "license"
-	DirFlag        = "dir"
-	FileFlag       = "file"
-	ConfigPathFlag = "configPath"
-	ConfigNameFlag = "configName"
-	SpdxFlag       = "spdx"
-	CustomFlag     = "custom"
+	DefaultResource = "default"
+	AcceptableFlag  = "acceptable"
+	CopyrightsFlag  = "copyrights"
+	NormalizedFlag  = "normalized"
+	HashFlag        = "hash"
+	KeywordsFlag    = "keywords"
+	ListFlag        = "list"
+	AddAllFlag      = "addAll"
+	UpdateAllFlag   = "updateAll"
+	DebugFlag       = "debug"
+	QuietFlag       = "quiet"
+	LicenseFlag     = "license"
+	DirFlag         = "dir"
+	FileFlag        = "file"
+	ConfigPathFlag  = "configPath"
+	ConfigNameFlag  = "configName"
+	SpdxFlag        = "spdx"
+	SpdxPathFlag    = "spdxPath"
+	CustomFlag      = "custom"
+	CustomPathFlag  = "customPath"
 )
 
 var (
@@ -46,12 +49,12 @@ func InitConfig(flags *pflag.FlagSet) (*viper.Viper, error) {
 	newViper := viper.New()
 	newViper.AutomaticEnv()
 
-	newViper.SetDefault("resources", path.Join(projectRoot, "resources"))
-	newViper.SetDefault("configName", "config")
+	configNameDefault := "config"
+	newViper.SetDefault("configName", configNameDefault)
 
 	if flags != nil {
 		if err := newViper.BindPFlags(flags); err != nil {
-			return newViper, fmt.Errorf("InitConfig bind flags err: %+v", err)
+			return newViper, fmt.Errorf("InitConfig bind flags err: %w", err)
 		}
 	} else {
 		err := newViper.BindPFlags(NewDefaultFlags())
@@ -62,45 +65,29 @@ func InitConfig(flags *pflag.FlagSet) (*viper.Viper, error) {
 
 	configName := newViper.GetString("configName")
 	configPath := newViper.GetString("configPath")
-
-	// TODO: Deprecate configFrom in favor of configPath and configName
-	configFrom := newViper.GetString("configFrom")
-	if configFrom != "" {
-		if path.IsAbs(configFrom) {
-			newViper.SetConfigFile(configFrom)
-		} else {
-			configFrom = path.Join(thisDir, "..", configFrom)
-			newViper.SetConfigFile(configFrom)
+	newViper.SetConfigName(configName)
+	if configPath != "" {
+		fileInfo, err := os.Lstat(configPath)
+		if err != nil {
+			return nil, err
 		}
-	} else { // configPath (configName defaults to "config.<ext>")
-		newViper.SetConfigName(configName)
-		if configPath != "" {
-			newViper.AddConfigPath(configPath)
-		} else {
-			newViper.AddConfigPath(execPath)
-			newViper.AddConfigPath(projectRoot)
+		if !fileInfo.IsDir() {
+			return nil, fmt.Errorf("--configPath %s is not a directory", configPath)
 		}
+		newViper.AddConfigPath(configPath)
+	} else {
+		newViper.AddConfigPath(execPath)
+		newViper.AddConfigPath(projectRoot)
 	}
 
 	err := newViper.MergeInConfig()
-	if err != nil {
-		return nil, fmt.Errorf("MergeInConfig err: %w", err)
+	if err != nil && configName != configNameDefault {
+		return nil, fmt.Errorf("invalid configName specified: %w", err)
 	}
 
-	// If we didn't get a resources flag, then relative config file resources need to be relative to the config file
-	if flags == nil || flags.Lookup("resources") == nil {
-		configFileUsed := newViper.ConfigFileUsed()
-		if configFileUsed != "" {
-			configDir := filepath.Dir(configFileUsed)
-
-			// Make all relative paths relative to the config file used.
-			resources := newViper.GetString("resources")
-			if resources != "" && !path.IsAbs(resources) {
-				resources = path.Join(configDir, resources)
-				newViper.Set("resources", resources) // override
-			}
-		}
-	}
+	// Make relative paths from config.* relative to the config file
+	relativeToConfig(SpdxPathFlag, flags, newViper)
+	relativeToConfig(CustomPathFlag, flags, newViper)
 
 	// TODO: env from a file is W-I-P.
 	// Doc and test or just use config.env with above code and remove this.
@@ -108,10 +95,30 @@ func InitConfig(flags *pflag.FlagSet) (*viper.Viper, error) {
 	if envFrom != "" {
 		newViper.SetConfigFile(envFrom)
 		if err := newViper.MergeInConfig(); err != nil {
-			return nil, fmt.Errorf("envFrom file err: %+v", err)
+			return nil, fmt.Errorf("envFrom file err: %w", err)
 		}
 	}
 	return newViper, nil
+}
+
+// If we didn't get a flag, then relative config file resources need to be relative to the config file
+// Make all relative paths relative to the config file used.
+func relativeToConfig(flag string, flags *pflag.FlagSet, newViper *viper.Viper) {
+	// Ignore if flags are overriding. This is only for config file settings.
+	var p string
+	if flags != nil {
+		p, _ = flags.GetString(flag)
+	}
+	if flags == nil || p == "" {
+		configFileUsed := newViper.ConfigFileUsed()
+		if configFileUsed != "" {
+			configDir := filepath.Dir(configFileUsed)
+			p := newViper.GetString(flag)
+			if p != "" && !path.IsAbs(p) {
+				newViper.Set(flag, path.Join(configDir, p)) // override
+			}
+		}
+	}
 }
 
 func NewDefaultFlags() *pflag.FlagSet {
@@ -131,11 +138,13 @@ func AddDefaultFlags(flagSet *pflag.FlagSet) {
 	flagSet.BoolP(NormalizedFlag, "n", false, "Flag normalized")
 	flagSet.BoolP(HashFlag, "x", false, "Output file hash")
 	flagSet.StringP(LicenseFlag, "l", "", "Display match debugging for the given license")
-	flagSet.StringP(AddPatternFlag, "a", "", "Add a new license pattern to the library, from SPDX")
 	flagSet.Bool(ListFlag, false, "List the license templates to be used")
-	flagSet.String(AddAllFlag, "", "Add the licenses from SPDX unzipped release")
+	flagSet.String(AddAllFlag, "", "Add licenses")
+	flagSet.Bool(UpdateAllFlag, false, "Update existing licenses")
 	flagSet.String(ConfigPathFlag, "", "Path to any config files")
 	flagSet.String(ConfigNameFlag, "config", "Base name for config file")
-	flagSet.String(SpdxFlag, "default", "SPDX templates to use")
-	flagSet.String(CustomFlag, "default", "Custom templates to use")
+	flagSet.String(SpdxFlag, DefaultResource, "Set of embedded SPDX templates to use")
+	flagSet.String(SpdxPathFlag, "", "Path to external SPDX templates to use")
+	flagSet.String(CustomFlag, DefaultResource, "Custom templates to use")
+	flagSet.String(CustomPathFlag, "", "Path to external custom templates to use")
 }

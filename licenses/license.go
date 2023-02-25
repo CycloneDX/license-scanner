@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"io/fs"
-	"io/ioutil"
 	"os"
 	"path"
 	"path/filepath"
@@ -17,27 +16,19 @@ import (
 	"sync"
 
 	"github.com/CycloneDX/license-scanner/configurer"
-
-	"github.com/spf13/viper"
+	"github.com/CycloneDX/license-scanner/normalizer"
+	"github.com/CycloneDX/license-scanner/resources"
 
 	"github.com/mrutkows/sbom-utility/log"
-
-	"github.com/CycloneDX/license-scanner/normalizer"
+	"github.com/spf13/viper"
 )
 
 const (
-	Resources          = "resources"
-	SPDX               = "spdx"
-	customDir          = "custom"
-	template           = "template"
-	precheck           = "precheck"
-	jsonDir            = "json"
 	LicenseInfoJSON    = "license_info.json"
 	PreChecksPattern   = "prechecks_"
 	PrimaryPattern     = "license_"
 	AssociatedPattern  = "associated_"
 	OptionalPattern    = "optional_"
-	LicensePatterns    = "license_patterns"
 	AcceptablePatterns = "acceptable_patterns"
 )
 
@@ -67,6 +58,7 @@ type LicenseLibrary struct {
 	PrimaryPatternPreCheckMap PrimaryPatternPreCheckMap
 	AcceptablePatternsMap     PatternsMap
 	Config                    *viper.Viper
+	Resources                 *resources.Resources
 }
 
 type LicensePreChecks struct {
@@ -109,6 +101,7 @@ func NewLicenseLibrary(config *viper.Viper) (*LicenseLibrary, error) {
 		PrimaryPatternPreCheckMap: make(PrimaryPatternPreCheckMap),
 		AcceptablePatternsMap:     make(PatternsMap),
 		Config:                    config,
+		Resources:                 resources.NewResources(config),
 	}
 
 	return &ll, nil
@@ -228,8 +221,8 @@ func toSliceOfStrings(got interface{}) []string {
 	}
 }
 
-// readLicenseInfoJSON unmarshalls the json bytes into LicenseInfo
-func readLicenseInfoJSON(fileContents []byte) (*LicenseInfo, error) {
+// ReadLicenseInfoJSON unmarshalls the json bytes into LicenseInfo
+func ReadLicenseInfoJSON(fileContents []byte) (*LicenseInfo, error) {
 	var licenseInfo LicenseInfo
 	if err := json.Unmarshal(fileContents, &licenseInfo); err != nil {
 		return nil, err
@@ -259,42 +252,21 @@ func (ll *LicenseLibrary) AddAll() error {
 		// not exist is okay for now. Assuming legacy resources
 		return err
 	}
-	return ll.AddAllLegacy()
+	return ll.AddAllCustom()
 }
 
 func (ll *LicenseLibrary) AddAllSPDX() error {
-	resourcesPath := ll.Config.GetString(Resources)
-	SPDXDir := ll.Config.GetString(SPDX)
-	// templateMap := make(map[string]string)
-	templatePath := path.Join(resourcesPath, "spdx", SPDXDir, template)
-	jsonPath := path.Join(resourcesPath, "spdx", SPDXDir, jsonDir)
 
-	licensesJSON := path.Join(jsonPath, "licenses.json")
-	SPDXLicenseListBytes, err := os.ReadFile(licensesJSON)
+	licenseList, exceptionsList, err := ReadSPDXLicenseLists(ll.Resources)
 	if err != nil {
-		return fmt.Errorf("read SPDXLicenseListJSON from %v error: %w", licensesJSON, err)
-	}
-	licenseList, err := ReadSPDXLicenseListJSON(SPDXLicenseListBytes)
-	if err != nil {
-		return fmt.Errorf("unmarshal SPDXLicenseListJSON from %v error: %w", licensesJSON, err)
+		return err
 	}
 
 	ll.SPDXVersion = licenseList.LicenseListVersion
 
-	exceptionsJSON := path.Join(jsonPath, "exceptions.json")
-	SPDXExceptionsListBytes, err := os.ReadFile(exceptionsJSON)
-	if err != nil {
-		return fmt.Errorf("read exceptions JSON from %v error: %w", exceptionsJSON, err)
-	}
-	exceptionsList, err := ReadSPDXLicenseListJSON(SPDXExceptionsListBytes)
-	if err != nil {
-		return fmt.Errorf("unmarshal SPDXLicenseListJSON from %v error: %w", exceptionsJSON, err)
-	}
-
 	for _, sl := range licenseList.Licenses {
 		id := sl.LicenseID
-		f := getTemplateFilePath(id, sl.IsDeprecatedLicenseID, templatePath)
-		tBytes, err := os.ReadFile(f)
+		tBytes, f, err := ll.Resources.ReadSPDXTemplateFile(id, sl.IsDeprecatedLicenseID)
 		if err != nil {
 			if os.IsNotExist(err) {
 				Logger.Debugf("Skipping missing template file '%v'", f)
@@ -315,12 +287,15 @@ func (ll *LicenseLibrary) AddAllSPDX() error {
 		l.LicenseInfo.OSIApproved = sl.IsOSIApproved
 		l.LicenseInfo.IsFSFLibre = sl.IsFSFLibre
 		ll.LicenseMap[id] = l
+
+		if err := addSPDXPreCheck(id, f, sl.IsDeprecatedLicenseID, ll); err != nil {
+			return err
+		}
 	}
 
 	for _, se := range exceptionsList.Exceptions {
 		id := se.LicenseExceptionID
-		f := getTemplateFilePath(id, se.IsDeprecatedLicenseID, templatePath)
-		tBytes, err := os.ReadFile(f)
+		tBytes, f, err := ll.Resources.ReadSPDXTemplateFile(id, se.IsDeprecatedLicenseID)
 		if err != nil {
 			if os.IsNotExist(err) {
 				Logger.Debugf("Skipping missing template file '%v'", f)
@@ -339,63 +314,49 @@ func (ll *LicenseLibrary) AddAllSPDX() error {
 		l.LicenseInfo.SPDXException = true
 		l.LicenseInfo.IsDeprecated = se.IsDeprecatedLicenseID
 		ll.LicenseMap[id] = l
-	}
 
-	preCheckMap := make(map[string]string)
-	preCheckPath := path.Join(resourcesPath, "spdx", SPDXDir, precheck)
-	if err := filepath.WalkDir(preCheckPath, func(path string, de fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-
-		if de.IsDir() {
-			if de.Name() == precheck {
-				return nil // walk the template dir
-			}
-			return filepath.SkipDir // ignore any other dirs
-		}
-
-		if strings.HasSuffix(de.Name(), ".json") {
-			preCheckMap[strings.TrimSuffix(de.Name(), ".json")] = path
-		}
-		return err
-	}); err != nil {
-		return err
-	}
-
-	for id, f := range preCheckMap {
-
-		fileContents, err := os.ReadFile(f)
-		if err != nil {
-			return err
-		}
-
-		isDeprecated := ll.LicenseMap[id].LicenseInfo.IsDeprecated
-		templateFilePath := getTemplateFilePath(id, isDeprecated, templatePath)
-		if err := addPreChecks(fileContents, templateFilePath, ll); err != nil {
+		if err := addSPDXPreCheck(id, f, se.IsDeprecatedLicenseID, ll); err != nil {
 			return err
 		}
 	}
-
 	return nil
 }
 
-func getTemplateFilePath(id string, isDeprecated bool, templatePath string) string {
-	f := id + ".template.txt"
-	if isDeprecated {
-		f = "deprecated_" + f
+func ReadSPDXLicenseLists(r *resources.Resources) (licenseList SPDXLicenceList, exceptionsList SPDXLicenceList, err error) {
+	licenseListBytes, exceptionsBytes, err := r.ReadSPDXJSONFiles()
+	if err != nil {
+		return
 	}
-	f = path.Join(templatePath, f)
-	return f
+	if err = json.Unmarshal(licenseListBytes, &licenseList); err != nil {
+		return
+	}
+	if err = json.Unmarshal(exceptionsBytes, &exceptionsList); err != nil {
+		return
+	}
+	return
 }
 
-func (ll *LicenseLibrary) AddAllLegacy() error {
+func addSPDXPreCheck(id string, templatePath string, isDeprecated bool, ll *LicenseLibrary) error {
+	pBytes, err := ll.Resources.ReadSPDXPreCheckFile(id, isDeprecated)
+	if err != nil {
+		if os.IsNotExist(err) {
+			Logger.Debugf("Skipping missing precheck file for '%v'", id)
+		} else {
+			return err
+		}
+	} else if err := addPreChecks(pBytes, templatePath, ll); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (ll *LicenseLibrary) AddAllCustom() error {
 	if err := ll.addAcceptablePatternsFromBundledLibrary(); err != nil {
 		return err
 	}
 	Logger.Debugf("Loaded %v acceptable patterns", len(ll.AcceptablePatternsMap))
 
-	if err := ll.AddLicenses(); err != nil {
+	if err := ll.AddCustomLicenses(); err != nil {
 		return err
 	}
 	Logger.Debugf("Loaded %v licenses", len(ll.LicenseMap))
@@ -417,8 +378,7 @@ func (ll *LicenseLibrary) addAcceptablePattern(patternId string, source string) 
 }
 
 func (ll *LicenseLibrary) addAcceptablePatternsFromBundledLibrary() error {
-	_, acceptablePatternsPath := getResourcePaths(ll.Config)
-	if err := ll.addRegexFromSourceToLibrary(acceptablePatternsPath, ll.addAcceptablePattern); err != nil && !os.IsNotExist(err) {
+	if err := ll.addRegexFromSourceToLibrary(AcceptablePatterns, ll.addAcceptablePattern); err != nil && !os.IsNotExist(err) {
 		// Ignoring IsNotExist to make acceptable patterns optional, but other errs are not ok
 		return err
 	}
@@ -426,7 +386,7 @@ func (ll *LicenseLibrary) addAcceptablePatternsFromBundledLibrary() error {
 }
 
 func (ll *LicenseLibrary) addRegexFromSourceToLibrary(sourceDir string, addFunction addFunc) error {
-	files, err := ioutil.ReadDir(sourceDir)
+	files, dirPath, err := ll.Resources.ReadCustomDir(sourceDir)
 	if err != nil {
 		if !os.IsNotExist(err) {
 			return err
@@ -441,31 +401,22 @@ func (ll *LicenseLibrary) addRegexFromSourceToLibrary(sourceDir string, addFunct
 		}
 		fileName := file.Name()
 		patternId := fileName[:len(fileName)-len(filepath.Ext(fileName))]
-		source, err := ioutil.ReadFile(path.Join(sourceDir, fileName))
+		source, err := ll.Resources.ReadCustomFile(path.Join(dirPath, fileName))
 		if err != nil {
 			return err
 		}
 		if err := addFunction(patternId, string(source)); err != nil {
-			_ = Logger.Errorf("invalid regex from %v/%v with error: %v", sourceDir, fileName, err)
+			_ = Logger.Errorf("invalid regex from %v/%v with error: %v", dirPath, fileName, err)
 			return err
 		}
 	}
 	return nil
 }
 
-func getResourcePaths(cfg *viper.Viper) (licensePatternsPath, acceptablePatternsPath string) {
-	rd := cfg.GetString(Resources)
-	customVersionedDir := cfg.GetString(configurer.CustomFlag)
-	licensePatternsPath = path.Join(rd, customDir, customVersionedDir, LicensePatterns)
-	acceptablePatternsPath = path.Join(rd, customDir, customVersionedDir, AcceptablePatterns)
-	return
-}
-
-// AddLicenses initializes the license data set to scan the input license file against
+// AddCustomLicenses initializes the license data set to scan the input license file against
 // all the possible licenses available in the resources are read
-func (ll *LicenseLibrary) AddLicenses() error {
-	licensePatternsPath, _ := getResourcePaths(ll.Config)
-	licenseIds, err := ioutil.ReadDir(licensePatternsPath)
+func (ll *LicenseLibrary) AddCustomLicenses() error {
+	licenseIds, err := ll.Resources.ReadCustomLicensePatternIds()
 	if err != nil {
 		return err
 	}
@@ -473,9 +424,9 @@ func (ll *LicenseLibrary) AddLicenses() error {
 	// retrieve each license ID based on the directory name, i.e. resources/license_patterns/licenseID
 	// for example, resources/license_patterns/MIT
 	for _, id := range licenseIds {
-		err := AddLicense(id.Name(), ll)
+		err := AddLicense(id, ll)
 		if err != nil {
-			_ = Logger.Errorf("AddLicense error on %v: %v", id.Name(), err)
+			_ = Logger.Errorf("AddLicense error on %v: %v", id, err)
 			return err
 		}
 	}
@@ -485,36 +436,32 @@ func (ll *LicenseLibrary) AddLicenses() error {
 func AddLicense(id string, ll *LicenseLibrary) error {
 	l, existed := ll.LicenseMap[id]
 
-	licensePatternsPath, _ := getResourcePaths(ll.Config)
-	// license directory is at the LicensePatternsPath/id
-	licenseDirectory := path.Join(licensePatternsPath, id)
-	directoryContents, err := ioutil.ReadDir(licenseDirectory)
+	des, idPath, err := ll.Resources.ReadCustomLicensePatternsDir(id)
 	if err != nil {
 		return err
 	}
 
 	// load license data from the license directory
-	for _, file := range directoryContents {
+	for _, de := range des {
 		// reading from a directory at this point is not expected
 		// the license patterns contains a list of files with primary and associated patterns (license_MIT.txt, associated_full_title.txt, etc)
-		if file.IsDir() {
+		if de.IsDir() {
 			continue
 		}
-		// read the file contents, determine the file path by joining licenseDirectory (LicensePatternsPath/id) and file name
-		fileContents, err := ioutil.ReadFile(path.Join(licenseDirectory, file.Name()))
-		if err != nil {
-			return err
-		}
-		fileName := file.Name()
-		filePath := path.Join(licenseDirectory, fileName)
+		fileName := de.Name()
+		filePath := path.Join(idPath, fileName)
 		lowerFileName := strings.ToLower(fileName)
 
 		switch {
 		// the JSON payload is always stored in license_info.txt
 		case lowerFileName == LicenseInfoJSON:
-			payload, err := readLicenseInfoJSON(fileContents)
+			fileContents, err := ll.Resources.ReadCustomFile(filePath)
 			if err != nil {
-				return Logger.Errorf("Unmarshal LicenseInfo from %v using LicenseReader error: %v", file.Name(), err)
+				return err
+			}
+			payload, err := ReadLicenseInfoJSON(fileContents)
+			if err != nil {
+				return Logger.Errorf("Unmarshal LicenseInfo from %v using LicenseReader error: %v", filePath, err)
 			}
 
 			if l.SPDXLicenseID == "" {
@@ -572,22 +519,34 @@ func AddLicense(id string, ll *LicenseLibrary) error {
 
 		// all other files starting with "license_" are primary license patterns
 		case strings.HasPrefix(lowerFileName, PrimaryPattern):
+			fileContents, err := ll.Resources.ReadCustomFile(filePath)
+			if err != nil {
+				return err
+			}
 			if err := AddPrimaryPatternAndSource(string(fileContents), filePath, &l); err != nil {
 				return err
 			}
 
 		// all other files starting with "prechecks_" are prechecks for license patterns
 		case strings.HasPrefix(lowerFileName, PreChecksPattern):
+			fileContents, err := ll.Resources.ReadCustomFile(filePath)
+			if err != nil {
+				return err
+			}
 			sourceFile := strings.TrimPrefix(fileName, PreChecksPattern)
 			ext := path.Ext(sourceFile)
 			sourceFile = sourceFile[0:len(sourceFile)-len(ext)] + ".txt" // Replace .json with .txt
-			filePath := path.Join(licenseDirectory, sourceFile)
-			if err := addPreChecks(fileContents, filePath, ll); err != nil {
+			precheckFilePath := path.Join(idPath, sourceFile)
+			if err := addPreChecks(fileContents, precheckFilePath, ll); err != nil {
 				return err
 			}
 
 		// All files starting with "associated_" or "optional_" are associated patterns
 		case strings.HasPrefix(lowerFileName, AssociatedPattern), strings.HasPrefix(lowerFileName, OptionalPattern):
+			fileContents, err := ll.Resources.ReadCustomFile(filePath)
+			if err != nil {
+				return err
+			}
 			p := PrimaryPatternsSources{
 				SourceText: string(fileContents),
 				Filename:   filePath,

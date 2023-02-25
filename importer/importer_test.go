@@ -9,9 +9,413 @@ import (
 	"path"
 	"testing"
 
+	"github.com/CycloneDX/license-scanner/configurer"
+
 	"github.com/mrutkows/sbom-utility/log"
 )
 
+type args map[string]string
+
+func removeOutput(t *testing.T, path string) {
+	t.Helper()
+	if err := os.RemoveAll(path); err != nil {
+		t.Fatalf("error removing output dir: %v", err)
+	}
+}
+
+func TestImporter_Import(t *testing.T) {
+	const testImp = "_TestImporter_Import_" // Unique-ish name for testing embedded resources
+	testData := path.Join("..", "testdata", "importer")
+	testOutputPath := path.Join(testData, "output")
+	baseSPDXDir := "../resources/spdx"
+	baseCustomDir := "../resources/custom"
+	defer removeOutput(t, testOutputPath)                    // Used for --spdxPath and --customPath output
+	defer removeOutput(t, path.Join(baseSPDXDir, testImp))   // Used for embedded resources output (spdx/*)
+	defer removeOutput(t, path.Join(baseCustomDir, testImp)) // Used for embedded resources output (custom/*)
+
+	tests := []struct {
+		args    args
+		wantErr bool // true to test and skip so that known problems can be added/skipped for future fixes
+	}{
+		{
+			args:    args{},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"spdx":       testImp,
+				"spdxPath":   testImp,
+				"custom":     testImp,
+				"customPath": testImp,
+			},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"spdx":   testImp,
+				"custom": testImp,
+			},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"spdxPath":   testImp,
+				"customPath": testImp,
+			},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"spdxPath": testImp,
+				"custom":   testImp,
+			},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"spdx":       testImp,
+				"customPath": testImp,
+			},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"customPath": testOutputPath,
+			},
+			wantErr: false,
+		},
+		{
+			args: args{
+				"spdxPath": testOutputPath,
+			},
+			wantErr: false,
+		},
+		{
+			args: args{
+				"custom": testImp,
+			},
+			wantErr: false,
+		},
+		{
+			args: args{
+				"spdx": testImp,
+			},
+			wantErr: false,
+		},
+	}
+
+	for _, tt := range tests { //nolint:paralleltest
+		tt := tt
+		name := testImp
+		for k, v := range tt.args {
+			name = name + "_" + k + "_" + v
+		}
+		t.Run(name, func(t *testing.T) {
+			flagSet := configurer.NewDefaultFlags()
+			arguments := []string{"--addAll", testData}
+			for k, v := range tt.args {
+				arguments = append(arguments, "--"+k, v)
+			}
+			_ = flagSet.Parse(arguments)
+
+			config, err := configurer.InitConfig(flagSet)
+			if err != nil {
+				t.Fatal("unexpected InitConfig error")
+			}
+
+			err = Import(config)
+			if tt.wantErr == (err == nil) {
+				t.Fatalf("wantErr=%v, but got err=%v", tt.wantErr, err)
+			}
+
+			if err == nil {
+				// verify that it did what it does
+				verifyOutput(t, tt.args, baseCustomDir, baseSPDXDir)
+
+				// Run Import() again as a convenient test proving that import fails when the destination is not empty.
+				err = Import(config)
+				if err == nil { // wantErr can be true (will just err again) or false (it should err this 2nd time around)
+					t.Fatalf("second import should err, but got err==nil")
+				}
+			}
+		})
+	}
+}
+
+func TestImporter_Update(t *testing.T) {
+	const embeddedTestData = "testdata" // embedded resources must exist at start time (testdata will disappear at build time)
+	testData := path.Join("..", "testdata", "importer")
+	baseSPDXDir := "../resources/spdx"
+	baseCustomDir := "../resources/custom"
+
+	// Remove the generated precheck files after Update() tests are over
+	defer removeCustomPreCheckFiles(t, baseCustomDir, embeddedTestData) // --customPath
+	defer removeSPDXPreCheckDir(t, baseSPDXDir, embeddedTestData)       // --SPDXPath
+	defer removeCustomPreCheckFiles(t, "", testData)                    // --custom
+	defer removeSPDXPreCheckDir(t, "", testData)                        // --spdx
+
+	const any = "any"
+	tests := []struct {
+		args    args
+		wantErr bool // true to test and skip so that known problems can be added/skipped for future fixes
+	}{
+		{
+			args:    args{},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"spdx":       any,
+				"spdxPath":   any,
+				"custom":     any,
+				"customPath": any,
+			},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"spdx":   any,
+				"custom": any,
+			},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"spdxPath":   any,
+				"customPath": any,
+			},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"spdxPath": any,
+				"custom":   any,
+			},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"spdx":       any,
+				"customPath": any,
+			},
+			wantErr: true,
+		},
+		{
+			args: args{
+				"customPath": testData,
+			},
+			wantErr: false,
+		},
+		{
+			args: args{
+				"spdxPath": testData,
+			},
+			wantErr: false,
+		},
+		{
+			args: args{
+				"custom": embeddedTestData,
+			},
+			wantErr: false,
+		},
+		{
+			args: args{
+				"spdx": embeddedTestData,
+			},
+			wantErr: false,
+		},
+	}
+
+	for _, tt := range tests { //nolint:paralleltest
+		tt := tt
+		name := embeddedTestData
+		for k, v := range tt.args {
+			name = name + "_" + k + "_" + v
+		}
+		t.Run(name, func(t *testing.T) {
+			flagSet := configurer.NewDefaultFlags()
+			arguments := []string{"--updateAll"}
+			for k, v := range tt.args {
+				arguments = append(arguments, "--"+k, v)
+			}
+			_ = flagSet.Parse(arguments)
+			config, err := configurer.InitConfig(flagSet)
+			if err != nil {
+				t.Fatal("unexpected InitConfig error")
+			}
+
+			err = Update(config)
+			if tt.wantErr == (err == nil) {
+				t.Fatalf("wantErr=%v, but got err=%v", tt.wantErr, err)
+			}
+
+			if !tt.wantErr {
+				verifyUpdateOutput(t, tt.args, baseCustomDir, baseSPDXDir)
+			}
+
+		})
+	}
+}
+
+func verifyOutput(t *testing.T, args args, baseCustomDir string, baseSPDXDir string) {
+	t.Helper()
+
+	for k, v := range args {
+		switch k {
+		case "custom":
+			testForCustomFiles(t, baseCustomDir, v)
+		case "spdx":
+			testForSPDXFiles(t, baseSPDXDir, v)
+		case "customPath":
+			testForCustomFiles(t, "", v)
+		case "spdxPath":
+			testForSPDXFiles(t, "", v)
+		}
+	}
+}
+
+func verifyUpdateOutput(t *testing.T, args args, baseCustomDir string, baseSPDXDir string) {
+	t.Helper()
+
+	for k, v := range args {
+		switch k {
+		case "custom":
+			testForCustomPreCheckFiles(t, baseCustomDir, v)
+		case "spdx":
+			testForSPDXPreCheckFiles(t, baseSPDXDir, v)
+		case "customPath":
+			testForCustomPreCheckFiles(t, "", v)
+		case "spdxPath":
+			testForSPDXPreCheckFiles(t, "", v)
+		}
+	}
+}
+
+func testForCustomFiles(t *testing.T, baseDir string, subDirs string) {
+	t.Helper()
+
+	customFiles := []string{
+		"associated_text.txt",
+		"license_info.json",
+		"license_text.txt",
+		"optional_text.txt",
+		"prechecks_associated_text.json",
+		"prechecks_license_text.json",
+		"prechecks_optional_text.json",
+	}
+
+	d := path.Join(baseDir, subDirs, "license_patterns", "TESTIMP")
+	ff := customFiles
+	for _, f := range ff {
+		f := path.Join(d, f)
+		if _, err := os.Lstat(f); err != nil {
+			t.Error(err)
+		}
+	}
+}
+
+func removeCustomPreCheckFiles(t *testing.T, baseDir string, subDirs string) {
+	t.Helper()
+
+	customFiles := []string{
+		"prechecks_associated_text.json",
+		"prechecks_license_text.json",
+		"prechecks_optional_text.json",
+	}
+
+	d := path.Join(baseDir, subDirs, "license_patterns", "TESTIMP")
+	ff := customFiles
+	for _, f := range ff {
+		f := path.Join(d, f)
+		if err := os.Remove(f); err != nil {
+			t.Error(err)
+		}
+	}
+}
+
+func testForCustomPreCheckFiles(t *testing.T, baseDir string, subDirs string) {
+	t.Helper()
+
+	customFiles := []string{
+		"prechecks_associated_text.json",
+		"prechecks_license_text.json",
+		"prechecks_optional_text.json",
+	}
+
+	d := path.Join(baseDir, subDirs, "license_patterns", "TESTIMP")
+	ff := customFiles
+	for _, f := range ff {
+		f := path.Join(d, f)
+		if _, err := os.Lstat(f); err != nil {
+			t.Error(err)
+		}
+	}
+}
+
+func testForSPDXFiles(t *testing.T, baseDir string, subDirs string) {
+	t.Helper()
+
+	fmap := map[string][]string{
+		"json": {
+			"licenses.json",
+			"exceptions.json",
+		},
+		"precheck": {
+			"0BSD.json",
+			"AAL.json",
+		},
+		"template": {
+			"0BSD.template.txt",
+			"AAL.template.txt",
+		},
+		"testdata": {
+			"0BSD.txt",
+			"AAL.txt",
+		},
+	}
+
+	for k, ff := range fmap {
+		d := path.Join(baseDir, subDirs, k)
+		for _, f := range ff {
+			f := path.Join(d, f)
+			if _, err := os.Lstat(f); err != nil {
+				t.Error(err)
+			}
+		}
+	}
+}
+
+func removeSPDXPreCheckDir(t *testing.T, baseDir string, subDirs string) {
+	t.Helper()
+
+	d := path.Join(baseDir, subDirs, "precheck")
+	if err := os.RemoveAll(d); err != nil {
+		t.Error(err)
+	}
+}
+
+func testForSPDXPreCheckFiles(t *testing.T, baseDir string, subDirs string) {
+	t.Helper()
+
+	fmap := map[string][]string{
+		"precheck": {
+			"0BSD.json",
+			"AAL.json",
+		},
+	}
+
+	for k, ff := range fmap {
+		d := path.Join(baseDir, subDirs, k)
+		for _, f := range ff {
+			f := path.Join(d, f)
+			if _, err := os.Lstat(f); err != nil {
+				t.Error(err)
+			}
+		}
+	}
+}
+
+//nolint:funlen
 func TestImporter_Validate(t *testing.T) {
 	t.Parallel()
 

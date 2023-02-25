@@ -6,7 +6,6 @@ package importer
 
 import (
 	"encoding/json"
-	"flag"
 	"os"
 	"path"
 	"strings"
@@ -17,8 +16,6 @@ import (
 	"github.com/CycloneDX/license-scanner/licenses"
 	"github.com/CycloneDX/license-scanner/normalizer"
 )
-
-var fix = flag.Bool("fix", false, "Write/update precheck files if needed.")
 
 func TestPreChecks(t *testing.T) {
 	licenseLibrary, err := licenses.NewLicenseLibrary(nil)
@@ -97,14 +94,6 @@ func TestPreChecks(t *testing.T) {
 						if err != nil {
 							if !os.IsNotExist(err) {
 								t.Errorf("Error on ReadFile %v: %v", f, err)
-							} else {
-								if *fix {
-									// Write a new file. This was done to create the files from embedded prechecks.
-									if err := WritePreChecksFile(trimmedStaticBlocks, f); err != nil {
-										t.Errorf("Error writing new file %v: %v", f, err)
-									}
-									t.Skipf("Wrote new file %v", f)
-								}
 							}
 						} else {
 							var readPreChecks licenses.LicensePreChecks
@@ -115,13 +104,6 @@ func TestPreChecks(t *testing.T) {
 								if d := cmp.Diff(readPreChecks.StaticBlocks, trimmedStaticBlocks); d != "" {
 									// Overwrite the file to update the StaticBlocks
 									readPreChecks.StaticBlocks = trimmedStaticBlocks
-									if *fix {
-										// Write a new file. This was done to create the files from embedded preChecks.
-										if err := WritePreChecksFile(readPreChecks.StaticBlocks, f); err != nil {
-											t.Errorf("Error writing file %v: %v", f, err)
-										}
-										t.Errorf("Updated file %v", f)
-									}
 									t.Errorf("Didn't get expected License: (-want, +got): %v", d)
 								}
 							}

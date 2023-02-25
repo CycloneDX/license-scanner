@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
+	"strings"
 	"testing"
 
 	"github.com/spf13/viper"
@@ -73,28 +74,32 @@ func Test_CLI_file(t *testing.T) {
 	}
 }
 
+// Test_CLI_addAll_Bogus verifies that --addAll <dir-does-not-exist> returns a ErrNotExist error
 func Test_CLI_addAll_Bogus(t *testing.T) {
 	t.Parallel()
 	cmd := NewRootCmd()
-	cmd.SetArgs([]string{"--addAll", "../testdata/addAll/bogus/no-dir-here"})
+	cmd.SetArgs([]string{"--addAll", "../testdata/addAll/bogus/no-dir-here", "--spdx", "testing"})
 	if err := cmd.Execute(); !errors.Is(err, fs.ErrNotExist) {
 		t.Fatalf("Expected ErrNotExist got: %v", err)
 	}
 }
 
-func Test_CLI_no_json_licenses(t *testing.T) {
+// Test_CLI_no_spdx_json_licenses tests --addAll missing the required SPDX json files
+func Test_CLI_no_spdx_json_licenses(t *testing.T) {
 	t.Parallel()
 	cmd := NewRootCmd()
-	cmd.SetArgs([]string{"--addAll", "../testdata/addAll/input/no_json_licenses"})
+	cmd.SetArgs([]string{"--addAll", "../testdata/addAll/input/no_json_licenses", "--spdx", "testing"})
 	if err := cmd.Execute(); !errors.Is(err, fs.ErrNotExist) {
 		t.Fatalf("Expected ErrNotExist got: %v", err)
 	}
 }
 
-func Test_CLI_addAll(t *testing.T) {
-	t.Parallel()
+// Test_CLI_addAll_SPDX tests --addAll input with --spdxPath output
+func Test_CLI_addAll_SPDX(t *testing.T) {
+	// probably should use t.Parallel() while this is actually writing, verifying, and deleting files
 
 	addAll := "../testdata/addAll"
+	input := path.Join(addAll, "input")
 	output := path.Join(addAll, "output")
 	versionedDir := path.Join(output, "spdx/3.17")
 	newTemplate := path.Join(versionedDir, "template", "0BSD.template.txt")
@@ -120,9 +125,8 @@ func Test_CLI_addAll(t *testing.T) {
 
 	cmd := NewRootCmd()
 	cmd.SetArgs([]string{
-		"--addAll", "testdata/addAll/input",
-		"--configPath", "../testdata/addAll",
-		"--spdx", "3.17",
+		"--addAll", input,
+		"--spdxPath", versionedDir,
 	})
 	if err := cmd.Execute(); err != nil {
 		t.Fatalf("Got unexpected error: %v", err)
@@ -135,29 +139,59 @@ func Test_CLI_addAll(t *testing.T) {
 	}
 }
 
-func Test_CLI__configPath_not_found(t *testing.T) {
+// Test_CLI_configPath_not_found verifies that setting --configPath to a dir that does not exist will return ErrNotExist
+func Test_CLI_configPath_not_found(t *testing.T) {
 	t.Parallel()
 	cmd := NewRootCmd()
 	cmd.SetArgs([]string{
-		"--configPath", "../testdata/addAll/bogus",
+		"--configPath", "../testdata/addAll/bogus", "-f", "../testdata/addAll/input/text/0BSD.txt",
 	})
-	if err := cmd.Execute(); !errors.As(err, &viper.ConfigFileNotFoundError{}) {
-		t.Fatalf("Expected ConfigFileNotFoundError got: %v", err)
+	if err := cmd.Execute(); !errors.Is(err, fs.ErrNotExist) {
+		t.Fatalf("Expected ErrNotExist for bogus configPath got: %v", err)
 	}
 }
 
+// Test_CLI_configPath_not_dir verifies that setting --configPath to a file instead of a dir will return an error
+func Test_CLI_configPath_not_dir(t *testing.T) {
+	t.Parallel()
+	cmd := NewRootCmd()
+	cmd.SetArgs([]string{
+		"--configPath", "../testdata/addAll/input/text/0BSD.txt", "-f", "../testdata/addAll/input/text/0BSD.txt",
+	})
+	if err := cmd.Execute(); !strings.Contains(err.Error(), "is not a dir") {
+		t.Fatalf("Expected '...is not a dir...' got: %v", err)
+	}
+}
+
+// Test_CLI_default_configName_not_found_is_ok verifies that it is NOT ok to have a missing config file when a non-default --configName is provided
 func Test_CLI_configName_not_found(t *testing.T) {
 	t.Parallel()
 	cmd := NewRootCmd()
 	cmd.SetArgs([]string{
-		"--configPath", "../testdata/addAll/config",
+		"--configPath", "../testdata/config",
 		"--configName", "bogus",
+		"-f", "../testdata/addAll/input/text/0BSD.txt",
 	})
 	if err := cmd.Execute(); !errors.As(err, &viper.ConfigFileNotFoundError{}) {
 		t.Fatalf("Expected ConfigFileNotFoundError got: %v", err)
 	}
 }
 
+// Test_CLI_default_configName_not_found_is_ok verifies that it is ok to NOT have a config.* file with configPath set
+func Test_CLI_default_configName_not_found_is_ok(t *testing.T) {
+	t.Parallel()
+	cmd := NewRootCmd()
+	cmd.SetArgs([]string{
+		"--configPath", "../testdata/addAll/input",
+		"--configName", "config",
+		"-f", "../testdata/addAll/input/text/0BSD.txt",
+	})
+	if err := cmd.Execute(); err != nil {
+		t.Fatalf("missing default config file is okay but got: %v", err)
+	}
+}
+
+// Test_CLI_configPathAndName_help tests happy path for valid --configPath and --configName
 func Test_CLI_configPathAndName_help(t *testing.T) {
 	t.Parallel()
 	cmd := NewRootCmd()

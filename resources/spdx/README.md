@@ -15,3 +15,6 @@ The current default SPDX templates include all the 3.18 SPDX release with the fo
 
 * testdata Nokia-Qt-exception-1.1.txt was renamed to deprecated_Nokia-Qt-exception-1.1.txt to match the template name.
 
+## Testdata
+
+The `spdx/testdata` directory is used for testing. It will be ignored by go build.

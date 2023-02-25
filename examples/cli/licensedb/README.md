@@ -16,6 +16,8 @@ Comparison to other projects on that dataset: [here](https://github.com/go-enry/
 
 <details><summary>How this was measured</summary>
 <pre><code>
+cd license-scanner # from your cloned repo for `go install`
+go install
 time license-scanner -q --dir ~/Downloads/dataset | grep "FOUND LICENSE MATCHES:" |  sed 's#/[^/]*$#/#'  | sort -u  | wc -l
 time license-scanner -q --dir ~/Downloads/dataset_no_readmes | grep "FOUND LICENSE MATCHES:" |  sed 's#/[^/]*$#/#'  | sort -u  | wc -l
 </code></pre>

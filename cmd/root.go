@@ -5,6 +5,11 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"github.com/CycloneDX/license-scanner/configurer"
+	"github.com/CycloneDX/license-scanner/debugger"
+	"github.com/CycloneDX/license-scanner/identifier"
+	"github.com/CycloneDX/license-scanner/importer"
+	"github.com/CycloneDX/license-scanner/licenses"
 	"os"
 	"sort"
 	"time"
@@ -13,12 +18,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
 	"github.com/spf13/viper"
-
-	"github.com/CycloneDX/license-scanner/configurer"
-	"github.com/CycloneDX/license-scanner/debugger"
-	"github.com/CycloneDX/license-scanner/identifier"
-	"github.com/CycloneDX/license-scanner/importer"
-	"github.com/CycloneDX/license-scanner/licenses"
 )
 
 const (
@@ -86,10 +85,9 @@ Please give us feedback at: https://github.com/CycloneDX/license-scanner/issues
 			} else if cfg.GetBool(configurer.ListFlag) {
 				return listLicenses(cfg)
 			} else if cfg.GetString(configurer.AddAllFlag) != "" {
-				return importer.AddAllSPDXTemplates(cfg)
-			} else if cfg.GetString(configurer.AddPatternFlag) != "" {
-				// Otherwise, if addPattern was requested, attempt to add that pattern.
-				return errors.New("add_pattern_from_spdx() is NOT-IMPLEMENTED")
+				return importer.Import(cfg)
+			} else if cfg.GetString(configurer.UpdateAllFlag) != "" {
+				return importer.Update(cfg)
 			} else {
 				// Otherwise, terminate with an error.
 				return errors.New("you must provide a file path")
@@ -222,7 +220,7 @@ func findLicensesInFile(cfg *viper.Viper, f string) error {
 	ProjectLogger.Enter()
 	defer ProjectLogger.Exit()
 	startTime := time.Now().UnixMicro()
-	ProjectLogger.Info("Looking for all licences")
+	ProjectLogger.Info("Looking for all licenses")
 
 	licenseLibrary, err := licenses.NewLicenseLibrary(cfg)
 	if err != nil {

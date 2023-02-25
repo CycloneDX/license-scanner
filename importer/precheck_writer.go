@@ -4,33 +4,21 @@ package importer
 
 import (
 	"encoding/json"
-	"fmt"
-	"os"
 	"regexp"
 	"strings"
 
-	"github.com/CycloneDX/license-scanner/normalizer"
-
 	"github.com/CycloneDX/license-scanner/licenses"
+	"github.com/CycloneDX/license-scanner/normalizer"
 )
 
 var replaceRE = regexp.MustCompile(`(<<.*?>>)`)
 
-func WritePreChecksFile(staticBlocks []string, f string) error {
+func getPreChecksBytes(staticBlocks []string) ([]byte, error) {
 	preChecks := licenses.LicensePreChecks{
 		StaticBlocks: staticBlocks,
 	}
 
-	b, err := json.MarshalIndent(preChecks, "", "  ")
-	if err != nil {
-		return fmt.Errorf("error on MarshalIndent for %v: %w", f, err)
-	}
-
-	err = os.WriteFile(f, b, 0o666)
-	if err != nil {
-		return fmt.Errorf("error writing %v: %w", f, err)
-	}
-	return nil
+	return json.MarshalIndent(preChecks, "", "  ")
 }
 
 // GetStaticBlocks filters out the regex sections and returns the static text blocks

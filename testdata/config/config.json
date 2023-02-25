@@ -1,4 +1,5 @@
 {
-  "resources": "../test-resources"
+  "spdx": "none",
+  "customPath": "../test-resources/custom/default"
 }
 

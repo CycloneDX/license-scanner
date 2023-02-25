@@ -112,14 +112,14 @@ $ license-scanner --help
 Usage:
   license-scanner [flags]
 
-
 Flags:
   -g, --acceptable          Flag acceptable
-      --addAll string       Add the licenses from SPDX unzipped release
+      --addAll string       Add licenses
       --configName string   Base name for config file (default "config")
       --configPath string   Path to any config files
   -c, --copyrights          Flag copyrights
       --custom string       Custom templates to use (default "default")
+      --customPath string   Path to external custom templates to use
   -d, --debug               Enable debug logging
       --dir string          A directory in which to identify licenses
   -f, --file string         A file in which to identify licenses
@@ -130,7 +130,9 @@ Flags:
       --list                List the license templates to be used
   -n, --normalized          Flag normalized
   -q, --quiet               Set logging to quiet
-      --spdx string         SPDX templates to use (default "default")
+      --spdx string         Set of embedded SPDX templates to use (default "default")
+      --spdxPath string     Path to external SPDX templates to use
+      --updateAll           Update existing licenses
 ```
 
 ### Example CLI usage
@@ -299,7 +301,7 @@ func main() {
 }
 ```
 
-```text
+```bash
 License IDs for async: MIT
 License IDs for urllib3: MIT
 License IDs for cobra: Apache-2.0
@@ -405,23 +407,23 @@ When running `license_scanner --dir <input_dir>` the input directory is recursiv
 
 The following **optional** runtime flags may be used to modify and enhance the behavior:
 
-* Resource flags: `--spdx`, `--custom`
-* Output logging flags: `--quiet`, `--debug`
+* Resource flags: `--spdx` or `--spdxPath` and `--custom` or `--customPath`
+* Output logging flags: `--quiet` or `--debug`
 * Config file location flags: `--configPath`, `--configName`
 * Output enhancer flags: `--acceptable`, `--copyrights`, `--hash`, `--keywords`, `--normalized`, `--license`
 
 ### Import mode
 
-When running `license_scanner --addAll <input_dir>` the input directory is used to validate, prepare, and import SPDX licenses.
+When running `license_scanner --addAll <input_dir>` the input directory is used to validate, prepare, and import licenses.
 
-| Name | Type | Usage |
+| Name  | Type | Usage |
 |------|------|-------|
-| `--addAll` | string | Add the licenses from SPDX unzipped release |
+| `--addAll` | string | Add the licenses from a directory |
 
 The following runtime flags may be used to modify the behavior:
 
-* Resource flags (import destination): `--spdx`
-* Config file location (used to locate resources): `--configPath`, `--configName`
+* Resource flags (import destination): one of `--spdx`, `--spdxPath`, `--custom`, `--customPath`
+* Config file location: `--configPath`, `--configName`
 
 ### List mode
 
@@ -433,7 +435,7 @@ When running `license_scanner --list` a listing of the SPDX and custom license t
 
 Since you may have multiple locations for resources and multiple SPDX and custom folders under each of those resources, use the following flags to generate non-default listings:
 
-* Resource flags: `--spdx`, `--custom`
+* Resource flags: `--spdx` or `--spdxPath` and `--custom` or `--customPath`
 * Config file location (used to locate resources): `--configPath`, `--configName`
 
 Example license library listing: [resources/LIST.md](resources/LIST.md)
@@ -446,12 +448,21 @@ _license-scanner_ uses configurable resources to identify licenses and legal ter
 
 In addition, default examples used to recognize additional legal terms and extend SPDX license matching are provided under `resources/custom/default`.
 
-Resource flags can be used in scan mode to run scans with alternative resources. The `--spdx` flag is also in import mode as described in [Importing SPDX license templates](#importing-spdx-license-templates).
+Resources under `resources/spdx/*` and `resources/custom/*` are embedded in *license-scanner* or your own executables when building with the API.
 
-| Name | Default | Usage |
-|------|---------|-------|
-| `--spdx`   | default  | Suppress all logging |
-| `--custom` | default  | Enable debug logging |
+Resource flags can be used in scan mode to run scans with alternative resources. These flags are also used in import/update mode as described in [Importing license templates](#importing-license-templates) and [Updating license templates](#updating-license-templates).
+
+| Name     | Default | Usage                                                          |
+|----------|---------|----------------------------------------------------------------|
+| `--spdx`   | default | Use the specified resources/spdx subdir for SPDX templates     |
+| `--custom` | default | Use the specified resources/custom subdir for custom templates |
+
+Instead of using embedded resources in these fixed locations, you can specify external directories to use with the `--spdxPath` and/or `--customPath` flags.
+
+| Name         | Usage                                       |
+|--------------|---------------------------------------------|
+| `--spdxPath`   | Use the specified path for SPDX templates   |
+| `--customPath` | Use the specified path for custom templates |
 
 ### Output logging flags
 
@@ -517,16 +528,23 @@ ok      github.com/CycloneDX/license-scanner/normalizer 0.161s
 ok      github.com/CycloneDX/license-scanner/resources  0.278s
 ```
 
-## Importing SPDX license templates
+## Importing license templates
 
-**_license-scanner_ includes a default current release of SPDX license templates already imported**. You would only use this import process if you want to download and work with an alternate version (e.g. newer or older than the one that is currently included).
+**_license-scanner_ includes a default current release of SPDX license templates already imported**. If you want to download and work with an alternate version (e.g. newer or older than the one that is currently included), you can import them. _license-scanner_ also supports custom policies. These can be used to extend the SPDX standard templates with policies for your organization. In both cases, importing will copy, preprocess, and validate the files to ensure they are ready for use.
 
-_license-scanner_ will copy, preprocess, and validate files from an SPDX license list release. These files include templates, metadata, and license text.
+Imported SPDX templates (and generated precheck files) will be copied into a destination specified by the --spdxPath or --spdx argument.
 
-Imported SPDX templates will be automatically copied into your *resources* directory using the following directory naming convention:
+* `--spdx <subDir>`: The destination must be an empty or non-existent directory under `resources/spdx/`. These templates will be available as embedded resources when you scan for licenses using the same `--spdx <subDir>` flag.
 
-* **`resources/spdx/<versionDir>`**
-    * where `<versionDir>` is set by the `--spdx <versionDir>` command-line flag
+* `--spdxPath <path>`: The destination must be an empty or non-existent directory. These copied templates and precheck files will not be available as embedded resources, but can be used when you scan for licenses using the `--spdxPath <path>` flag to read this external directory.
+
+Imported custom policies (and generated precheck files) will be copied into a destination specified by the --customPath or --custom argument.
+
+* `--custom <subDir>`: The destination must be an empty or non-existent directory under `resources/custom/`. These policies will be available as embedded resources when you scan for licenses using the same `--custom <subDir>` flag.
+
+* `--customPath <path>`: The destination must be an empty or non-existent directory. These copied policies and precheck files will not be available as embedded resources, but can be used when you scan for licenses using the `--customPath <path>` flag to read this external directory.
+
+When importing, only one of `--spdx, --spdxPath, --custom, --customPath` can be used. This will be the destination for the file files copied from the `--addAll <directory>`. When scanning for licenses, you can combine one set of SPDX templates specified by `--spdx` or `--spdxPath` with one set of custom policies specified by `--custom` or `--customPath`.
 
 #### Steps
 
@@ -537,5 +555,8 @@ Imported SPDX templates will be automatically copied into your *resources* direc
    ```shell
    license-scanner --addAll ~/Downloads/license-list-data-3.17 --spdx my3.17
    ```
-1. The new templates, json, testdata, and generated precheck files will all be put in the `resources/spdx/my3.17` directory.
+1. The new templates, json, testdata, and generated precheck files will all be put in the `resources/spdx/my3.17` directory and will be available as embedded resources when you build a *license-scanner* binary or build your own binary using the API.
 
+## Updating license templates
+
+If your imported files need to be re-validated and precheck files need to be regenerated, you can use `--updateAll` with `--spdx`, `--spdxPath`, `--custom`, or `--customPath` to update them in place. This would be needed if your templates and precheck files got out-of-sync either due to changes in those files or updated license-scanner code which requires updated prechecks.

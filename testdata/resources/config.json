@@ -1,5 +1,4 @@
 {
-  "resources": ".",
-  "spdx": "0.1234"
+  "customPath": "custom/default"
 }
 
