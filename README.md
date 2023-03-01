@@ -21,14 +21,15 @@ integrate it in your own tools.
 
 Install the `license-scanner` CLI executable in your go environment by building from source with `go install`:
 
-```bash
+```shell
 go install github.com/CycloneDX/license-scanner@latest
 ```
 
 **Note:** If you run into this kind issue while installing a CLI or installing it as a [module](#installing-as-a-module):
 
-```shell
-go get github.com/CycloneDX/license-scanner
+```ShellSession
+$ go get github.com/CycloneDX/license-scanner
+
 go: module github.com/CycloneDX/license-scanner: git ls-remote -q origin in /Go/pkg/mod/cache/vcs/4195cda34249b1abf68da7e56a4660155fdfd914eb0e0cec2f402756880b5767: exit status 128:
         fatal: could not read Username for 'https://github.com': terminal prompts disabled
 Confirm the import path was entered correctly.
@@ -38,14 +39,14 @@ If this is a private repository, see https://golang.org/doc/faq#git_https for ad
 This error says that the repository you are trying to access is private. Until this repository is available in public,
 you can update your `~/.gitconfig` to use SSH in place of HTTPS for URLS matching a prefix.
 
-```shell
+```ini
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
 ```
 
 And set `GOPRIVATE` environment variable:
 
-```shell
+```bash
 export GOPRIVATE=github.com/CycloneDX/*
 ```
 
@@ -57,31 +58,31 @@ For developers, `git clone` the repo and build the source code with `go build`:
 
 Clone the repo:
 
-```bash
+```shell
 git clone https://github.com/CycloneDX/license-scanner.git
 ```
 
 The commands that follow are to be run from your cloned repo root directory:
 
-```bash
+```shell
 cd license-scanner
 ```
 
 Build the source code:
 
-```bash
+```shell
 go build ./...
 ```
 
 Run the CLI from source code in your cloned repo (with local changes):
 
-```bash
+```shell
 go run . --help
 ```
 
 Optionally, install a _license-scanner_ executable from your cloned repo (with local changes) :
 
-```bash
+```shell
 go install
 ```
 
@@ -91,13 +92,13 @@ go install
 
 Using the `license-scanner` API is simple. First, use `go get` to install the latest version of the library.
 
-```bash
+```shell
 go get -u github.com/CycloneDX/license-scanner@latest
 ```
 
 Next, import the scanner API into your application:
 
-```bash
+```go
 import "github.com/CycloneDX/license-scanner/api/scanner"
 ```
 
@@ -105,7 +106,9 @@ import "github.com/CycloneDX/license-scanner/api/scanner"
 
 To get more information about command-line usage directly from your executable, run `license-scanner --help`. When you run with the `--debug` flag, the latest usage in markdown format will also be updated in [cmd/license-scanner.md](cmd/license-scanner.md)
 
-```bash
+```ShellSession
+$ license-scanner --help
+
 Usage:
   license-scanner [flags]
 
@@ -134,24 +137,25 @@ Flags:
 
 Example usage to scan LICENSE.txt, but only print the license IDs and positions of license matches:
 
-```bash
+```shell
 license-scanner --quiet -f LICENSE.txt
 ```
 
 Example usage to print license IDs, copyrights, and blocks found in file LICENSE.txt:
 
-```bash
+```shell
 license-scanner -c -f LICENSE.txt
 ```
 
 Example scan of a license file with output shown:
 
-```bash
-$ curl -o ASYNC_LICENSE https://raw.githubusercontent.com/caolan/async/master/LICENSE
+```shell
+curl -o ASYNC_LICENSE https://raw.githubusercontent.com/caolan/async/master/LICENSE
 ```
 
-```bash
+```ShellSession
 $ license-scanner -f ASYNC_LICENSE
+
 [INFO] Looking for all licences
 
 FOUND LICENSE MATCHES:
@@ -295,7 +299,7 @@ func main() {
 }
 ```
 
-```bash
+```text
 License IDs for async: MIT
 License IDs for urllib3: MIT
 License IDs for cobra: Apache-2.0
@@ -383,9 +387,9 @@ Refer to [configurer/README.md](configurer/README.md) for advanced configuration
 
 When you add `--help` or `-h` to any _license_scanner_ command it will produce help output and no other action will be performed.
 
-| Name   | Shorthand | Type    | Default | Usage                                                    |
-|--------|-----------|---------| -------------|----------------------------------------------------------|
-| --help | -h        | Boolean | false        | Print usage help |
+| Name | Shorthand | Type | Default | Usage |
+|------|-----------|------|---------|-------|
+| `--help` | `-h` | Boolean | false | Print usage help |
 
 In help mode, all other flags are ignored.
 
@@ -394,43 +398,43 @@ In help mode, all other flags are ignored.
 When running `license_scanner --file <input_file>` the input file is scanned for license matches.
 When running `license_scanner --dir <input_dir>` the input directory is recursively scanned for license matches.
 
-| Name   | Shorthand | Type   | Usage                                     |
-|--------|-----------|--------|-------------------------------------------|
-| --file | -f        | string | A file in which to identify licenses      |
-| --dir  |           | string | A directory in which to identify licenses |
+| Name | Shorthand | Type | Usage |
+|------|-----------|------|-------|
+| `--file` | `-f` | string | A file in which to identify licenses |
+| `--dir` | | string | A directory in which to identify licenses |
 
 The following **optional** runtime flags may be used to modify and enhance the behavior:
 
-* Resource flags: **--spdx, --custom**
-* Output logging flags: **--quiet, --debug**
-* Config file location flags: **--configPath, --configName**
-* Output enhancer flags: **--acceptable, --copyrights, --hash, --keywords, --normalized, --license**
+* Resource flags: `--spdx`, `--custom`
+* Output logging flags: `--quiet`, `--debug`
+* Config file location flags: `--configPath`, `--configName`
+* Output enhancer flags: `--acceptable`, `--copyrights`, `--hash`, `--keywords`, `--normalized`, `--license`
 
 ### Import mode
 
 When running `license_scanner --addAll <input_dir>` the input directory is used to validate, prepare, and import SPDX licenses.
 
-| Name    | Type   | Usage                                       |
-|---------|-----------|---------------------------------------------|
-| -addAll | string | Add the licenses from SPDX unzipped release |
+| Name | Type | Usage |
+|------|------|-------|
+| `--addAll` | string | Add the licenses from SPDX unzipped release |
 
 The following runtime flags may be used to modify the behavior:
 
-* Resource flags (import destination): **--spdx**
-* Config file location (used to locate resources): **--configPath, --configName**
+* Resource flags (import destination): `--spdx`
+* Config file location (used to locate resources): `--configPath`, `--configName`
 
 ### List mode
 
 When running `license_scanner --list` a listing of the SPDX and custom license templates will be output.
 
-| Name   | Usage                                 |
-|--------|---------------------------------------|
-| --list | List the license templates to be used |
+| Name | Usage |
+|------|-------|
+| `--list` | List the license templates to be used |
 
 Since you may have multiple locations for resources and multiple SPDX and custom folders under each of those resources, use the following flags to generate non-default listings:
 
-* Resource flags: **--spdx, --custom**
-* Config file location (used to locate resources): **--configPath, --configName**
+* Resource flags: `--spdx`, `--custom`
+* Config file location (used to locate resources): `--configPath`, `--configName`
 
 Example license library listing: [resources/LIST.md](resources/LIST.md)
 
@@ -442,35 +446,34 @@ _license-scanner_ uses configurable resources to identify licenses and legal ter
 
 In addition, default examples used to recognize additional legal terms and extend SPDX license matching are provided under `resources/custom/default`.
 
-Resource flags can be used in scan mode to run scans with alternative resources. The --spdx flag is also in import mode as described in [Importing SPDX license templates](#importing-spdx-license-templates).
+Resource flags can be used in scan mode to run scans with alternative resources. The `--spdx` flag is also in import mode as described in [Importing SPDX license templates](#importing-spdx-license-templates).
 
-| Name     | Default    | Usage                |
-|----------|------------|----------------------|
-| --spdx   | default  | Suppress all logging |
-| --custom | default  | Enable debug logging |
+| Name | Default | Usage |
+|------|---------|-------|
+| `--spdx`   | default  | Suppress all logging |
+| `--custom` | default  | Enable debug logging |
 
 ### Output logging flags
 
 Logging flags control the amount of output. --quiet takes priority over --debug and other enhancer flags that rely on printed output.
 
-| Name    | Shorthand | Default | Usage                |
-|---------|-----------|---------|----------------------|
-| --quiet | -q        | false   | Suppress all logging |
-| --debug | -d        | false   | Enable debug logging |
+| Name | Shorthand | Default | Usage |
+|------|-----------|---------|-------|
+| `--quiet` | `-q` | false | Suppress all logging |
+| `--debug` | `-d` | false | Enable debug logging |
 
 ### Output enhancer flags
 
-Output enhancers create additional output details for a license scan. The enhanced output uses logging, so these should not be used with the --quiet flag. All enhancer flags are Boolean except for --license. --license requires a string identifying the license template to use for the diff.
+Output enhancers create additional output details for a license scan. The enhanced output uses logging, so these should not be used with the `--quiet` flag. All enhancer flags are Boolean except for `--license`, which  requires a string identifying the license template to use for the diff.
 
-| Name         | Shorthand | Default | Usage                                       |
-|--------------|-----------|---------|---------------------------------------------|
-| --acceptable | -g        | false   | Flag acceptable pattern matches             |
-| --copyrights | -c        | false   | Flag copyrights                             |
-| --hash       | -x        | false   | Output the normalized license file hashcode |
-| --keywords   | -k        | false   | Flag keywords                               |
-| --normalized | -n        | false   | Output the normalized license text          |
-| --license    | -l        | | Output normalized diff of input and license |
-
+| Name | Shorthand | Default | Usage |
+|------|-----------|---------|-------|
+| `--acceptable` | `-g` | false | Flag acceptable pattern matches |
+| `--copyrights` | `-c` | false | Flag copyrights |
+| `--hash` | `-x` | false | Output the normalized license file hashcode |
+| `--keywords` | `-k` | false | Flag keywords |
+| `--normalized` | `-n` | false | Output the normalized license text |
+| `--license` | `-l` | | Output normalized diff of input and license |
 
 ### Config file location flags
 
@@ -487,11 +490,10 @@ For example, `--configPath /tmp/test_dir --configName configTest` would allow yo
 
 The default config file is named `config.<ext>` (e.g. `config.json`). Viper provides the ability to read config files in a variety of formats, such as TOML or YAML instead of JSON. Use the file extension to indicate the format and refer to Viper for supported languages. **For _license-scanner_, JSON is presumed for testing and documentation.**
 
-
-| Name         | Shorthand | Default                          | Usage                     |
-|--------------|-----------|----------------------------------|---------------------------|
-| --configName |           | config                           | Base name for config file |
-| --configPath |           | executable's dir or project root | Path to any config files |
+| Name | Shorthand | Default | Usage |
+|------|-----------|---------|-------|
+| `--configName` | | config | Base name for config file |
+| `--configPath` | | executable's dir or project root | Path to any config files |
 
 Refer to [configurer/README.md](configurer/README.md) for advanced configuration options.
 
@@ -501,8 +503,9 @@ Refer to [configurer/README.md](configurer/README.md) for advanced configuration
 
 Each package has many `unit` tests in `*_test.go` which can be executed using `go test`:
 
-```bash
- go test ./... -tags=unit
+```ShellSession
+$ go test ./... -tags=unit
+
 ?       github.com/CycloneDX/license-scanner    [no test files]
 ok      github.com/CycloneDX/license-scanner/api/scanner        3.009s
 ok      github.com/CycloneDX/license-scanner/cmd        8.646s
@@ -531,7 +534,7 @@ Imported SPDX templates will be automatically copied into your *resources* direc
 1. Unzip the file. This will create the `<dir>` that you will import from (below).
 1. Ensure that the destination directory named `resources/spdx/<versionDir>` is not in use.
 1. Run the `license-scanner --addAll <dir> --spdx <versionDir>` command. For example:
-   ```bash
+   ```shell
    license-scanner --addAll ~/Downloads/license-list-data-3.17 --spdx my3.17
    ```
 1. The new templates, json, testdata, and generated precheck files will all be put in the `resources/spdx/my3.17` directory.
