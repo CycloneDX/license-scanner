@@ -28,7 +28,7 @@ license-scanner [flags]
 
 ```
   -g, --acceptable          Flag acceptable
-      --addAll string       Add licenses
+      --addAll string       Add licenses from this dir to spdx, spdxPath, custom or customPath dir
       --configName string   Base name for config file (default "config")
       --configPath string   Path to any config files
   -c, --copyrights          Flag copyrights

@@ -544,7 +544,7 @@ Imported custom policies (and generated precheck files) will be copied into a de
 
 * `--customPath <path>`: The destination must be an empty or non-existent directory. These copied policies and precheck files will not be available as embedded resources, but can be used when you scan for licenses using the `--customPath <path>` flag to read this external directory.
 
-When importing, only one of `--spdx, --spdxPath, --custom, --customPath` can be used. This will be the destination for the file files copied from the `--addAll <directory>`. When scanning for licenses, you can combine one set of SPDX templates specified by `--spdx` or `--spdxPath` with one set of custom policies specified by `--custom` or `--customPath`.
+When importing, only one of `--spdx, --spdxPath, --custom, --customPath` can be used. This will be the destination for the files copied from the `--addAll <directory>`. When scanning for licenses, you can combine one set of SPDX templates specified by `--spdx` or `--spdxPath` with one set of custom policies specified by `--custom` or `--customPath`.
 
 #### Steps
 

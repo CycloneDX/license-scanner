@@ -139,7 +139,7 @@ func AddDefaultFlags(flagSet *pflag.FlagSet) {
 	flagSet.BoolP(HashFlag, "x", false, "Output file hash")
 	flagSet.StringP(LicenseFlag, "l", "", "Display match debugging for the given license")
 	flagSet.Bool(ListFlag, false, "List the license templates to be used")
-	flagSet.String(AddAllFlag, "", "Add licenses")
+	flagSet.String(AddAllFlag, "", "Add licenses from this dir to spdx, spdxPath, custom or customPath dir")
 	flagSet.Bool(UpdateAllFlag, false, "Update existing licenses")
 	flagSet.String(ConfigPathFlag, "", "Path to any config files")
 	flagSet.String(ConfigNameFlag, "config", "Base name for config file")

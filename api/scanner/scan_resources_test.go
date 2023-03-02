@@ -81,7 +81,6 @@ func TestScanner_ResourcePaths(t *testing.T) {
 					_ = flagSet.Set("configPath", path.Join("..", "..", "testdata", "resources"))
 					if spdx != doNotSet {
 						_ = flagSet.Set("spdxPath", path.Join("..", "..", "testdata", "resources", "spdx", spdx))
-						_ = flagSet.Set("spdxPath", path.Join("..", "..", "testdata", "resources", "spdx", spdx))
 					}
 					if custom != doNotSet {
 						_ = flagSet.Set("customPath", path.Join("..", "..", "testdata", "resources", "custom", custom))
