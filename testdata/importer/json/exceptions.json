@@ -1,0 +1,18 @@
+{
+  "licenseListVersion": "3.18",
+  "exceptions": [
+    {
+      "reference": "./389-exception.json",
+      "isDeprecatedLicenseId": false,
+      "detailsUrl": "./389-exception.html",
+      "referenceNumber": 23,
+      "name": "389 Directory Server Exception",
+      "licenseExceptionId": "389-exception",
+      "seeAlso": [
+        "http://directory.fedoraproject.org/wiki/GPL_Exception_License_Text",
+        "https://web.archive.org/web/20080828121337/http://directory.fedoraproject.org/wiki/GPL_Exception_License_Text"
+      ]
+    }
+  ],
+  "releaseDate": "2022-08-12"
+}

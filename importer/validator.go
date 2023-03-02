@@ -4,8 +4,6 @@ package importer
 
 import (
 	"fmt"
-	"os"
-	"path"
 
 	"github.com/mrutkows/sbom-utility/log"
 
@@ -14,40 +12,6 @@ import (
 	"github.com/CycloneDX/license-scanner/licenses"
 	"github.com/CycloneDX/license-scanner/normalizer"
 )
-
-func ValidateSPDXTemplateWithLicenseText(id, templateFile, textFile, templateDestDir, preCheckDestDir, textDestDir string) (err error) {
-	var templateBytes []byte
-	var textBytes []byte
-	var staticBlocks []string
-
-	// on error, save template/text/precheck files (if available) under testdata/invalid
-	defer func() {
-		if err != nil {
-			invalid := path.Join(textDestDir, "invalid") // on error save files in testdata/invalid
-			_ = os.Mkdir(invalid, 0o700)
-			_ = write(id, invalid, templateBytes, invalid, textBytes, invalid, staticBlocks)
-		}
-	}()
-
-	textBytes, err = os.ReadFile(textFile)
-	if err != nil {
-		return
-	}
-	templateBytes, err = os.ReadFile(templateFile)
-	if err != nil {
-		return
-	}
-
-	staticBlocks, err = validate(id, templateBytes, textBytes, templateFile)
-	if err != nil {
-		return err
-	}
-
-	if err = write(id, templateDestDir, templateBytes, textDestDir, textBytes, preCheckDestDir, staticBlocks); err != nil {
-		return
-	}
-	return
-}
 
 func validate(id string, templateBytes []byte, textBytes []byte, templateFile string) (staticBlocks []string, err error) {
 
@@ -96,20 +60,4 @@ func validate(id string, templateBytes []byte, textBytes []byte, templateFile st
 		return
 	}
 	return
-}
-
-func write(id string, templateDestDir string, templateBytes []byte, textDestDir string, textBytes []byte, preCheckDestDir string, staticBlocks []string) error {
-
-	if err := os.WriteFile(path.Join(templateDestDir, id+".template.txt"), templateBytes, 0o600); err != nil {
-		return Logger.Errorf("error writing template for %v: %w", id, err)
-	}
-
-	if err := os.WriteFile(path.Join(textDestDir, id+".txt"), textBytes, 0o600); err != nil {
-		return Logger.Errorf("error writing testdata for %v: %w", id, err)
-	}
-
-	if err := WritePreChecksFile(staticBlocks, path.Join(preCheckDestDir, id+".json")); err != nil {
-		return Logger.Errorf("error writing precheck file for %v: %w", id, err)
-	}
-	return nil
 }

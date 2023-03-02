@@ -1,4 +1,5 @@
 {
-  "resources": "resources"
+  "customPath": "resources/custom/default",
+  "spdx": "none"
 }
 

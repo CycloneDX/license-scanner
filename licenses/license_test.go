@@ -190,8 +190,8 @@ func TestLicenses_PrintLicenses(t *testing.T) {
 			if err != nil {
 				t.Fatalf("NewLicenseLibrary() error = %v", err)
 			}
-			if err := ll.AddLicenses(); (err != nil) != tt.wantErr {
-				t.Errorf("AddLicenses() error = %v, wantErr %v", err, tt.wantErr)
+			if err := ll.AddCustomLicenses(); (err != nil) != tt.wantErr {
+				t.Errorf("AddCustomLicenses() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			var osiApproved []License
 			var notApproved []License
@@ -385,7 +385,7 @@ func TestLicenseUnmarshal(t *testing.T) {
 }
 `)
 
-	li, err := readLicenseInfoJSON(fileContents)
+	li, err := ReadLicenseInfoJSON(fileContents)
 	if err != nil {
 		t.Fatal(err)
 	}

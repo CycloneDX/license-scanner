@@ -5,6 +5,7 @@
 package scanner_test
 
 import (
+	"path"
 	"testing"
 
 	"github.com/CycloneDX/license-scanner/api/scanner"
@@ -13,7 +14,10 @@ import (
 	"golang.org/x/exp/slices"
 )
 
-func TestScanner_Resources(t *testing.T) {
+// Test using api/scanner with --customPath and/or --spdxPath pointing to test resources
+// --configPath is used for config (when --customPath and --spdxPath don't override)
+func TestScanner_ResourcePaths(t *testing.T) {
+	t.Parallel()
 	const doNotSet = "DO-NOT-SET" // use config file instead of setting a flag
 
 	tests := []struct {
@@ -62,21 +66,24 @@ func TestScanner_Resources(t *testing.T) {
 		tt := tt
 
 		// test matrix spdx * custom
-		spdxs := []string{doNotSet, "", ".", "0.1234"}
-		customs := []string{doNotSet, "customTest2"}
+		spdxPaths := []string{doNotSet, "", ".", "0.1234"}
+		customPaths := []string{doNotSet, "customTest2"}
 
-		for s := range spdxs {
-			spdx := spdxs[s]
-			for _, custom := range customs {
+		for _, spdx := range spdxPaths {
+			spdx := spdx
+			for _, custom := range customPaths {
+				custom := custom
+				tt := tt
 				name := tt.name + " with SPDX=" + spdx + " Custom=" + custom
 				t.Run(name, func(t *testing.T) {
+					t.Parallel()
 					flagSet := configurer.NewDefaultFlags()
-					_ = flagSet.Set("configPath", "../../testdata/resources")
+					_ = flagSet.Set("configPath", path.Join("..", "..", "testdata", "resources"))
 					if spdx != doNotSet {
-						_ = flagSet.Set(configurer.SpdxFlag, spdx)
+						_ = flagSet.Set("spdxPath", path.Join("..", "..", "testdata", "resources", "spdx", spdx))
 					}
 					if custom != doNotSet {
-						_ = flagSet.Set(configurer.CustomFlag, custom)
+						_ = flagSet.Set("customPath", path.Join("..", "..", "testdata", "resources", "custom", custom))
 					}
 
 					specs := &scanner.ScanSpecs{}

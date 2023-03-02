@@ -16,6 +16,8 @@ The default config file is named `config.<ext>` (e.g. `config.json`). Viper prov
 
 You can also override the "config" part of this file name by setting the configName flag. For example, `--configName configTest` would allow you to test using `configTest.json` instead of the default config.json.
 
+> Note: The default `config.*` file is optional. But if you specify a `--configName <name>` other than "config", then a matching file is required.
+
 #### --configPath path
 
 By default, _license-scanner_ will look for the config file in:
@@ -23,21 +25,22 @@ By default, _license-scanner_ will look for the config file in:
 1. The directory containing the executable
 2. The project root (for development and tests)
 
-You can use the `--configPath path` flag to read your the config file from an alternate location. For example, `--configPath /tmp/test_dir --configName configTest` would allow you to test using `/tmp/test_dir/configTest.json` instead of the default config.json.
+You can use the `--configPath path` flag to read your the config file from an alternate location. For example, `--configPath /tmp/test_dir --configName configTest` would allow you to test using `/tmp/test_dir/configTest.json` instead of the default (optional) config.json.
 
 ### Running with different resources
 
 _license-scanner_ uses "resources" to configure license templates and legal terms for matching. For example, SPDX license matching is configured by the files under `resources/spdx` and the custom pattern matching is configured by the files under `resources/custom`.
 
-At runtime you can configure an alternate location for resources in config.json. For example, the following config.json would allow you to use resources in `/tmp/test_dir/example_resources/`:
+At runtime you can configure an alternate location for resources in config.json. For example, the following config.json would allow you to use resources in `/tmp/test_dir/example_resources/`.
 
 ```json
 {
-  "resources": "/tmp/test_dir/example_resources"
+  "customPath": "/tmp/test_dir/example_resources/customTest/",
+  "spdxPath": "/tmp/test_dir/example_resources/spdxTest/"
 }
 ```
 
-> *NOTE: If the resources value is not an absolute path, it will be treated as relative to the config file.*
+> *NOTE: If the value is not an absolute path, it will be treated as relative to the config file.*
 
 ### Configuring runtime flag defaults
 
@@ -56,7 +59,6 @@ Since **config** takes precedence over **default**, and **flag or Set()** takes 
 
 ```json
 {
-  "resources": "resources",
   "spdx": "my3.17"
 }
 ```
@@ -67,11 +69,10 @@ This configurability applies to all the flags wherever it makes sense. Obviously
 
 ```json
 {
-  "resources": "resources",
   "quiet": true
 }
 ```
 
 **--quiet** is a good example for testing. Note the JSON syntax above. The difference in the output when scanning a license file should clearly show a difference between true and false.
 
-For Booean command-line flags, we typically default to false and override with a flag that has no value like `-q`. If you configure a Boolean flag to default to true, you can still override it on the command line by specifying a false value like this: `-q=false` or `--quiet=false`.
+For Boolean command-line flags, we typically default to false and override with a flag that has no value like `-q`. If you configure a Boolean flag to default to true, you can still override it on the command line by specifying a false value like this: `-q=false` or `--quiet=false`.
