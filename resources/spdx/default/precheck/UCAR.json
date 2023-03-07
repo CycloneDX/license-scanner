@@ -1,0 +1,9 @@
+{
+  "StaticBlocks": [
+    "this software was developed by the unidata program center of the university corporation for atmospheric research (ucar) \u003chttp://www.unidata.ucar.edu\u003e. redistribution and use in source and binary forms,with or without modification,are permitted provided that the following conditions are met:",
+    "redistribution of source code must retain the above copyright notice,this list of conditions and the following disclaimer.",
+    "redistribution in binary form must reproduce the above copyright notice,this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+    "neither the name of the development group,the copyright holders,nor the name of contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
+    "this license shall terminate automatically and you may no longer exercise any of the rights granted to you by this license as of the date you commence an action,including a cross-claim or counterclaim,against the copyright holders or any contributor alleging that this software infringes a patent. this termination provision shall not apply for an action alleging patent infringement by combinations of this software with other software or hardware. the software is provided 'as is',without warranty of any kind,express or implied,including but not limited to the warranties of merchantability,fitness for a particular purpose and noninfringement. in no event shall the contributors or copyright holders be liable for any claim,damages or other liability,whether in an action of contract,tort or otherwise,arising from,out of or in connection with the software or the use or other dealings with the software."
+  ]
+}

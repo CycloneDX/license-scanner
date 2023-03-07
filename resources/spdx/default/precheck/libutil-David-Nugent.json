@@ -1,0 +1,10 @@
+{
+  "StaticBlocks": [
+    "redistribution and use in source and binary forms,with or without modification,is permitted provided that the following conditions are met:",
+    "redistribution of source code must retain the above copyright notice immediately at the beginning of the file,without modification,this list of conditions,and the following disclaimer.",
+    "redistribution in binary form must reproduce the above copyright notice,this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.",
+    "this work was done expressly for inclusion into freebsd. other use is permitted provided this notation is included.",
+    "absolutely no warranty of function or purpose is made by the",
+    "modifications may be freely made to this file providing the above conditions are met."
+  ]
+}

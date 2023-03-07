@@ -272,6 +272,13 @@ func updateSPDX(r *resources.Resources) error {
 }
 
 func importSPDXResource(input *resources.Resources, output *resources.Resources, id string, isDeprecated bool) error {
+
+	// In earlier versions we attempted to use deprecated templates.
+	// In 3.20 the deprecated licenses are not compatible with the newer versions.
+	if isDeprecated {
+		return nil
+	}
+
 	templateBytes, templateFile, err := input.ReadSPDXTemplateFile(id, isDeprecated)
 	if err != nil {
 		return err
