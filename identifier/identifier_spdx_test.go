@@ -47,7 +47,7 @@ func Test_identifyLicensesInSPDXTestDataDirectory(t *testing.T) {
 		t.Errorf("IdentifyLicensesInDirectory(%v) err = %v", testDataDir, err)
 	}
 
-	const expected = 541
+	const expected = 553
 	actual := 0
 	for _, result := range results {
 		result := result
@@ -57,7 +57,7 @@ func Test_identifyLicensesInSPDXTestDataDirectory(t *testing.T) {
 				wantLicenseID := strings.TrimSuffix(path.Base(result.File), ".txt")
 				wantLicenseID = strings.TrimPrefix(wantLicenseID, "deprecated_")
 				if _, ok := result.Matches[wantLicenseID]; !ok {
-					t.Error("Did not get: ", wantLicenseID)
+					t.Errorf("Did not match template. Expected: %v Actual: %v", wantLicenseID, result.Matches)
 				}
 				actual++
 			}

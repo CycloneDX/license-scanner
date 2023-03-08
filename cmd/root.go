@@ -146,9 +146,16 @@ func listLicenses(cfg *viper.Viper) error {
 		licenseListVersion = fmt.Sprintf("  (SPDX license list %v)", spdxVersion)
 	}
 	fmt.Println("## Runtime Configuration")
-	fmt.Printf("* resources: %v\n", cfg.GetString("resources"))
 	fmt.Printf("  * spdx/%v%v\n", cfg.GetString(configurer.SpdxFlag), licenseListVersion)
 	fmt.Printf("  * custom/%v\n", cfg.GetString(configurer.CustomFlag))
+	fmt.Println()
+	fmt.Println("## License Library")
+	fmt.Printf("| %v | %v |\n", "Type", "Count")
+	fmt.Printf("| :--- | ---: |\n")
+	fmt.Printf("| Licenses              | %v |\n", len(lics))
+	fmt.Printf("| Exceptions            | %v |\n", len(exceptions))
+	fmt.Printf("| Deprecated Licenses   | %v |\n", len(deprecatedLics))
+	fmt.Printf("| Deprecated Exceptions | %v |\n", len(deprecatedExceptions))
 	fmt.Printf("\n###### Generated on %v\n", time.Now().Format(time.RFC3339))
 	return nil
 }
