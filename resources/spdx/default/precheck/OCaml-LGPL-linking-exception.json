@@ -4,10 +4,13 @@
     "general public license,you may link,statically or dynamically,a 'work that uses",
     "' with a publicly distributed version of",
     "to produce an executable file containing portions of",
-    ",and distribute that executable file under terms of your choice,without any of the additional requirements listed in clause 6 of the gnu lesser general public license. by 'a publicly distributed version of",
+    ",and distribute that executable file under terms of your choice,without any of the additional requirements listed in clause 6 of the gnu",
+    "general public license. by 'a publicly distributed version of",
     "',we mean either the unmodified",
     "as distributed by",
     ",or a modified version of",
-    "that is distributed under the conditions defined in clause 2 of the gnu lesser general public license. this exception does not however invalidate any other reasons why the executable file might be covered by the gnu lesser general public license."
+    "that is distributed under the conditions defined in clause 2 of the gnu",
+    "general public license. this exception does not however invalidate any other reasons why the executable file might be covered by the gnu",
+    "general public license."
   ]
 }

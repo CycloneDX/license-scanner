@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "my 'symlinks' utility pre-dates the 'open source licensing' fad by a number of years. just to clarify,this is 100% freeware,written entirely by myself. the intent is to use it to detect missing/obsolete symlink targets on an installed distro,before creating the 'gold' (or 'final') release discs. use and distribute and modify as you (or anyone else) sees fit. there have no formal restrictions or requirements whatsoever regarding distribution of either binaries or source code,whether modified or original."
+  ]
+}

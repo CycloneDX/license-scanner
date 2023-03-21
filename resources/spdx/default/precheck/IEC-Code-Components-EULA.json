@@ -1,0 +1,12 @@
+{
+  "StaticBlocks": [
+    "code components in iec standards (international standards,technical specifications or technical reports) which have been identified and approved for licensing,are licensed subject to the following conditions:",
+    "redistribution of software must retain the copyright notice,this list of conditions and the disclaimer below ('disclaimer').",
+    "the software license extends to modifications permitted under the relevant iec standard.",
+    "the software license extends to clarifications and corrections approved by iec.",
+    "neither the name of iec,nor the name of specific contributors,may be used to endorse or promote products derived from this software without specific prior written permission. the relevant iec standard may be referenced when claiming compliance with the relevant iec standard.",
+    "the user of code components shall attribute each such code component to iec and identify the iec standard from which it is taken. such attribution (e.g.,'this code was derived from iec [insert standard reference number:publication year] within modifications permitted in the relevant iec standard. please reproduce this note if possible.'),may be placed in the code itself or any other reasonable location. code components means components included in iec standards that are intended to be directly processed by a computer and also includes any text found between the markers",
+    "and",
+    ",or otherwise clearly labeled in this standard as a code component. the disclaimer is:each of the code components is provided by the copyright holders and contributors 'as is' and any express or implied warranties,including,but not limited to,the implied warranties of merchantability and fitness for a particular purpose are disclaimed. in no event shall the copyright holder or contributors be liable for any direct,indirect,incidental,special,exemplary,or consequential damages (including,but not limited to,procurement of substitute goods or services; loss of use,data,or profits; or business interruption) however caused and on any theory of liability,whether in contract,strict liability,or tort (including negligence or otherwise) arising in any way out of the use of the code components,even if advised of the possibility of such damage."
+  ]
+}

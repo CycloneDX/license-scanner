@@ -439,6 +439,21 @@ func TestImporter_Validate(t *testing.T) {
 			wantErr: false,
 		},
 		{
+			reasons: "Beerware 3.20 needed modification to work with 2 email addrs - email1",
+			id:      "Beerware",
+			wantErr: false,
+		},
+		{
+			reasons: "Beerware 3.20 needed modification to work with 2 email addrs - email2",
+			id:      "Beerware-email2",
+			wantErr: false,
+		},
+		{
+			reasons: "Beerware 3.20 needed modification to work with 2 email addrs - email3",
+			id:      "Beerware-email3",
+			wantErr: false,
+		},
+		{
 			reasons: "BlueOak-1.0.0 fixed omitable line prefix ## needs to be normalized like line comment",
 			id:      "BlueOak-1.0.0",
 			wantErr: false,
@@ -446,6 +461,11 @@ func TestImporter_Validate(t *testing.T) {
 		{
 			reasons: "CC-BY-3.0 fixed testdata space before comma '(iv) ,'",
 			id:      "CC-BY-3.0",
+			wantErr: false,
+		},
+		{
+			reasons: "CC-BY-NC-SA-2.0-DE 3.20",
+			id:      "CC-BY-NC-SA-2.0-DE",
 			wantErr: false,
 		},
 		{
