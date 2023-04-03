@@ -10,8 +10,6 @@ import (
 	"testing"
 
 	"github.com/CycloneDX/license-scanner/configurer"
-
-	"github.com/mrutkows/sbom-utility/log"
 )
 
 type args map[string]string
@@ -420,7 +418,7 @@ func TestImporter_Validate(t *testing.T) {
 	t.Parallel()
 
 	// This test is particularly useful when DEBUG is set to show diff validate() errors. So force it on/off.
-	Logger.SetLevel(log.DEBUG)
+	Logger.SetLevel(4)
 
 	// Using this list instead of a ReadDir to help document why each one of these is/was needed (in the reasons)
 	tests := []struct {

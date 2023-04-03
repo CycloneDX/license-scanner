@@ -14,7 +14,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/mrutkows/sbom-utility/log"
+	"github.com/CycloneDX/sbom-utility/log"
 	"golang.org/x/exp/slices"
 )
 

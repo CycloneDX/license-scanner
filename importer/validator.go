@@ -5,7 +5,7 @@ package importer
 import (
 	"fmt"
 
-	"github.com/mrutkows/sbom-utility/log"
+	"github.com/CycloneDX/sbom-utility/log"
 
 	"github.com/CycloneDX/license-scanner/debugger"
 	"github.com/CycloneDX/license-scanner/identifier"
