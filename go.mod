@@ -3,6 +3,7 @@ module github.com/CycloneDX/license-scanner
 go 1.18
 
 require (
+	github.com/CycloneDX/cyclonedx-go v0.7.1
 	github.com/CycloneDX/sbom-utility v0.9.3
 	github.com/google/go-cmp v0.5.8
 	github.com/spf13/cobra v1.6.1
