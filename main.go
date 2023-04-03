@@ -3,7 +3,7 @@
 package main
 
 import (
-	"github.com/mrutkows/sbom-utility/log"
+	"github.com/CycloneDX/sbom-utility/log"
 
 	"github.com/CycloneDX/license-scanner/cmd"
 )
@@ -15,7 +15,7 @@ var (
 
 func init() {
 	Logger = log.NewLogger(DefaultLogLevel)
-	Logger.InitLogLevelAndModeFromFlags(DefaultLogLevel)
+	Logger.InitLogLevelAndModeFromFlags()
 	Logger.Tracef(" Logger (%T) created: with Level=`%v`", Logger, Logger.GetLevelName())
 	Logger.Enter()
 	defer Logger.Exit()

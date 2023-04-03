@@ -10,11 +10,11 @@ import (
 	"github.com/CycloneDX/license-scanner/identifier"
 	"github.com/CycloneDX/license-scanner/importer"
 	"github.com/CycloneDX/license-scanner/licenses"
+	"github.com/CycloneDX/sbom-utility/log"
 	"os"
 	"sort"
 	"time"
 
-	"github.com/mrutkows/sbom-utility/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
 	"github.com/spf13/viper"
