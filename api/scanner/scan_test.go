@@ -9,13 +9,13 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts"
-
+	"github.com/CycloneDX/cyclonedx-go"
 	"github.com/CycloneDX/license-scanner/api/scanner"
 	"github.com/CycloneDX/license-scanner/configurer"
 	"github.com/CycloneDX/license-scanner/licenses"
 	"github.com/CycloneDX/license-scanner/normalizer"
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 )
 
 func TestScanSpecs_ScanLicenseText(t *testing.T) {
@@ -70,7 +70,7 @@ func TestScanSpecs_ScanLicenseText(t *testing.T) {
 			OriginalText: "this is not a license and must return unknown id",
 			CycloneDXLicenses: scanner.Licenses{
 				{
-					License: &scanner.License{
+					License: &cyclonedx.License{
 						Name: scanner.NOASSERTION_SPDX_NAME,
 					},
 				},
@@ -80,11 +80,11 @@ func TestScanSpecs_ScanLicenseText(t *testing.T) {
 			OriginalText: asyncLicense,
 			CycloneDXLicenses: scanner.Licenses{
 				{
-					License: &scanner.License{
+					License: &cyclonedx.License{
 						ID:   "MIT",
 						Name: "MIT License (MIT)",
 						URL:  "http://www.opensource.org/licenses/mit-license.php,https://opensource.org/licenses/MIT",
-						Text: &scanner.AttachedText{},
+						Text: &cyclonedx.AttachedText{},
 					},
 				},
 			},
@@ -93,11 +93,11 @@ func TestScanSpecs_ScanLicenseText(t *testing.T) {
 			OriginalText: helmetLicense,
 			CycloneDXLicenses: scanner.Licenses{
 				{
-					License: &scanner.License{
+					License: &cyclonedx.License{
 						ID:   "MIT",
 						Name: "MIT License (MIT)",
 						URL:  "http://www.opensource.org/licenses/mit-license.php,https://opensource.org/licenses/MIT",
-						Text: &scanner.AttachedText{},
+						Text: &cyclonedx.AttachedText{},
 					},
 				},
 			},
@@ -106,10 +106,10 @@ func TestScanSpecs_ScanLicenseText(t *testing.T) {
 			OriginalText: goGitLicense,
 			CycloneDXLicenses: scanner.Licenses{
 				{
-					License: &scanner.License{
+					License: &cyclonedx.License{
 						ID:   "Apache-2.0",
 						Name: "Apache License 2.0 (Apache)",
-						Text: &scanner.AttachedText{},
+						Text: &cyclonedx.AttachedText{},
 						URL:  "http://www.apache.org/licenses/LICENSE-2.0",
 					},
 				},
@@ -119,10 +119,10 @@ func TestScanSpecs_ScanLicenseText(t *testing.T) {
 			OriginalText: goPflagLicense,
 			CycloneDXLicenses: scanner.Licenses{
 				{
-					License: &scanner.License{
+					License: &cyclonedx.License{
 						ID:   "BSD-3-Clause",
 						Name: `BSD 3-clause "Revised" License (BSD)`,
-						Text: &scanner.AttachedText{},
+						Text: &cyclonedx.AttachedText{},
 						URL:  "https://spdx.org/licenses/BSD-3-Clause.html,http://www.opensource.org/licenses/BSD-3-Clause,http://www.antlr.org/license.html",
 					},
 				},
