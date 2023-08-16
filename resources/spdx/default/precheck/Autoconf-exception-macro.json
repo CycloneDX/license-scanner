@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "as a special exception,the respective autoconf macro's copyright holder gives unlimited permission to copy,distribute and modify the configure scripts that are the output of autoconf when processing the macro. you need not follow the terms of the gnu general public license when using or distributing such scripts,even though portions of the text of the macro appear in them. the gnu general public license (gpl) does govern all other use of the material that constitutes the autoconf macro. this special exception to the gpl applies to versions of the autoconf macro released by the autoconf archive. when you make and distribute a modified version of the autoconf macro,you may extend this special exception to the gpl to apply to your modified version as well."
+  ]
+}
