@@ -1,0 +1,27 @@
+{
+  "StaticBlocks": [
+    ". however,",
+    "lgpl uses terminology that is more appropriate for a program written in c than one written in lisp. nevertheless,",
+    "lgpl can still be applied to a lisp program if certain clarifications are made. this document details those clarifications. accordingly,the license for",
+    "consists of this document plus",
+    "lgpl. wherever there is a conflict between this document and the lgpl,this document takes precedence over",
+    "lgpl. a 'library' in lisp is a collection of lisp functions,data and foreign modules. the form of the library can be lisp source code (for processing by an interpreter) or object code (usually the result of compilation of source code or built with some other mechanisms). foreign modules are object code in a form that can be linked into a lisp executable. when we speak of functions we do so in the most general way to include,in addition,methods and unnamed functions. lisp 'data' is also a general term that includes the data structures resulting from defining lisp classes. a lisp application may include the same set of lisp objects as does a library,but this does not mean that the application is necessarily a 'work based on the library' it contains. the",
+    "consists of everything in the distribution file set before any modifications are made to the files. if any of the functions or classes in the",
+    "are redefined in other files,then those redefinitions are considered a work based on the",
+    ". if additional methods are added to generic functions in the",
+    ",those additional methods are not considered a work based on the",
+    ". if",
+    "classes are subclassed,these subclasses are not considered a work based on the",
+    ". if the library is modified to explicitly call other functions that are neither part of lisp itself nor an available add-on module to lisp,then the functions called by the modified",
+    "are considered a work based on the",
+    ". the goal is to ensure that the",
+    "will compile and run without getting undefined function errors. it is permitted to add proprietary source code to the",
+    ",but it must be done in a way such that the",
+    "will still run without that proprietary code present. section 5 of the lgpl distinguishes between the case of a library being dynamically linked at runtime and one being statically linked at build time. section 5 of the lgpl states that the former results in an executable that is a 'work that uses the library.' section 5 of the lgpl states that the latter results in one that is a 'derivative of the library',which is therefore covered by",
+    "lgpl. since lisp only offers one choice,which is to link the library into an executable at build time,we declare that,for the purpose applying the lgpl to the",
+    ",an executable that results from linking a 'work that uses the",
+    "' with the library is considered a 'work that uses the library' and is therefore not covered by the lgpl. because of this declaration,section 6 of lgpl is not applicable to the",
+    ". however,in connection with each distribution of this executable,you must also deliver,in accordance with the terms and conditions of the lgpl,the source code of",
+    "(or your derivative thereof) that is incorporated into this executable."
+  ]
+}

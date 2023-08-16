@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "as copyright holder,i give permission for vsftpd to be linked to the openssl libraries. this includes permission for vsftpd binaries to be distributed linked against the openssl libraries. all other obligations under the gpl v2 remain intact."
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "StaticBlocks": [
+    "linking",
+    "statically or dynamically with other modules is making a combined work based on",
+    ". thus,the terms and conditions of the gnu general public license cover the whole combination. as a special exception,the copyright holders of",
+    "give you permission to combine",
+    "program with free software programs or libraries that are released under the gnu lgpl and with independent modules that communicate with",
+    "solely through the",
+    "interface. you may copy and distribute such a system following the terms of the gnu gpl for",
+    "and the licenses of the other code concerned,provided that you include the source code of that other code when and as the gnu gpl requires distribution of source code and provided that you do not modify the",
+    "interface. note that people who make modified versions of",
+    "are not obligated to grant this special exception for their modified versions; it is their choice whether to do so. the gnu general public license gives permission to release a modified version without this exception; this exception also makes it possible to release a modified version which carries forward this exception. if you modify the",
+    "interface,this exception does not apply to your modified version of",
+    ",and you must remove this exception when you distribute your modified version. this exception is an additional permission under section 7 of the gnu general public license,version 3 ('gplv3')"
+  ]
+}
