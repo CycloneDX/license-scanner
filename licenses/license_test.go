@@ -16,8 +16,8 @@ import (
 )
 
 const (
-	expectedLicenseCount    = 553
-	expectedPrecheckCount   = 569
+	expectedLicenseCount    = 581
+	expectedPrecheckCount   = 597
 	acceptablePatternsCount = 0
 )
 
