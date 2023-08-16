@@ -24,6 +24,8 @@
 | APSL-1.1 | Apple Public Source License 1.1 |  | 1 | Y |   |
 | APSL-1.2 | Apple Public Source License 1.2 |  | 1 | Y |   |
 | APSL-2.0 | Apple Public Source License 2.0 |  | 1 | Y | Y |
+| ASWF-Digital-Assets-1.0 | ASWF Digital Assets License version 1.0 |  | 1 |   |   |
+| ASWF-Digital-Assets-1.1 | ASWF Digital Assets License 1.1 |  | 1 |   |   |
 | Abstyles | Abstyles License |  | 1 |   |   |
 | AdaCore-doc | AdaCore Doc License |  | 1 |   |   |
 | Adobe-2006 | Adobe Systems Incorporated Source Code License Agreement |  | 1 |   |   |
@@ -73,6 +75,7 @@
 | Bitstream-Charter | Bitstream Charter Font License |  | 1 |   |   |
 | Bitstream-Vera | Bitstream Vera Font License |  | 1 |   |   |
 | BlueOak-1.0.0 | Blue Oak Model License 1.0.0 |  | 1 |   |   |
+| Boehm-GC | Boehm-Demers-Weiser GC License |  | 1 |   |   |
 | Borceux | Borceux license |  | 1 |   |   |
 | Brian-Gladman-3-Clause | Brian Gladman 3-Clause License |  | 1 |   |   |
 | C-UDA-1.0 | Computational Use of Data Agreement v1.0 |  | 1 |   |   |
@@ -127,6 +130,7 @@
 | CC-BY-SA-3.0 | Creative Commons Attribution Share Alike 3.0 Unported |  | 1 |   |   |
 | CC-BY-SA-3.0-AT | Creative Commons Attribution Share Alike 3.0 Austria |  | 1 |   |   |
 | CC-BY-SA-3.0-DE | Creative Commons Attribution Share Alike 3.0 Germany |  | 1 |   |   |
+| CC-BY-SA-3.0-IGO | Creative Commons Attribution-ShareAlike 3.0 IGO |  | 1 |   |   |
 | CC-BY-SA-4.0 | Creative Commons Attribution Share Alike 4.0 International |  | 1 |   | Y |
 | CC-PDDC | Creative Commons Public Domain Dedication and Certification |  | 1 |   |   |
 | CC0-1.0 | Creative Commons Zero v1.0 Universal |  | 1 |   | Y |
@@ -191,7 +195,7 @@
 | FSFAP | FSF All Permissive License |  | 1 |   | Y |
 | FSFUL | FSF Unlimited License |  | 1 |   |   |
 | FSFULLR | FSF Unlimited License (with License Retention) |  | 1 |   |   |
-| FSFULLRWD | FSF Unlimited License (With License Retention    and Warranty Disclaimer) |  | 1 |   |   |
+| FSFULLRWD | FSF Unlimited License (With License Retention and Warranty Disclaimer) |  | 1 |   |   |
 | FTL | Freetype Project License |  | 1 |   | Y |
 | Fair | Fair License |  | 1 | Y |   |
 | Frameworx-1.0 | Frameworx Open License 1.0 |  | 1 | Y |   |
@@ -248,6 +252,7 @@
 | ImageMagick | ImageMagick License |  | 1 |   |   |
 | Imlib2 | Imlib2 License |  | 1 |   | Y |
 | Info-ZIP | Info-ZIP License |  | 1 |   |   |
+| Inner-Net-2.0 | Inner Net License v2.0 |  | 1 |   |   |
 | Intel | Intel Open Source License |  | 1 | Y | Y |
 | Intel-ACPI | Intel ACPI Software License Agreement |  | 1 |   |   |
 | Interbase-1.0 | Interbase Public License v1.0 |  | 1 |   |   |
@@ -278,16 +283,21 @@
 | LZMA-SDK-9.11-to-9.20 | LZMA SDK License (versions 9.11 to 9.20) |  | 1 |   |   |
 | LZMA-SDK-9.22 | LZMA SDK License (versions 9.22 and beyond) |  | 1 |   |   |
 | Latex2e | Latex2e License |  | 1 |   |   |
+| Latex2e-translated-notice | Latex2e with translated notice permission |  | 1 |   |   |
 | Leptonica | Leptonica License |  | 1 |   |   |
 | LiLiQ-P-1.1 | Licence Libre du Québec – Permissive version 1.1 |  | 1 | Y |   |
 | LiLiQ-R-1.1 | Licence Libre du Québec – Réciprocité version 1.1 |  | 1 | Y |   |
 | LiLiQ-Rplus-1.1 | Licence Libre du Québec – Réciprocité forte version 1.1 |  | 1 | Y |   |
 | Libpng | libpng License |  | 1 |   |   |
 | Linux-OpenIB | Linux Kernel Variant of OpenIB.org license |  | 1 |   |   |
+| Linux-man-pages-1-para | Linux man-pages - 1 paragraph |  | 1 |   |   |
 | Linux-man-pages-copyleft | Linux man-pages Copyleft |  | 1 |   |   |
+| Linux-man-pages-copyleft-2-para | Linux man-pages Copyleft - 2 paragraphs |  | 1 |   |   |
+| Linux-man-pages-copyleft-var | Linux man-pages Copyleft Variant |  | 1 |   |   |
 | MIT | MIT License | MIT | 2 | Y | Y |
 | MIT-0 | MIT No Attribution |  | 1 | Y |   |
 | MIT-CMU | CMU License |  | 1 |   |   |
+| MIT-Festival | MIT Festival Variant |  | 1 |   |   |
 | MIT-Modern-Variant | MIT License Modern Variant |  | 1 | Y |   |
 | MIT-Wu | MIT Tom Wu Variant |  | 1 |   |   |
 | MIT-advertising | Enlightenment License (e16) |  | 1 |   |   |
@@ -321,6 +331,7 @@
 | NICTA-1.0 | NICTA Public Software License, Version 1.0 |  | 1 |   |   |
 | NIST-PD | NIST Public Domain Notice |  | 1 |   |   |
 | NIST-PD-fallback | NIST Public Domain Notice with license fallback |  | 1 |   |   |
+| NIST-Software | NIST Software License |  | 1 |   |   |
 | NLOD-1.0 | Norwegian Licence for Open Government Data (NLOD) 1.0 |  | 1 |   |   |
 | NLOD-2.0 | Norwegian Licence for Open Government Data (NLOD) 2.0 |  | 1 |   |   |
 | NLPL | No Limit Public License |  | 1 |   |   |
@@ -372,8 +383,10 @@
 | OLDAP-2.6 | Open LDAP Public License v2.6 |  | 1 |   |   |
 | OLDAP-2.7 | Open LDAP Public License v2.7 |  | 1 |   | Y |
 | OLDAP-2.8 | Open LDAP Public License v2.8 |  | 1 | Y |   |
+| OLFL-1.3 | Open Logistics Foundation License Version 1.3 |  | 1 | Y |   |
 | OML | Open Market License |  | 1 |   |   |
 | OPL-1.0 | Open Public License v1.0 |  | 1 |   |   |
+| OPL-UK-3.0 | United    Kingdom Open Parliament Licence v3.0 |  | 1 |   |   |
 | OPUBL-1.0 | Open Publication License v1.0 |  | 1 |   |   |
 | OSET-PL-2.1 | OSET Public License version 2.1 |  | 1 | Y |   |
 | OSL-1.0 | Open Software License 1.0 |  | 1 | Y | Y |
@@ -411,6 +424,7 @@
 | SGI-B-1.0 | SGI Free Software License B v1.0 |  | 1 |   |   |
 | SGI-B-1.1 | SGI Free Software License B v1.1 |  | 1 |   |   |
 | SGI-B-2.0 | SGI Free Software License B v2.0 |  | 1 |   | Y |
+| SGP4 | SGP4 Permission Notice |  | 1 |   |   |
 | SHL-0.5 | Solderpad Hardware License v0.5 |  | 1 |   |   |
 | SHL-0.51 | Solderpad Hardware License, Version 0.51 |  | 1 |   |   |
 | SISSL | Sun Industry Standards Source License v1.1 |  | 1 | Y | Y |
@@ -446,12 +460,14 @@
 | TTWL | Text-Tabs+Wrap License |  | 1 |   |   |
 | TU-Berlin-1.0 | Technische Universitaet Berlin License 1.0 |  | 1 |   |   |
 | TU-Berlin-2.0 | Technische Universitaet Berlin License 2.0 |  | 1 |   |   |
+| TermReadKey | TermReadKey License |  | 1 |   |   |
 | UCAR | UCAR License |  | 1 |   |   |
 | UCL-1.0 | Upstream Compatibility License v1.0 |  | 1 | Y |   |
 | UPL-1.0 | Universal Permissive License v1.0 |  | 1 | Y | Y |
 | Unicode-DFS-2015 | Unicode License Agreement - Data Files and Software (2015) |  | 1 |   |   |
 | Unicode-DFS-2016 | Unicode License Agreement - Data Files and Software (2016) |  | 1 | Y |   |
 | Unicode-TOU | Unicode Terms of Use |  | 1 |   |   |
+| UnixCrypt | UnixCrypt License |  | 1 |   |   |
 | Unlicense | The Unlicense |  | 1 | Y | Y |
 | VOSTROM | VOSTROM Public License for Open Source |  | 1 |   |   |
 | VSL-1.0 | Vovida Software License v1.0 |  | 1 | Y |   |
@@ -461,12 +477,15 @@
 | W3C-20150513 | W3C Software Notice and Document License (2015-05-13) |  | 1 |   |   |
 | WTFPL | Do What The F*ck You Want To Public License |  | 1 |   | Y |
 | Watcom-1.0 | Sybase Open Watcom Public License 1.0 |  | 1 | Y |   |
+| Widget-Workshop | Widget Workshop License |  | 1 |   |   |
 | Wsuipa | Wsuipa License |  | 1 |   |   |
 | X11 | X11 License |  | 1 |   | Y |
 | X11-distribute-modifications-variant | X11 License Distribution Modification Variant |  | 1 |   |   |
 | XFree86-1.1 | XFree86 License 1.1 |  | 1 |   | Y |
 | XSkat | XSkat License |  | 1 |   |   |
+| Xdebug-1.03 | Xdebug License v 1.03 |  | 1 |   |   |
 | Xerox | Xerox License |  | 1 |   |   |
+| Xfig | Xfig License |  | 1 |   |   |
 | Xnet | X.Net License |  | 1 | Y |   |
 | YPL-1.0 | Yahoo! Public License v1.0 |  | 1 |   |   |
 | YPL-1.1 | Yahoo! Public License v1.1 |  | 1 |   | Y |
@@ -485,6 +504,7 @@
 | copyleft-next-0.3.1 | copyleft-next 0.3.1 |  | 1 |   |   |
 | curl | curl License |  | 1 |   |   |
 | diffmark | diffmark license |  | 1 |   |   |
+| dtoa | David M. Gay dtoa License |  | 1 |   |   |
 | dvipdfm | dvipdfm License |  | 1 |   |   |
 | eGenix | eGenix.com Public License 1.1.0 |  | 1 |   |   |
 | etalab-2.0 | Etalab Open License 2.0 |  | 1 |   |   |
@@ -495,6 +515,7 @@
 | libselinux-1.0 | libselinux public domain notice |  | 1 |   |   |
 | libtiff | libtiff License |  | 1 |   |   |
 | libutil-David-Nugent | libutil David Nugent License |  | 1 |   |   |
+| metamail | metamail License |  | 1 |   |   |
 | mpi-permissive | mpi Permissive License |  | 1 |   |   |
 | mpich2 | mpich2 License |  | 1 |   |   |
 | mplus | mplus Font License |  | 1 |   |   |
@@ -510,9 +531,11 @@
 | ID | Name | Family | Templates |
 | :--- | :--- | :--- | ---: |
 | 389-exception | 389 Directory Server Exception |  | 1 |
+| Asterisk-exception | Asterisk exception |  | 1 |
 | Autoconf-exception-2.0 | Autoconf exception 2.0 |  | 1 |
 | Autoconf-exception-3.0 | Autoconf exception 3.0 |  | 1 |
 | Autoconf-exception-generic | Autoconf generic exception |  | 1 |
+| Autoconf-exception-macro | Autoconf macro exception |  | 1 |
 | Bison-exception-2.2 | Bison exception 2.2 |  | 1 |
 | Bootloader-exception | Bootloader Distribution Exception |  | 1 |
 | CLISP-exception-2.0 | CLISP exception 2.0 |  | 1 |
@@ -524,6 +547,7 @@
 | GCC-exception-2.0 | GCC Runtime Library exception 2.0 |  | 1 |
 | GCC-exception-3.1 | GCC Runtime Library exception 3.1 |  | 1 |
 | GNAT-exception | GNAT exception |  | 1 |
+| GPL-3.0-interface-exception | GPL-3.0 Interface Exception |  | 1 |
 | GPL-3.0-linking-exception | GPL-3.0 Linking Exception |  | 1 |
 | GPL-3.0-linking-source-exception | GPL-3.0 Linking Exception (with Corresponding Source) |  | 1 |
 | GPL-CC-1.0 | GPL Cooperation Commitment 1.0 |  | 1 |
@@ -531,6 +555,7 @@
 | GStreamer-exception-2008 | GStreamer Exception (2008) |  | 1 |
 | KiCad-libraries-exception | KiCad Libraries Exception |  | 1 |
 | LGPL-3.0-linking-exception | LGPL-3.0 Linking Exception |  | 1 |
+| LLGPL | LLGPL Preamble |  | 1 |
 | LLVM-exception | LLVM Exception |  | 1 |
 | LZMA-exception | LZMA exception |  | 1 |
 | Libtool-exception | Libtool Exception |  | 1 |
@@ -549,13 +574,16 @@
 | Swift-exception | Swift Exception |  | 1 |
 | Universal-FOSS-exception-1.0 | Universal FOSS Exception, Version 1.0 |  | 1 |
 | WxWindows-exception-3.1 | WxWindows Library Exception 3.1 |  | 1 |
+| cryptsetup-OpenSSL-exception | cryptsetup OpenSSL exception |  | 1 |
 | eCos-exception-2.0 | eCos exception 2.0 |  | 1 |
 | freertos-exception-2.0 | FreeRTOS Exception 2.0 |  | 1 |
 | gnu-javamail-exception | GNU JavaMail exception |  | 1 |
 | i2p-gpl-java-exception | i2p GPL+Java Exception |  | 1 |
+| libpri-OpenH323-exception | libpri OpenH323 exception |  | 1 |
 | mif-exception | Macros and Inline Functions Exception |  | 1 |
 | openvpn-openssl-exception | OpenVPN OpenSSL Exception |  | 1 |
 | u-boot-exception-2.0 | U-Boot exception 2.0 |  | 1 |
+| vsftpd-openssl-exception | vsftpd OpenSSL exception |  | 1 |
 | x11vnc-openssl-exception | x11vnc OpenSSL Exception |  | 1 |
 ## Deprecated Licenses
 | ID | Name | Family | Templates | OSI Approved | FSF Libre |
@@ -564,15 +592,15 @@
 | ID | Name | Family | Templates |
 | :--- | :--- | :--- | ---: |
 ## Runtime Configuration
-  * spdx/default  (SPDX license list 3.20)
+  * spdx/default  (SPDX license list 3.21)
   * custom/default
 
 ## License Library
 | Type | Count |
 | :--- | ---: |
-| Licenses              | 505 |
-| Exceptions            | 48 |
+| Licenses              | 526 |
+| Exceptions            | 55 |
 | Deprecated Licenses   | 0 |
 | Deprecated Exceptions | 0 |
 
-###### Generated on 2023-02-28T22:14:24-08:00
+###### Generated on 2023-08-15T17:22:40-07:00
