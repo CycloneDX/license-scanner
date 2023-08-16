@@ -9,15 +9,15 @@ strings extracted from the templates. This provides significant performance impr
 vs. simple template/regex matching, but using prechecks does require that the precheck
 file are updated anytime template static text is updated.
 
-## Default (SPDX License List Release 3.20)
+## Default (SPDX License List Release 3.21)
 
-The current default SPDX templates include all the 3.20 SPDX release with the following differences:
+The current default SPDX templates include all the 3.21 SPDX release with the following differences:
 
-1. All licenses and exceptions marked deprecated were skipped. In prior versions, license-scanner attempted to use deprecated templates, but in 3.20 the deprecated templates conflict with the not-deprecated templates. Good riddance.
+1. We are using the Beerware template from 3.18. The 3.21 template matches either of two email addresses, but since license-scanner replaces HTML tags, the new template fails to match while the old template will match any `<email@example.com>` tag-like address.
 
-1. We are using the Beerware template from 3.18. The new 3.20 template matches either of two email addresses, but since license-scanner replaces HTML tags, the new template fails to match while the old template will math any `<email@example.com>` tag-like address.
+2. The CC-BY-NC-SA-2.0-DE.txt file was modified to add a missing space after the `“` character in `„Schutzgegenstand“wird`. The text file is used for template validation on import, but for license-scanner this one appears to be inconsistent with the template and spec.
 
-1. The CC-BY-NC-SA-2.0-DE.txt file was modified to add a missing space after the `“` character in `„Schutzgegenstand“wird`. The text file is used for template validation on import, but for license-scanner this one appears to be inconsistent with the template and spec.
+3. We added a carriage return before the horizontal separator (line of dashes) in the Xdebug-1.03 template. Separators are expected to start on a new line. This change allows the template to match the example text with license-scanner.
 
 ## Testdata
 
