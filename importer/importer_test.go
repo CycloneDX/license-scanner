@@ -546,6 +546,11 @@ func TestImporter_Validate(t *testing.T) {
 			id:      "Python-2.0.1",
 			wantErr: false,
 		},
+		{
+			reasons: "Horizontal rule only works when it is alone on a line",
+			id:      "Xdebug-1.03",
+			wantErr: false,
+		},
 	}
 	testData := "../testdata/validator"
 	for _, tt := range tests {
