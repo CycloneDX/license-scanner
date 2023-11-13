@@ -6,13 +6,12 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/spf13/pflag"
-
+	"github.com/CycloneDX/cyclonedx-go"
 	"github.com/CycloneDX/license-scanner/configurer"
-
 	"github.com/CycloneDX/license-scanner/identifier"
 	"github.com/CycloneDX/license-scanner/licenses"
 	"github.com/CycloneDX/license-scanner/normalizer"
+	"github.com/spf13/pflag"
 )
 
 // NOASSERTION_SPDX_NAME in License SPDX Name signify that the license text passed through the scan without any errors but no match was found
@@ -55,35 +54,10 @@ type ScanSpec struct {
 	LicenseText string
 }
 
+// Licenses is a collection LicenseChoice
 // LicenseChoice is a collection of a License info with expression
 // either license or expression must be set, but not both
-// CycloneDX defines the LicenseChoice is defined here:
-// https://github.com/CycloneDX/cyclonedx-go/blob/7d9a5619d767a252b454e8554d0fc986796ef958/cyclonedx.go#L462-L465
-type LicenseChoice struct {
-	License    *License
-	Expression string
-}
-
-// License is a collection of SPDX ID, name, license text, and license URL
-// CycloneDX license struct defined here:
-// https://github.com/CycloneDX/cyclonedx-go/blob/7d9a5619d767a252b454e8554d0fc986796ef958/cyclonedx.go#L389-L394
-type License struct {
-	ID   string
-	Name string
-	Text *AttachedText
-	URL  string
-}
-
-// AttachedText holds the formatted License Text
-// CycloneDX AttachedText is defined here:
-// https://github.com/CycloneDX/cyclonedx-go/blob/7d9a5619d767a252b454e8554d0fc986796ef958/cyclonedx.go#L52-L56
-type AttachedText struct {
-	Content     string
-	ContentType string
-	Encoding    string
-}
-
-type Licenses []LicenseChoice
+type Licenses []cyclonedx.LicenseChoice
 
 // ScanResult holds the license identification results for a given package
 type ScanResult struct {
@@ -180,8 +154,8 @@ func (s *ScanSpec) ScanLicenseText(licenseLibrary *licenses.LicenseLibrary, resu
 	// if the results are empty, add unknown as the SPDX ID
 	if len(results.Matches) == 0 {
 		// Add NOASSERTION to the LicenseChoice of the SPDX Name for this scan
-		r.CycloneDXLicenses = append(r.CycloneDXLicenses, LicenseChoice{
-			License: &License{
+		r.CycloneDXLicenses = append(r.CycloneDXLicenses, cyclonedx.LicenseChoice{
+			License: &cyclonedx.License{
 				Name: NOASSERTION_SPDX_NAME,
 			},
 		})
@@ -197,13 +171,13 @@ func (s *ScanSpec) ScanLicenseText(licenseLibrary *licenses.LicenseLibrary, resu
 			if family != "" {
 				name = fmt.Sprintf("%s (%s)", name, family)
 			}
-			r.CycloneDXLicenses = append(r.CycloneDXLicenses, LicenseChoice{
-				License: &License{
+			r.CycloneDXLicenses = append(r.CycloneDXLicenses, cyclonedx.LicenseChoice{
+				License: &cyclonedx.License{
 					ID:   id,
 					Name: name,
 					// TODO: verify whether this is acceptable or just expect a single license here
 					URL: strings.Join(licenseLibrary.LicenseMap[id].LicenseInfo.URLs, ","),
-					Text: &AttachedText{
+					Text: &cyclonedx.AttachedText{
 						Content:     licenseLibrary.LicenseMap[id].Text.Content,
 						ContentType: licenseLibrary.LicenseMap[id].Text.ContentType,
 						Encoding:    licenseLibrary.LicenseMap[id].Text.Encoding,

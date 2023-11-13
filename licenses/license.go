@@ -18,7 +18,6 @@ import (
 	"github.com/CycloneDX/license-scanner/configurer"
 	"github.com/CycloneDX/license-scanner/normalizer"
 	"github.com/CycloneDX/license-scanner/resources"
-
 	"github.com/CycloneDX/sbom-utility/log"
 	"github.com/spf13/viper"
 )
