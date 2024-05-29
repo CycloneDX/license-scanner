@@ -5,15 +5,16 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"os"
+	"sort"
+	"time"
+
 	"github.com/CycloneDX/license-scanner/configurer"
 	"github.com/CycloneDX/license-scanner/debugger"
 	"github.com/CycloneDX/license-scanner/identifier"
 	"github.com/CycloneDX/license-scanner/importer"
 	"github.com/CycloneDX/license-scanner/licenses"
 	"github.com/CycloneDX/sbom-utility/log"
-	"os"
-	"sort"
-	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
@@ -86,7 +87,7 @@ Please give us feedback at: https://github.com/CycloneDX/license-scanner/issues
 				return listLicenses(cfg)
 			} else if cfg.GetString(configurer.AddAllFlag) != "" {
 				return importer.Import(cfg)
-			} else if cfg.GetString(configurer.UpdateAllFlag) != "" {
+			} else if cfg.GetBool(configurer.UpdateAllFlag) {
 				return importer.Update(cfg)
 			} else {
 				// Otherwise, terminate with an error.
