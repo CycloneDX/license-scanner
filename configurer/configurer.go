@@ -35,6 +35,7 @@ const (
 	SpdxPathFlag    = "spdxPath"
 	CustomFlag      = "custom"
 	CustomPathFlag  = "customPath"
+	PatternsFlag    = "patterns"
 )
 
 var (
@@ -147,4 +148,5 @@ func AddDefaultFlags(flagSet *pflag.FlagSet) {
 	flagSet.String(SpdxPathFlag, "", "Path to external SPDX templates to use")
 	flagSet.String(CustomFlag, DefaultResource, "Custom templates to use")
 	flagSet.String(CustomPathFlag, "", "Path to external custom templates to use")
+	flagSet.StringP(PatternsFlag, "", "", "List of pattern matching functions to execute")
 }
