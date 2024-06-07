@@ -5,15 +5,16 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"os"
+	"sort"
+	"time"
+
 	"github.com/CycloneDX/license-scanner/configurer"
 	"github.com/CycloneDX/license-scanner/debugger"
 	"github.com/CycloneDX/license-scanner/identifier"
 	"github.com/CycloneDX/license-scanner/importer"
 	"github.com/CycloneDX/license-scanner/licenses"
 	"github.com/CycloneDX/sbom-utility/log"
-	"os"
-	"sort"
-	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/cobra/doc"
@@ -173,6 +174,7 @@ func findLicensesInDirectory(cfg *viper.Viper) error {
 
 	options := identifier.Options{
 		ForceResult: true,
+		Patterns:    identifier.SUPPORTED_MATCH_PATTERNS,
 		Enhancements: identifier.Enhancements{
 			AddNotes:       "",
 			AddTextBlocks:  true,

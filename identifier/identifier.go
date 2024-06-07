@@ -26,9 +26,20 @@ var (
 	nonAlphaRE = regexp.MustCompile(`^[^A-Za-z0-9]*$`)
 )
 
+const (
+	MATCH_PATTERN_SPDX_ID    = "spdx-id"
+	MATCH_PATTERN_ALIAS      = "alias"
+	MATCH_PATTERN_URL        = "url"
+	MATCH_PATTERN_PRIMARY    = "primary"
+	MATCH_PATTERN_ASSOCIATED = "associated"
+)
+
+var SUPPORTED_MATCH_PATTERNS = []string{MATCH_PATTERN_SPDX_ID, MATCH_PATTERN_ALIAS, MATCH_PATTERN_URL, MATCH_PATTERN_PRIMARY, MATCH_PATTERN_ASSOCIATED}
+
 type Options struct {
 	ForceResult  bool
 	OmitBlocks   bool
+	Patterns     []string
 	Enhancements Enhancements
 }
 
@@ -113,18 +124,21 @@ func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *li
 		return IdentifierResults{}, nil
 	}
 
-	licenseMatches, err := findSPDXIdentifierInFile(filePath, 10)
-	if err != nil {
-		return IdentifierResults{}, err
-	}
-	if len(licenseMatches) > 0 {
-		fmt.Printf("matches[0]: %v\n", licenseMatches[0])
-		var results IdentifierResults
-		spdxId := licenseMatches[0].LicenseId
-		sliceMatches := []Match{licenseMatches[0].Match}
-		results.Matches = make(map[string][]Match)
-		results.Matches[spdxId] = sliceMatches
-		return results, nil
+	if slices.Contains(options.Patterns, MATCH_PATTERN_SPDX_ID) {
+		Logger.Infof("Pattern: %s\n", MATCH_PATTERN_SPDX_ID)
+		licenseMatches, err := findSPDXIdentifierInFile(filePath, 10)
+		if err != nil {
+			return IdentifierResults{}, err
+		}
+		if len(licenseMatches) > 0 {
+			fmt.Printf("matches[0]: %v\n", licenseMatches[0])
+			var results IdentifierResults
+			spdxId := licenseMatches[0].LicenseId
+			sliceMatches := []Match{licenseMatches[0].Match}
+			results.Matches = make(map[string][]Match)
+			results.Matches[spdxId] = sliceMatches
+			return results, nil
+		}
 	}
 
 	b, err := os.ReadFile(filePath)
