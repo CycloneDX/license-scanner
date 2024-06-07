@@ -3,9 +3,9 @@
 package identifier
 
 import (
+	"bufio"
 	"fmt"
 	"io/fs"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -113,7 +113,21 @@ func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *li
 		return IdentifierResults{}, nil
 	}
 
-	b, err := ioutil.ReadFile(filePath)
+	licenseMatches, err := findSPDXIdentifierInFile(filePath, 10)
+	if err != nil {
+		return IdentifierResults{}, err
+	}
+	if len(licenseMatches) > 0 {
+		fmt.Printf("matches[0]: %v\n", licenseMatches[0])
+		var results IdentifierResults
+		spdxId := licenseMatches[0].LicenseId
+		sliceMatches := []Match{licenseMatches[0].Match}
+		results.Matches = make(map[string][]Match)
+		results.Matches[spdxId] = sliceMatches
+		return results, nil
+	}
+
+	b, err := os.ReadFile(filePath)
 	if err != nil {
 		return IdentifierResults{}, err
 	}
@@ -122,6 +136,55 @@ func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *li
 	result, err := IdentifyLicensesInString(input, options, licenseLibrary)
 	result.File = filePath
 	return result, err
+}
+
+const SPDX_ID_KEY = "SPDX-License-Identifier:"
+
+var LEN_SPDX_ID_KEY = len(SPDX_ID_KEY)
+var SPDX_ID_KEY_BYTES = []byte(SPDX_ID_KEY)
+
+func findSPDXIdentifierInFile(filePath string, maxLines int) (licenseMatches []licenseMatch, err error) {
+	var file *os.File
+	// Note: parent function has already verified the file exists
+	// TODO: this function should perhaps accept a file handle and allow the parent to open and provide it
+	file, err = os.Open(filePath)
+	if err != nil {
+		Logger.Errorf("cannot open file: %s", filePath)
+		return
+	}
+	defer file.Close()
+
+	fileReader := bufio.NewReader(file)
+	fileScanner := bufio.NewScanner(fileReader)
+
+	fileScanner.Split(bufio.ScanLines)
+	var foundLine string
+	for i := 0; i < maxLines; i++ {
+		fileScanner.Scan()
+		if strings.Contains(fileScanner.Text(), SPDX_ID_KEY) {
+			foundLine = fileScanner.Text()
+			fmt.Println("SPDX Found: " + foundLine)
+			break
+		}
+	}
+	if foundLine != "" {
+		idx := strings.Index(foundLine, SPDX_ID_KEY)
+		fmt.Printf("idx: %v\n", idx)
+		spdxIdPlus := foundLine[idx:]
+		fmt.Printf("idx: %s\n", spdxIdPlus)
+		var match licenseMatch
+		match.LicenseId = spdxIdPlus
+		licenseMatches = append(licenseMatches, match)
+		// type licenseMatch struct {
+		// 	LicenseId string
+		// 	Match     Match
+		// }
+		// type Match struct {
+		// 	Begins int
+		// 	Ends   int
+		// }
+	}
+	return
 }
 
 func IdentifyLicensesInDirectory(dirPath string, options Options, licenseLibrary *licenses.LicenseLibrary) (ret []IdentifierResults, err error) {
