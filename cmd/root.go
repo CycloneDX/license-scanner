@@ -174,7 +174,7 @@ func findLicensesInDirectory(cfg *viper.Viper) error {
 
 	options := identifier.Options{
 		ForceResult: true,
-		Patterns:    identifier.SUPPORTED_MATCH_PATTERNS,
+		Patterns:    configurer.SUPPORTED_MATCH_PATTERNS,
 		Enhancements: identifier.Enhancements{
 			AddNotes:       "",
 			AddTextBlocks:  true,

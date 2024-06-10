@@ -8,9 +8,9 @@ import (
 	"path"
 	"path/filepath"
 	"runtime"
+	"strings"
 
 	"github.com/spf13/pflag"
-
 	"github.com/spf13/viper"
 )
 
@@ -37,6 +37,16 @@ const (
 	CustomPathFlag  = "customPath"
 	PatternsFlag    = "patterns"
 )
+
+const (
+	MATCH_PATTERN_SPDX_ID    = "spdx-id"
+	MATCH_PATTERN_ALIAS      = "alias"
+	MATCH_PATTERN_URL        = "url"
+	MATCH_PATTERN_PRIMARY    = "primary"
+	MATCH_PATTERN_ASSOCIATED = "associated"
+)
+
+var SUPPORTED_MATCH_PATTERNS = []string{MATCH_PATTERN_SPDX_ID, MATCH_PATTERN_ALIAS, MATCH_PATTERN_URL, MATCH_PATTERN_PRIMARY, MATCH_PATTERN_ASSOCIATED}
 
 var (
 	_, thisFile, _, _ = runtime.Caller(0) // Dirs/files are relative to this file
@@ -148,5 +158,8 @@ func AddDefaultFlags(flagSet *pflag.FlagSet) {
 	flagSet.String(SpdxPathFlag, "", "Path to external SPDX templates to use")
 	flagSet.String(CustomFlag, DefaultResource, "Custom templates to use")
 	flagSet.String(CustomPathFlag, "", "Path to external custom templates to use")
-	flagSet.StringP(PatternsFlag, "", "", "List of pattern matching functions to execute")
+
+	help_msg_pattern := fmt.Sprintf("Comma-separated list of license pattern-matching functions to execute. One or more of: [%v]; defaults to all patterns.",
+		strings.Join(SUPPORTED_MATCH_PATTERNS, ", "))
+	flagSet.StringP(PatternsFlag, "", "", help_msg_pattern)
 }
