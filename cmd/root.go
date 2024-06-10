@@ -87,7 +87,7 @@ Please give us feedback at: https://github.com/CycloneDX/license-scanner/issues
 				return listLicenses(cfg)
 			} else if cfg.GetString(configurer.AddAllFlag) != "" {
 				return importer.Import(cfg)
-			} else if cfg.GetString(configurer.UpdateAllFlag) != "" {
+			} else if cfg.GetBool(configurer.UpdateAllFlag) {
 				return importer.Update(cfg)
 			} else {
 				// Otherwise, terminate with an error.
