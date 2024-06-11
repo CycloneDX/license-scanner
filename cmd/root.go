@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/CycloneDX/license-scanner/configurer"
@@ -161,6 +162,32 @@ func listLicenses(cfg *viper.Viper) error {
 	return nil
 }
 
+func getCommandLineOptions(cfg *viper.Viper) (options identifier.Options) {
+	options = identifier.Options{
+		ForceResult: true,
+		// Default to all pattern matching functions
+		Patterns: configurer.SUPPORTED_MATCH_PATTERNS,
+		Enhancements: identifier.Enhancements{
+			AddNotes:       "",
+			AddTextBlocks:  true,
+			FlagAcceptable: cfg.GetBool(configurer.AcceptableFlag),
+			FlagCopyrights: cfg.GetBool(configurer.CopyrightsFlag),
+			FlagKeywords:   cfg.GetBool(configurer.KeywordsFlag),
+		},
+	}
+
+	// Parse out patterns into easy-to-test map
+	tmpPatterns := cfg.GetString(configurer.PatternsFlag)
+	if tmpPatterns != "" {
+		options.Patterns = strings.Split(cfg.GetString(configurer.PatternsFlag), ",")
+	}
+	options.PatternMap = make(map[string]bool)
+	for _, pattern := range options.Patterns {
+		options.PatternMap[pattern] = true
+	}
+	return
+}
+
 func findLicensesInDirectory(cfg *viper.Viper) error {
 	d := cfg.GetString(configurer.DirFlag)
 
@@ -172,17 +199,31 @@ func findLicensesInDirectory(cfg *viper.Viper) error {
 		return err
 	}
 
-	options := identifier.Options{
-		ForceResult: true,
-		Patterns:    configurer.SUPPORTED_MATCH_PATTERNS,
-		Enhancements: identifier.Enhancements{
-			AddNotes:       "",
-			AddTextBlocks:  true,
-			FlagAcceptable: cfg.GetBool(configurer.AcceptableFlag),
-			FlagCopyrights: cfg.GetBool(configurer.CopyrightsFlag),
-			FlagKeywords:   cfg.GetBool(configurer.KeywordsFlag),
-		},
-	}
+	// options := identifier.Options{
+	// 	ForceResult: true,
+	// 	// Default to all pattern matching functions
+	// 	Patterns: configurer.SUPPORTED_MATCH_PATTERNS,
+	// 	Enhancements: identifier.Enhancements{
+	// 		AddNotes:       "",
+	// 		AddTextBlocks:  true,
+	// 		FlagAcceptable: cfg.GetBool(configurer.AcceptableFlag),
+	// 		FlagCopyrights: cfg.GetBool(configurer.CopyrightsFlag),
+	// 		FlagKeywords:   cfg.GetBool(configurer.KeywordsFlag),
+	// 	},
+	// }
+
+	// // Parse out patterns into easy-to-test map
+	// tmpPatterns := cfg.GetString(configurer.PatternsFlag)
+	// if tmpPatterns == "" {
+	// 	options.Patterns = configurer.SUPPORTED_MATCH_PATTERNS
+	// } else {
+	// 	options.Patterns = strings.Split(cfg.GetString(configurer.PatternsFlag), ",")
+	// }
+	// options.PatternMap = make(map[string]bool)
+	// for _, pattern := range options.Patterns {
+	// 	options.PatternMap[pattern] = true
+	// }
+	options := getCommandLineOptions(cfg)
 
 	results, err := identifier.IdentifyLicensesInDirectory(d, options, licenseLibrary)
 	if err != nil {
@@ -241,16 +282,25 @@ func findLicensesInFile(cfg *viper.Viper, f string) error {
 		return err
 	}
 
-	options := identifier.Options{
-		ForceResult: true,
-		Enhancements: identifier.Enhancements{
-			AddNotes:       "",
-			AddTextBlocks:  true,
-			FlagAcceptable: cfg.GetBool(configurer.AcceptableFlag),
-			FlagCopyrights: cfg.GetBool(configurer.CopyrightsFlag),
-			FlagKeywords:   cfg.GetBool(configurer.KeywordsFlag),
-		},
-	}
+	// options := identifier.Options{
+	// 	ForceResult: true,
+	// 	// Default to all pattern matching functions
+	// 	Patterns: configurer.SUPPORTED_MATCH_PATTERNS,
+	// 	Enhancements: identifier.Enhancements{
+	// 		AddNotes:       "",
+	// 		AddTextBlocks:  true,
+	// 		FlagAcceptable: cfg.GetBool(configurer.AcceptableFlag),
+	// 		FlagCopyrights: cfg.GetBool(configurer.CopyrightsFlag),
+	// 		FlagKeywords:   cfg.GetBool(configurer.KeywordsFlag),
+	// 	},
+	// }
+
+	// // Parse out patterns into easy-to-test map
+	// patterns := strings.Split(cfg.GetString(configurer.PatternsFlag), ",")
+	// for _, pattern := range patterns {
+	// 	options.PatternMap[pattern] = true
+	// }
+	options := getCommandLineOptions(cfg)
 
 	results, err := identifier.IdentifyLicensesInFile(f, options, licenseLibrary)
 	if err != nil {
