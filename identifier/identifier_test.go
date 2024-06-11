@@ -605,7 +605,8 @@ func Test_identifyLicensesInStringPreChecks(t *testing.T) {
 			if err := ll.AddAll(); err != nil {
 				t.Fatalf("AddAll() error = %v", err)
 			}
-			got, err := IdentifyLicensesInString(tt.input, options, ll)
+			identifierResults = IdentifierResults{}
+			err := IdentifyLicensesInString(&identifierResults, tt.input, options, ll)
 			if err != nil {
 				t.Errorf("identifyLicensesInString() error = %v", err)
 			} else if d := cmp.Diff(tt.want.Matches, got.Matches, cmp.AllowUnexported(Match{})); d != "" {
