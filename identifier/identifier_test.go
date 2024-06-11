@@ -511,7 +511,8 @@ func Test_identifyLicensesInString(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			got, err := IdentifyLicensesInString(tt.args.input, options, licenseLibrary)
+			identifierResults = IdentifierResults{}
+			err := IdentifyLicensesInString(&identifierResults, tt.args.input, options, licenseLibrary)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("identifyLicensesInString() error = %v, wantErr %v", err, tt.wantErr)
 			} else if d := cmp.Diff(tt.want.Matches, got.Matches, cmp.AllowUnexported(Match{})); d != "" {
