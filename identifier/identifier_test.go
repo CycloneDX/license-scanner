@@ -511,7 +511,7 @@ func Test_identifyLicensesInString(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			identifierResults = IdentifierResults{}
+			identifierResults := IdentifierResults{}
 			err := IdentifyLicensesInString(&identifierResults, tt.args.input, options, licenseLibrary)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("identifyLicensesInString() error = %v, wantErr %v", err, tt.wantErr)
@@ -605,7 +605,7 @@ func Test_identifyLicensesInStringPreChecks(t *testing.T) {
 			if err := ll.AddAll(); err != nil {
 				t.Fatalf("AddAll() error = %v", err)
 			}
-			identifierResults = IdentifierResults{}
+			identifierResults := IdentifierResults{}
 			err := IdentifyLicensesInString(&identifierResults, tt.input, options, ll)
 			if err != nil {
 				t.Errorf("identifyLicensesInString() error = %v", err)
