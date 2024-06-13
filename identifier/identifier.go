@@ -173,8 +173,6 @@ func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *li
 		}
 		input := string(bytes)
 		err = IdentifyLicensesInString(&identifierResults, input, options, licenseLibrary)
-		// // TODO: do NOT overwrite existing results
-		// identifierResults.File = filePath
 	}
 
 	return
