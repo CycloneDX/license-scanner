@@ -141,6 +141,7 @@ func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *li
 	// TODO: make the max. size configurable
 	if fi.Size() > 1000000 {
 		err = Logger.Errorf("file too large (%v > 1000000)", fi.Size()) // log error, but return nil
+		return
 	}
 
 	// Pattern match: "spdx-id"
@@ -208,14 +209,13 @@ func findSPDXIdentifierInFile(filePath string, maxLines int) (licenseMatches []l
 		}
 	}
 	if foundLine != "" {
+		var match licenseMatch
 		idx := strings.Index(foundLine, SPDX_ID_KEY)
 		// find start index of where the actual SPDX ID is by
 		// adding in the length of the SPDX License Identifier key
 		// Then trim any whitespace to extract the actual SPDX ID value
 		idx += LEN_SPDX_ID_KEY
 		spdxIdPlus := foundLine[idx:]
-		//fmt.Printf("line (%v): `%s`; id: `%s`\n", idx, foundLine, spdxIdPlus)
-		var match licenseMatch
 		match.LicenseId = strings.TrimSpace(spdxIdPlus)
 		licenseMatches = append(licenseMatches, match)
 	}
@@ -284,17 +284,11 @@ func IdentifyLicensesInDirectory(dirPath string, options Options, licenseLibrary
 
 func findAllLicensesInNormalizedData(identifierResults *IdentifierResults, licenseLibrary *licenses.LicenseLibrary, normalizedData normalizer.NormalizationData) (err error) {
 	// initialize the result with original license text, normalized license text, and hash (md5, sha256, and sha512)
-	// ret := IdentifierResults{
-	// 	OriginalText:   normalizedData.OriginalText,
-	// 	NormalizedText: normalizedData.NormalizedText,
-	// 	Hash:           normalizedData.Hash,
-	// }
 	identifierResults.OriginalText = normalizedData.OriginalText
 	identifierResults.NormalizedText = normalizedData.NormalizedText
 	identifierResults.Hash = normalizedData.Hash
 
 	// LicenseID-to-matches map to return
-	//ret.Matches = make(map[string][]Match)
 	if identifierResults.Matches == nil {
 		identifierResults.Matches = make(map[string][]Match)
 	}
