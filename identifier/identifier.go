@@ -181,7 +181,8 @@ func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *li
 const SPDX_ID_KEY = "SPDX-License-Identifier:"
 
 var LEN_SPDX_ID_KEY = len(SPDX_ID_KEY)
-var SPDX_ID_KEY_BYTES = []byte(SPDX_ID_KEY)
+
+//var SPDX_ID_KEY_BYTES = []byte(SPDX_ID_KEY)
 
 func findSPDXIdentifierInFile(filePath string, maxLines int) (licenseMatches []licenseMatch, err error) {
 	var file *os.File
@@ -208,9 +209,14 @@ func findSPDXIdentifierInFile(filePath string, maxLines int) (licenseMatches []l
 	}
 	if foundLine != "" {
 		idx := strings.Index(foundLine, SPDX_ID_KEY)
+		// find start index of where the actual SPDX ID is by
+		// adding in the length of the SPDX License Identifier key
+		// Then trim any whitespace to extract the actual SPDX ID value
+		idx += LEN_SPDX_ID_KEY
 		spdxIdPlus := foundLine[idx:]
+		//fmt.Printf("line (%v): `%s`; id: `%s`\n", idx, foundLine, spdxIdPlus)
 		var match licenseMatch
-		match.LicenseId = spdxIdPlus
+		match.LicenseId = strings.TrimSpace(spdxIdPlus)
 		licenseMatches = append(licenseMatches, match)
 	}
 	return
