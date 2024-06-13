@@ -35,11 +35,6 @@ type Options struct {
 	Enhancements Enhancements
 }
 
-func (options *Options) DumpStruct() {
-	Logger.EnableIndent(true)
-	Logger.DumpStruct("", options)
-}
-
 // Parse out patterns into easy-to-test map
 func (options *Options) ParsePatternsFromSlice(patterns []string) {
 	options.PatternMap = make(map[string]bool)
