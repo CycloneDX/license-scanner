@@ -41,7 +41,6 @@ func Test_identifyLicensesInSPDXTestDataDirectory(t *testing.T) {
 	if err := licenseLibrary.AddAllSPDX(); err != nil {
 		t.Fatalf("licenseLibrary.AddAllSPDX() error = %v", err)
 	}
-
 	results, err := IdentifyLicensesInDirectory(testDataDir, options, licenseLibrary)
 	if err != nil {
 		t.Errorf("IdentifyLicensesInDirectory(%v) err = %v", testDataDir, err)
@@ -53,6 +52,7 @@ func Test_identifyLicensesInSPDXTestDataDirectory(t *testing.T) {
 		result := result
 		t.Run(result.File, func(t *testing.T) {
 			t.Parallel()
+			fmt.Printf("result.File: `%v`\n", result.File)
 			if !strings.Contains(result.File, "/invalid/") {
 				wantLicenseID := strings.TrimSuffix(path.Base(result.File), ".txt")
 				wantLicenseID = strings.TrimPrefix(wantLicenseID, "deprecated_")

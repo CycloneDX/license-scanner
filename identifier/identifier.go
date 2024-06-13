@@ -35,6 +35,26 @@ type Options struct {
 	Enhancements Enhancements
 }
 
+func (options *Options) DumpStruct() {
+	Logger.EnableIndent(true)
+	Logger.DumpStruct("", options)
+}
+
+// Parse out patterns into easy-to-test map
+func (options *Options) ParsePatternsFromSlice(patterns []string) {
+	options.PatternMap = make(map[string]bool)
+	for _, pattern := range patterns {
+		options.PatternMap[pattern] = true
+	}
+}
+
+func (options *Options) ParsePatternsFromString(patterns string) {
+	if patterns != "" {
+		options.Patterns = strings.Split(patterns, ",")
+	}
+	options.ParsePatternsFromSlice(options.Patterns)
+}
+
 type licenseMatch struct {
 	LicenseId string
 	Match     Match
@@ -110,6 +130,7 @@ func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *li
 	// Carry filepath used for matches in result set
 	identifierResults = IdentifierResults{}
 	identifierResults.File = filePath
+	identifierResults.Matches = make(map[string][]Match)
 
 	// Verify filepath exists
 	fi, errStat := os.Stat(filePath)
@@ -133,12 +154,9 @@ func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *li
 			return
 		}
 		if len(licenseMatches) > 0 {
-			//fmt.Printf("matches[0]: %v\n", licenseMatches[0])
 			spdxId := licenseMatches[0].LicenseId
 			sliceMatches := []Match{licenseMatches[0].Match}
-			identifierResults.Matches = make(map[string][]Match)
 			identifierResults.Matches[spdxId] = sliceMatches
-			//return
 		}
 	}
 
@@ -155,8 +173,8 @@ func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *li
 		}
 		input := string(bytes)
 		err = IdentifyLicensesInString(&identifierResults, input, options, licenseLibrary)
-		// TODO: do NOT overwrite existing results
-		identifierResults.File = filePath
+		// // TODO: do NOT overwrite existing results
+		// identifierResults.File = filePath
 	}
 
 	return
@@ -205,6 +223,9 @@ func findSPDXIdentifierInFile(filePath string, maxLines int) (licenseMatches []l
 
 func IdentifyLicensesInDirectory(dirPath string, options Options, licenseLibrary *licenses.LicenseLibrary) (ret []IdentifierResults, err error) {
 	var lfs []string
+	fmt.Printf("Bar: [A]\n")
+	Logger.Tracef(">> Options: %+v\n", options)
+	Logger.DumpStruct("Options", options)
 
 	if err := filepath.WalkDir(dirPath, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {

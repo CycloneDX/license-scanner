@@ -179,7 +179,7 @@ func getCommandLineOptions(cfg *viper.Viper) (options identifier.Options) {
 	// Parse out patterns into easy-to-test map
 	tmpPatterns := cfg.GetString(configurer.PatternsFlag)
 	if tmpPatterns != "" {
-		options.Patterns = strings.Split(cfg.GetString(configurer.PatternsFlag), ",")
+		options.Patterns = strings.Split(tmpPatterns, ",")
 	}
 	options.PatternMap = make(map[string]bool)
 	for _, pattern := range options.Patterns {
