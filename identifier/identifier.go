@@ -203,15 +203,12 @@ func findSPDXIdentifierInFile(filePath string, maxLines int) (licenseMatches []l
 		fileScanner.Scan()
 		if strings.Contains(fileScanner.Text(), SPDX_ID_KEY) {
 			foundLine = fileScanner.Text()
-			fmt.Println("SPDX Found: " + foundLine)
 			break
 		}
 	}
 	if foundLine != "" {
 		idx := strings.Index(foundLine, SPDX_ID_KEY)
-		fmt.Printf("idx: %v\n", idx)
 		spdxIdPlus := foundLine[idx:]
-		fmt.Printf("idx: %s\n", spdxIdPlus)
 		var match licenseMatch
 		match.LicenseId = spdxIdPlus
 		licenseMatches = append(licenseMatches, match)
@@ -221,9 +218,6 @@ func findSPDXIdentifierInFile(filePath string, maxLines int) (licenseMatches []l
 
 func IdentifyLicensesInDirectory(dirPath string, options Options, licenseLibrary *licenses.LicenseLibrary) (ret []IdentifierResults, err error) {
 	var lfs []string
-	fmt.Printf("Bar: [A]\n")
-	Logger.Tracef(">> Options: %+v\n", options)
-	Logger.DumpStruct("Options", options)
 
 	if err := filepath.WalkDir(dirPath, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
