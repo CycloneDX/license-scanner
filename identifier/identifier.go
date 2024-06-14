@@ -99,7 +99,7 @@ func Identify(identifierResults *IdentifierResults, options Options, licenseLibr
 		return
 	}
 
-	// TODO: document why we are initializing here
+	// TODO: document why we are initializing here and why this element is never used
 	if options.OmitBlocks {
 		identifierResults.Blocks = []Block{}
 	}
