@@ -56,7 +56,6 @@ func Test_identifyLicensesInSPDXTestDataDirectory(t *testing.T) {
 		result := result
 		t.Run(result.File, func(t *testing.T) {
 			t.Parallel()
-			fmt.Printf("result.File: `%v`\n", result.File)
 			if !strings.Contains(result.File, "/invalid/") {
 				wantLicenseID := strings.TrimSuffix(path.Base(result.File), ".txt")
 				wantLicenseID = strings.TrimPrefix(wantLicenseID, "deprecated_")
