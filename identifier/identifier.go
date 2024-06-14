@@ -3,9 +3,9 @@
 package identifier
 
 import (
+	"bufio"
 	"fmt"
 	"io/fs"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -17,6 +17,7 @@ import (
 	"golang.org/x/exp/slices"
 	"golang.org/x/sync/errgroup"
 
+	"github.com/CycloneDX/license-scanner/configurer"
 	"github.com/CycloneDX/license-scanner/licenses"
 	"github.com/CycloneDX/license-scanner/normalizer"
 )
@@ -29,7 +30,24 @@ var (
 type Options struct {
 	ForceResult  bool
 	OmitBlocks   bool
+	Patterns     []string
+	PatternMap   map[string]bool
 	Enhancements Enhancements
+}
+
+// Parse out patterns into easy-to-test map
+func (options *Options) ParsePatternsFromSlice(patterns []string) {
+	options.PatternMap = make(map[string]bool)
+	for _, pattern := range patterns {
+		options.PatternMap[pattern] = true
+	}
+}
+
+func (options *Options) ParsePatternsFromString(patterns string) {
+	if patterns != "" {
+		options.Patterns = strings.Split(patterns, ",")
+	}
+	options.ParsePatternsFromSlice(options.Patterns)
 }
 
 type licenseMatch struct {
@@ -66,62 +84,135 @@ type Block struct {
 	Matches []string
 }
 
-func Identify(options Options, licenseLibrary *licenses.LicenseLibrary, normalizedData normalizer.NormalizationData) (IdentifierResults, error) {
+func Identify(identifierResults *IdentifierResults, options Options, licenseLibrary *licenses.LicenseLibrary, normalizedData normalizer.NormalizationData) (err error) {
 	// find the licenses in the normalized text and return a list of SPDX IDs
 	// in case of an error, return as much as we have along with an error
-	licenseResults, err := findAllLicensesInNormalizedData(licenseLibrary, normalizedData)
-	if err != nil {
-		return IdentifierResults{}, err
+	if err = findAllLicensesInNormalizedData(identifierResults, licenseLibrary, normalizedData); err != nil {
+		return
 	}
 
-	if err := FromOptions(&licenseResults, options.Enhancements, licenseLibrary); err != nil {
-		return IdentifierResults{}, err
+	if err = FromOptions(identifierResults, options.Enhancements, licenseLibrary); err != nil {
+		return
 	}
 
-	if err := applyMutatorLicenses(licenseLibrary.LicenseMap, &licenseResults); err != nil {
-		return IdentifierResults{}, err
+	if err = applyMutatorLicenses(licenseLibrary.LicenseMap, identifierResults); err != nil {
+		return
 	}
 
+	// TODO: document why we are initializing here and why this element is never used
 	if options.OmitBlocks {
-		licenseResults.Blocks = []Block{}
+		identifierResults.Blocks = []Block{}
 	}
 
-	return licenseResults, err
+	return
 }
 
-func IdentifyLicensesInString(input string, options Options, licenseLibrary *licenses.LicenseLibrary) (IdentifierResults, error) {
+func IdentifyLicensesInString(identifierResults *IdentifierResults, input string, options Options, licenseLibrary *licenses.LicenseLibrary) (err error) {
 	// instantiate normalizedData with the input license text
 	normalizedData := normalizer.NormalizationData{
 		OriginalText: input,
 	}
 
 	// normalize the input license text
-	if err := normalizedData.NormalizeText(); err != nil {
-		return IdentifierResults{}, err
+	if err = normalizedData.NormalizeText(); err != nil {
+		return
 	}
 
-	return Identify(options, licenseLibrary, normalizedData)
+	return Identify(identifierResults, options, licenseLibrary, normalizedData)
 }
 
-func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *licenses.LicenseLibrary) (IdentifierResults, error) {
-	fi, err := os.Stat(filePath)
-	if err != nil {
-		return IdentifierResults{}, err
+func IdentifyLicensesInFile(filePath string, options Options, licenseLibrary *licenses.LicenseLibrary) (identifierResults IdentifierResults, err error) {
+	// Carry filepath used for matches in result set
+	identifierResults = IdentifierResults{}
+	identifierResults.File = filePath
+	identifierResults.Matches = make(map[string][]Match)
+
+	// Verify filepath exists
+	fi, errStat := os.Stat(filePath)
+	if errStat != nil {
+		return identifierResults, errStat
 	}
+	// Only scan files of reasonable sizes
+	// TODO: make the max. size configurable
 	if fi.Size() > 1000000 {
-		Logger.Errorf("file too large (%v > 1000000)", fi.Size()) // log error, but return nil
-		return IdentifierResults{}, nil
+		err = Logger.Errorf("file too large (%v > 1000000)", fi.Size()) // log error, but return nil
+		return
 	}
 
-	b, err := ioutil.ReadFile(filePath)
+	// Pattern match: "spdx-id"
+	if options.PatternMap[configurer.MATCH_PATTERN_SPDX_ID] {
+		Logger.Infof("Matching pattern: `%s`\n", configurer.MATCH_PATTERN_SPDX_ID)
+		// Scan for match in first 10 lines of file
+		// TODO: make first X lines configurable
+		licenseMatches, errSpdx := findSPDXIdentifierInFile(filePath, 10)
+		if errSpdx != nil {
+			err = errSpdx
+			return
+		}
+		if len(licenseMatches) > 0 {
+			spdxId := licenseMatches[0].LicenseId
+			sliceMatches := []Match{licenseMatches[0].Match}
+			identifierResults.Matches[spdxId] = sliceMatches
+		}
+	}
+
+	// Pattern match: includes "alias", "url", "primary", "associated"
+	// We will need to read the entire file into memory
+	if options.PatternMap[configurer.MATCH_PATTERN_PRIMARY] ||
+		options.PatternMap[configurer.MATCH_PATTERN_URL] ||
+		options.PatternMap[configurer.MATCH_PATTERN_ALIAS] ||
+		options.PatternMap[configurer.MATCH_PATTERN_ASSOCIATED] {
+		var bytes []byte
+		bytes, err = os.ReadFile(filePath)
+		if err != nil {
+			return IdentifierResults{}, err
+		}
+		input := string(bytes)
+		err = IdentifyLicensesInString(&identifierResults, input, options, licenseLibrary)
+	}
+
+	return
+}
+
+const SPDX_ID_KEY = "SPDX-License-Identifier:"
+
+var LEN_SPDX_ID_KEY = len(SPDX_ID_KEY)
+
+func findSPDXIdentifierInFile(filePath string, maxLines int) (licenseMatches []licenseMatch, err error) {
+	var file *os.File
+	// Note: parent function has already verified the file exists
+	// TODO: this function should perhaps accept a file handle and allow the parent to open and provide it
+	file, err = os.Open(filePath)
 	if err != nil {
-		return IdentifierResults{}, err
+		Logger.Errorf("cannot open file: %s", filePath)
+		return
 	}
-	input := string(b)
+	defer file.Close()
 
-	result, err := IdentifyLicensesInString(input, options, licenseLibrary)
-	result.File = filePath
-	return result, err
+	fileReader := bufio.NewReader(file)
+	fileScanner := bufio.NewScanner(fileReader)
+
+	fileScanner.Split(bufio.ScanLines)
+	var foundLine string
+	for i := 0; i < maxLines; i++ {
+		fileScanner.Scan()
+		if strings.Contains(fileScanner.Text(), SPDX_ID_KEY) {
+			foundLine = fileScanner.Text()
+			break
+		}
+	}
+	if foundLine != "" {
+		var match licenseMatch
+		idx := strings.Index(foundLine, SPDX_ID_KEY)
+		// find start index of where the actual SPDX ID is by
+		// adding in the length of the SPDX License Identifier key
+		// Then trim any whitespace to extract the actual SPDX ID value
+		idx += LEN_SPDX_ID_KEY
+		spdxIdPlus := foundLine[idx:]
+		match.LicenseId = strings.TrimSpace(spdxIdPlus)
+		licenseMatches = append(licenseMatches, match)
+	}
+	return
 }
 
 func IdentifyLicensesInDirectory(dirPath string, options Options, licenseLibrary *licenses.LicenseLibrary) (ret []IdentifierResults, err error) {
@@ -184,23 +275,24 @@ func IdentifyLicensesInDirectory(dirPath string, options Options, licenseLibrary
 	return ret, err
 }
 
-func findAllLicensesInNormalizedData(licenseLibrary *licenses.LicenseLibrary, normalizedData normalizer.NormalizationData) (IdentifierResults, error) {
+func findAllLicensesInNormalizedData(identifierResults *IdentifierResults, licenseLibrary *licenses.LicenseLibrary, normalizedData normalizer.NormalizationData) (err error) {
 	// initialize the result with original license text, normalized license text, and hash (md5, sha256, and sha512)
-	ret := IdentifierResults{
-		OriginalText:   normalizedData.OriginalText,
-		NormalizedText: normalizedData.NormalizedText,
-		Hash:           normalizedData.Hash,
-	}
+	identifierResults.OriginalText = normalizedData.OriginalText
+	identifierResults.NormalizedText = normalizedData.NormalizedText
+	identifierResults.Hash = normalizedData.Hash
 
 	// LicenseID-to-matches map to return
-	ret.Matches = make(map[string][]Match)
+	if identifierResults.Matches == nil {
+		identifierResults.Matches = make(map[string][]Match)
+	}
+
 	// List with LicenseID and indexes for generating text blocks
 	var licensesMatched []licenseMatch
 
 	for id, lic := range licenseLibrary.LicenseMap {
-		matches, err := findLicenseInNormalizedData(lic, normalizedData, licenseLibrary)
-		if err != nil {
-			return ret, err
+		matches, errFind := findLicenseInNormalizedData(lic, normalizedData, licenseLibrary)
+		if errFind != nil {
+			return errFind
 		}
 
 		// Sort the matches slice by start and end index.
@@ -217,18 +309,17 @@ func findAllLicensesInNormalizedData(licenseLibrary *licenses.LicenseLibrary, no
 				continue // remove duplicates
 			}
 			licensesMatched = append(licensesMatched, licenseMatch{LicenseId: id, Match: matches[i]})
-			ret.Matches[id] = append(ret.Matches[id], matches[i])
+			identifierResults.Matches[id] = append(identifierResults.Matches[id], matches[i])
 		}
 	}
 
 	// Generate Blocks.
-	blocks, err := generateTextBlocks(normalizedData.OriginalText, licensesMatched)
+	identifierResults.Blocks, err = generateTextBlocks(normalizedData.OriginalText, licensesMatched)
 	if err != nil {
-		return ret, err
+		return err
 	}
-	ret.Blocks = blocks
 
-	return ret, nil
+	return
 }
 
 func findLicenseInNormalizedData(lic licenses.License, normalizedData normalizer.NormalizationData, ll *licenses.LicenseLibrary) (licenseMatches []Match, err error) {

@@ -511,16 +511,17 @@ func Test_identifyLicensesInString(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			got, err := IdentifyLicensesInString(tt.args.input, options, licenseLibrary)
+			identifierResults := IdentifierResults{}
+			err := IdentifyLicensesInString(&identifierResults, tt.args.input, options, licenseLibrary)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("identifyLicensesInString() error = %v, wantErr %v", err, tt.wantErr)
-			} else if d := cmp.Diff(tt.want.Matches, got.Matches, cmp.AllowUnexported(Match{})); d != "" {
+			} else if d := cmp.Diff(tt.want.Matches, identifierResults.Matches, cmp.AllowUnexported(Match{})); d != "" {
 				t.Errorf("Didn't get expected result: (-want, +got): %v", d)
-			} else if d := cmp.Diff(tt.want.CopyRightStatements, got.CopyRightStatements); d != "" {
+			} else if d := cmp.Diff(tt.want.CopyRightStatements, identifierResults.CopyRightStatements); d != "" {
 				t.Errorf("Didn't get expected result: (-want, +got): %v", d)
-			} else if d := cmp.Diff(tt.want.Blocks, got.Blocks); d != "" {
+			} else if d := cmp.Diff(tt.want.Blocks, identifierResults.Blocks); d != "" {
 				t.Errorf("Didn't get expected result: (-want, +got): %v", d)
-			} else if d := cmp.Diff(tt.want.Hash, got.Hash); d != "" {
+			} else if d := cmp.Diff(tt.want.Hash, identifierResults.Hash); d != "" {
 				t.Errorf("Didn't get expected result: (-want, +got): %v", d)
 			}
 		})
@@ -604,12 +605,13 @@ func Test_identifyLicensesInStringPreChecks(t *testing.T) {
 			if err := ll.AddAll(); err != nil {
 				t.Fatalf("AddAll() error = %v", err)
 			}
-			got, err := IdentifyLicensesInString(tt.input, options, ll)
+			identifierResults := IdentifierResults{}
+			err = IdentifyLicensesInString(&identifierResults, tt.input, options, ll)
 			if err != nil {
 				t.Errorf("identifyLicensesInString() error = %v", err)
-			} else if d := cmp.Diff(tt.want.Matches, got.Matches, cmp.AllowUnexported(Match{})); d != "" {
+			} else if d := cmp.Diff(tt.want.Matches, identifierResults.Matches, cmp.AllowUnexported(Match{})); d != "" {
 				t.Errorf("Didn't get expected result: (-want, +got): %v", d)
-			} else if d := cmp.Diff(tt.want.Blocks, got.Blocks); d != "" {
+			} else if d := cmp.Diff(tt.want.Blocks, identifierResults.Blocks); d != "" {
 				t.Errorf("Didn't get expected result: (-want, +got): %v", d)
 			}
 		})

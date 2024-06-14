@@ -12,6 +12,7 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/CycloneDX/license-scanner/configurer"
 	"github.com/CycloneDX/license-scanner/licenses"
 )
 
@@ -41,6 +42,8 @@ func Test_identifyLicensesInSPDXTestDataDirectory(t *testing.T) {
 	if err := licenseLibrary.AddAllSPDX(); err != nil {
 		t.Fatalf("licenseLibrary.AddAllSPDX() error = %v", err)
 	}
+	// Initialize the match pattern options to include all functions
+	options.ParsePatternsFromSlice(configurer.SUPPORTED_MATCH_PATTERNS)
 
 	results, err := IdentifyLicensesInDirectory(testDataDir, options, licenseLibrary)
 	if err != nil {

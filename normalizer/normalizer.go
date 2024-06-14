@@ -145,8 +145,8 @@ func NewNormalizationData(originalText string, isTemplate bool) *NormalizationDa
 func (n *NormalizationData) NormalizeText() error {
 	// verify that the original text is a string with a length of at least one.
 	if len(n.OriginalText) < 1 {
-		Logger.Error("Invalid text")
-		return fmt.Errorf("failed to normalize data: invalid input text with length %d", len(n.OriginalText))
+		err := Logger.Errorf("failed to normalize data: invalid input text with length %d", len(n.OriginalText))
+		return err
 	}
 
 	// Check if the text contains control characters indicative of binary or non-text files.

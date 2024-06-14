@@ -145,14 +145,15 @@ func (s *ScanSpec) ScanLicenseText(licenseLibrary *licenses.LicenseLibrary, resu
 
 	// find the licenses in the normalized text and return a list of SPDX IDs
 	// in case of an error, return as much as we have along with an error
-	results, err := identifier.Identify(identifier.Options{}, licenseLibrary, normalizedData)
+	identifierResults := identifier.IdentifierResults{}
+	err := identifier.Identify(&identifierResults, identifier.Options{}, licenseLibrary, normalizedData)
 	if err != nil {
 		r.Error = err
 		return r
 	}
 
 	// if the results are empty, add unknown as the SPDX ID
-	if len(results.Matches) == 0 {
+	if len(identifierResults.Matches) == 0 {
 		// Add NOASSERTION to the LicenseChoice of the SPDX Name for this scan
 		r.CycloneDXLicenses = append(r.CycloneDXLicenses, cyclonedx.LicenseChoice{
 			License: &cyclonedx.License{
@@ -161,7 +162,7 @@ func (s *ScanSpec) ScanLicenseText(licenseLibrary *licenses.LicenseLibrary, resu
 		})
 	} else {
 		// iterate over the list of matches and maintain the unique list of SPDX IDs in the result
-		for id := range results.Matches {
+		for id := range identifierResults.Matches {
 			// Add an SPDX ID from the match
 			// update the LicenseChoice to include each new match
 
