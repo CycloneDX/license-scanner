@@ -316,11 +316,10 @@ func findAllLicensesInNormalizedData(identifierResults *IdentifierResults, licen
 	}
 
 	// Generate Blocks.
-	blocks, errGenerate := generateTextBlocks(normalizedData.OriginalText, licensesMatched)
-	if errGenerate != nil {
-		return errGenerate
+	identifierResults.Blocks, err = generateTextBlocks(normalizedData.OriginalText, licensesMatched)
+	if err != nil {
+		return err
 	}
-	identifierResults.Blocks = blocks
 
 	return
 }
