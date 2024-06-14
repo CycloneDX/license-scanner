@@ -178,8 +178,6 @@ const SPDX_ID_KEY = "SPDX-License-Identifier:"
 
 var LEN_SPDX_ID_KEY = len(SPDX_ID_KEY)
 
-//var SPDX_ID_KEY_BYTES = []byte(SPDX_ID_KEY)
-
 func findSPDXIdentifierInFile(filePath string, maxLines int) (licenseMatches []licenseMatch, err error) {
 	var file *os.File
 	// Note: parent function has already verified the file exists
