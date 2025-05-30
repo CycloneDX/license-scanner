@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "additional permission under gplv3 section 7:if you modify this program,or any covered work,by linking or combining it with openssl,or a modified version of openssl licensed under the openssl license (http://www.openssl.org/source/license.html),the licensors of this program grant you additional permission to convey the resulting work. corresponding source for a non-source form of such a combination shall include the source code for the parts that are licensed under the openssl license as well as that of the covered work."
+  ]
+}

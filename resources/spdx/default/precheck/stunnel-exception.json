@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "linking stunnel statically or dynamically with other modules is making a combined work based on stunnel. thus,the terms and conditions of the gnu general public license cover the whole combination. in addition,as a special exception,the copyright holder of stunnel gives you permission to combine stunnel with free software programs or libraries that are released under the gnu lgpl and with code included in the standard release of openssl under the openssl license (or modified versions of such code,with unchanged license). you may copy and distribute such a system following the terms of the gnu gpl for stunnel and the licenses of the other code concerned. note that people who make modified versions of stunnel are not obligated to grant this special exception for their modified versions; it is their choice whether to do so. the gnu general public license gives permission to release a modified version without this exception; this exception also makes it possible to release a modified version which carries forward this exception."
+  ]
+}

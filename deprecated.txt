@@ -1,0 +1,33 @@
+16924 template/deprecated_AGPL-1.0.template.txt
+35788 template/deprecated_AGPL-3.0.template.txt
+ 1709 template/deprecated_BSD-2-Clause-FreeBSD.template.txt
+ 1711 template/deprecated_BSD-2-Clause-NetBSD.template.txt
+19400 template/deprecated_GFDL-1.1.template.txt
+21760 template/deprecated_GFDL-1.2.template.txt
+24362 template/deprecated_GFDL-1.3.template.txt
+13289 template/deprecated_GPL-1.0+.template.txt
+13193 template/deprecated_GPL-1.0.template.txt
+18684 template/deprecated_GPL-2.0+.template.txt
+  538 template/deprecated_GPL-2.0-with-GCC-exception.template.txt
+ 1627 template/deprecated_GPL-2.0-with-autoconf-exception.template.txt
+  705 template/deprecated_GPL-2.0-with-bison-exception.template.txt
+  975 template/deprecated_GPL-2.0-with-classpath-exception.template.txt
+  632 template/deprecated_GPL-2.0-with-font-exception.template.txt
+19338 template/deprecated_GPL-2.0.template.txt
+36527 template/deprecated_GPL-3.0+.template.txt
+ 3626 template/deprecated_GPL-3.0-with-GCC-exception.template.txt
+ 2019 template/deprecated_GPL-3.0-with-autoconf-exception.template.txt
+36431 template/deprecated_GPL-3.0.template.txt
+26501 template/deprecated_LGPL-2.0+.template.txt
+26405 template/deprecated_LGPL-2.0.template.txt
+27686 template/deprecated_LGPL-2.1+.template.txt
+27853 template/deprecated_LGPL-2.1.template.txt
+44961 template/deprecated_LGPL-3.0+.template.txt
+44961 template/deprecated_LGPL-3.0.template.txt
+15608 template/deprecated_Net-SNMP.template.txt
+ 1538 template/deprecated_Nokia-Qt-exception-1.1.template.txt
+ 1286 template/deprecated_Nunit.template.txt
+ 1211 template/deprecated_StandardML-NJ.template.txt
+ 2221 template/deprecated_bzip2-1.0.5.template.txt
+ 1630 template/deprecated_eCos-2.0.template.txt
+ 1471 template/deprecated_wxWindows.template.txt

@@ -1,0 +1,11 @@
+{
+    "cSpell.words": [
+        "configurer",
+        "Debugf",
+        "Infof",
+        "Submatch",
+        "submatches",
+        "Tracef"
+    ],
+    "go.buildTags": "unit"
+}

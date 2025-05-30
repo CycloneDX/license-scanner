@@ -1,0 +1,7 @@
+{
+  "StaticBlocks": [
+    "if you modify this program,or any covered work,by linking or combining it with runtime libraries of erlang/otp as released by ericsson on http://www.erlang.org (or a modified version of these libraries),containing parts covered by the terms of the erlang public license (http://www.erlang.org/eplicense),",
+    "grant you additional permission to convey the resulting work without the need to license the runtime libraries of erlang/otp under the",
+    ". corresponding source for a non-source form of such a combination shall include the source code for the parts of the runtime libraries of erlang/otp used as well as that of the covered work."
+  ]
+}

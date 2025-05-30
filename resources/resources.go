@@ -29,6 +29,7 @@ type Resources struct {
 	customPath      string
 	customWritePath string
 	spdxWritePath   string
+	overwrite       bool
 }
 
 func NewResources(cfg *viper.Viper) *Resources {
@@ -36,6 +37,7 @@ func NewResources(cfg *viper.Viper) *Resources {
 	customReader, customReadPath := getCustomReader(cfg)
 	customWritePath := getResourcesWritePath(cfg, configurer.CustomPathFlag, configurer.CustomFlag)
 	spdxWritePath := getResourcesWritePath(cfg, configurer.SpdxPathFlag, configurer.SpdxFlag)
+	overwrite := cfg.GetBool(configurer.OverwriteFlag)
 	return &Resources{
 		cfg,
 		spdxReader,
@@ -44,6 +46,7 @@ func NewResources(cfg *viper.Viper) *Resources {
 		customReadPath,
 		customWritePath,
 		spdxWritePath,
+		overwrite,
 	}
 }
 
@@ -220,6 +223,13 @@ func mkdirAll(cfg *viper.Viper, pathFlag string, embeddedFlag string, dirs ...st
 
 func (r *Resources) MkdirAllSPDX() error {
 	dirs := []string{"template", "precheck", "json", "testdata", "testdata/invalid"}
+	if r.overwrite {
+		destPath := getResourcesWritePath(r.config, configurer.SpdxPathFlag, configurer.SpdxFlag)
+		err := os.RemoveAll(destPath)
+		if err != nil && !os.IsNotExist(err) {
+			return err
+		}
+	}
 	return mkdirAll(r.config, configurer.SpdxPathFlag, configurer.SpdxFlag, dirs...)
 }
 

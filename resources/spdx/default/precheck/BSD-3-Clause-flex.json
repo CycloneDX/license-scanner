@@ -1,0 +1,7 @@
+{
+  "StaticBlocks": [
+    "this code is derived from software contributed to berkeley by vern paxson. the united states government has rights in this work pursuant to contract no. de-ac03-76sf00098 between the united states department of energy and the university of california. redistribution and use in source and binary forms,with or without modification,are permitted provided that the following conditions are met:",
+    "redistribution of source code must retain the above copyright notice,this list of conditions and the following disclaimer.",
+    "redistribution in binary form must reproduce the above copyright notice,this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. neither the name of the university nor the name of its contributors may be used to endorse or promote products derived from this software without specific prior written permission. this software is provided 'as is' and without any express or implied warranties,including,without limitation,the implied warranties of merchantability and fitness for a particular purpose. this basically says 'do whatever you please with this software except remove this notice or take advantage of the university's (or the flex authors') name'. note that the 'flex.skl' scanner skeleton carries no copyright notice. you are free to do whatever you please with scanners generated using flex; for them,you are not even bound by the above copyright."
+  ]
+}

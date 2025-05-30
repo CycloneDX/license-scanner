@@ -22,7 +22,7 @@ import (
 )
 
 var (
-	Logger     = log.NewLogger(log.INFO)
+	Logger     *log.MiniLogger
 	nonAlphaRE = regexp.MustCompile(`^[^A-Za-z0-9]*$`)
 )
 

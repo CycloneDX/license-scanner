@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "exemption for binary library-like packages the second condition in the bsd license (covering binary redistribution) does not apply all the way down a chain of software. if binary package a includes pcre2,it must respect the condition,but if package b is software that includes package a,the condition is not imposed on package b unless it uses pcre2 independently."
+  ]
+}

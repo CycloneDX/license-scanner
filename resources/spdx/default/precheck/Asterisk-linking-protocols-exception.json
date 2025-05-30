@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "specific permission is also granted to link asterisk with openssl,openh323 unimrcp,and/or the uw imap toolkit and distribute the resulting binary files. in addition,asterisk implements several management/control protocols. this includes the asterisk manager interface (ami),the asterisk gateway interface (agi),and the asterisk rest interface (ari). it is our belief that applications using these protocols to manage or control an asterisk instance do not have to be licensed under the gpl or a compatible license,as we believe these protocols do not create a 'derivative work' as referred to in the gpl. however,should any court or other judiciary body find that these protocols do fall under the terms of the gpl,then we hereby grant you a license to use these protocols in combination with asterisk in external applications licensed under any license you wish."
+  ]
+}

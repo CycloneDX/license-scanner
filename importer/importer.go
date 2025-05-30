@@ -12,13 +12,12 @@ import (
 	"github.com/CycloneDX/license-scanner/licenses"
 	"github.com/CycloneDX/license-scanner/normalizer"
 	"github.com/CycloneDX/license-scanner/resources"
-
 	"github.com/CycloneDX/sbom-utility/log"
 
 	"github.com/spf13/viper"
 )
 
-var Logger = log.NewLogger(log.INFO)
+var Logger *log.MiniLogger = log.NewLogger(log.DEFAULT_LEVEL)
 
 // Import validates, preprocesses, and copies templates into resources (or into external paths)
 // This implements --addAll (which probably be changed to license-scanner import ...)
@@ -115,6 +114,7 @@ func importSPDX(r *resources.Resources, inputDir string) error {
 		id := sl.LicenseID
 		isDeprecated := sl.IsDeprecatedLicenseID
 		if err := importSPDXResource(inputResources, r, id, isDeprecated); err != nil {
+			Logger.Errorf(err.Error())
 			errorCount++
 		}
 	}
@@ -123,6 +123,7 @@ func importSPDX(r *resources.Resources, inputDir string) error {
 		id := se.LicenseExceptionID
 		isDeprecated := se.IsDeprecatedLicenseID
 		if err := importSPDXResource(inputResources, r, id, isDeprecated); err != nil {
+			Logger.Errorf(err.Error())
 			errorCount++
 		}
 	}
@@ -287,6 +288,7 @@ func importSPDXResource(input *resources.Resources, output *resources.Resources,
 	if err != nil {
 		return err
 	}
+	Logger.Debugf("Validating template `%s`...", templateFile)
 	staticBlocks, err := validate(id, templateBytes, textBytes, templateFile)
 	if err != nil {
 		_ = Logger.Errorf("template ID %v is not valid", id)
