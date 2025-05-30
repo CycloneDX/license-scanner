@@ -1,6 +1,7 @@
 {
   "StaticBlocks": [
-    "redistribution and use in source and binary forms,with or without modification,",
+    "redistribution and use in source and binary forms",
+    ",with or without modification,",
     "permitted provided that the following conditions are met:",
     "redistribution of",
     "must retain the",
@@ -8,9 +9,13 @@
     "redistribution in binary form must reproduce the",
     "copyright notice,this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.",
     "be used to endorse or promote products derived from this",
-    "without specific prior written permission. this software is provided",
+    "without",
+    "prior written permission.",
+    "this",
+    "is provided",
     "'as is' and any",
     "or implied warranties,including,but not limited to,the implied warranties of merchantability and fitness for a particular purpose are disclaimed. in no event shall",
-    "be liable for any direct,indirect,incidental,special,exemplary,or consequential damages (including,but not limited to,procurement of substitute goods or services; loss of use,data,or profits; or business interruption) however caused and on any theory of liability,whether in contract,strict liability,or tort (including negligence or otherwise) arising in any way out of the use of this software,even if advised of the possibility of such damage."
+    "be liable for any direct,indirect,incidental,special,exemplary,or consequential damages (including,but not limited to,procurement of substitute goods or services; loss of use,data,or profits; or business interruption) however caused and on any theory of liability,whether in contract,strict liability,or tort (including negligence or otherwise) arising in any way out of the use of this",
+    ",even if advised of the possibility of such damage."
   ]
 }

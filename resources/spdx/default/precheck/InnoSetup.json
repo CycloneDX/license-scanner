@@ -1,0 +1,10 @@
+{
+  "StaticBlocks": [
+    "except where otherwise noted,all of the documentation and software included in the inno setup package is copyrighted by jordan russell.",
+    "permission is granted to anyone to use this software for any purpose,including commercial applications,and to alter and redistribute it,provided that the following conditions are met:",
+    "all redistribution of source code files must retain all copyright notice that are currently in place,and this list of conditions without modification.",
+    "all redistribution in binary form must retain all occurrences of the above copyright notice and web site addresses that are currently in place (for example,in the about boxes).",
+    "the origin of this software must not be misrepresented; you must not claim that you wrote the original software. if you use this software to distribute a product,an acknowledgement in the product documentation would be appreciated but is not required.",
+    "modified versions in source or binary form must be plainly marked as such,and must not be misrepresented as being the original software."
+  ]
+}

@@ -3,10 +3,6 @@
 package importer
 
 import (
-	"fmt"
-
-	"github.com/CycloneDX/sbom-utility/log"
-
 	"github.com/CycloneDX/license-scanner/debugger"
 	"github.com/CycloneDX/license-scanner/identifier"
 	"github.com/CycloneDX/license-scanner/licenses"
@@ -38,13 +34,11 @@ func validate(id string, templateBytes []byte, textBytes []byte, templateFile st
 
 	// There should be exactly ONE match when matching a template against its example license text
 	if len(matches) != 1 {
-		err = Logger.Errorf("expected 1 match for %v got: %v", id, matches)
-		if Logger.GetLevel() >= log.DEBUG {
-			failure, _ := debugger.DebugLicenseMatchFailure(*l, normalizedTestData.NormalizedText)
-			Logger.Debug(fmt.Errorf("Debugging invalid template for %v...\n", id))
-			Logger.Debug(failure)
-			Logger.Debug("\n")
-		}
+		err = Logger.Errorf("expected 1 match for %v (template: %s) got: %v", id, templateFile, matches)
+		Logger.Debugf("debugging invalid template for %v...\n", id)
+		failure, _ := debugger.DebugLicenseMatchFailure(*l, normalizedTestData.NormalizedText)
+		Logger.Debugf("%s\n", failure)
+		// os.Exit(1) // TODO: add flag to exit on batch import
 		return
 	}
 

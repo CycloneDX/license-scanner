@@ -3,7 +3,7 @@
 package cmd
 
 import (
-	"errors"
+	"encoding/json"
 	"fmt"
 	"os"
 	"sort"
@@ -27,20 +27,20 @@ const (
 )
 
 var (
-	ProjectLogger = log.NewLogger(log.DEFAULT_LEVEL)
-
+	Logger *log.MiniLogger = log.NewLogger(log.DEFAULT_LEVEL)
 	// rootCmd represents the base command when called without any subcommands
 	rootCmd = NewRootCmd()
 )
 
 func logScanTimeMS(startTime int64) {
-	ProjectLogger.Debugf("Scan took %v milliseconds.", (time.Now().UnixMicro()-startTime)/1000)
+	Logger.Debugf("Scan took %v milliseconds.", (time.Now().UnixMicro()-startTime)/1000)
 }
 
 func NewRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   project,
-		Short: fmt.Sprintf("%v: scan files to detect licenses", project),
+		Use:          project,
+		SilenceUsage: true,
+		Short:        fmt.Sprintf("%v: scan files to detect licenses", project),
 		Long: `
 LICENSE-SCANNER
 
@@ -59,23 +59,22 @@ Please give us feedback at: https://github.com/CycloneDX/license-scanner/issues
 		Args:    cobra.NoArgs,
 		Version: currentVersion,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			ProjectLogger.Enter("RunCommand()")
-			defer ProjectLogger.Exit("RunCommand()")
-
 			cfg, err := configurer.InitConfig(cmd.Flags())
 			if err != nil {
-				ProjectLogger.Error(err)
+				Logger.Error(err)
 				return err
 			}
 
 			if cfg.GetBool(configurer.DebugFlag) {
-				ProjectLogger.SetLevel(log.DEBUG)
+				Logger.SetLevel(log.DEBUG)
 			}
 
-			ProjectLogger.SetQuietMode(cfg.GetBool(configurer.QuietFlag))
-
-			if ProjectLogger.GetLevel() >= log.TRACE {
-				ProjectLogger.Debugf(" * Flags: %+v", cfg.AllSettings())
+			Logger.SetQuietMode(cfg.GetBool(configurer.QuietFlag))
+			if Logger.GetLevel() == log.DEBUG {
+				mapSettings := cfg.AllSettings()
+				formattedSettings, _ := json.MarshalIndent(mapSettings, "", "")
+				Logger.Debugf(" * Flags: %+v", string(formattedSettings))
+				Logger.DumpArgs()
 			}
 
 			f := cfg.GetString(configurer.FileFlag)
@@ -91,7 +90,9 @@ Please give us feedback at: https://github.com/CycloneDX/license-scanner/issues
 				return importer.Update(cfg)
 			} else {
 				// Otherwise, terminate with an error.
-				return errors.New("you must provide a file path")
+				err = Logger.Errorf("you must provide a command valid flag")
+				cmd.Help()
+				return err
 			}
 		},
 	}
@@ -161,6 +162,20 @@ func listLicenses(cfg *viper.Viper) error {
 	return nil
 }
 
+func getCommandLineOptions(cfg *viper.Viper) (options identifier.Options) {
+	options = identifier.Options{
+		ForceResult: true,
+		Enhancements: identifier.Enhancements{
+			AddNotes:       "",
+			AddTextBlocks:  true,
+			FlagAcceptable: cfg.GetBool(configurer.AcceptableFlag),
+			FlagCopyrights: cfg.GetBool(configurer.CopyrightsFlag),
+			FlagKeywords:   cfg.GetBool(configurer.KeywordsFlag),
+		},
+	}
+	return
+}
+
 func findLicensesInDirectory(cfg *viper.Viper) error {
 	d := cfg.GetString(configurer.DirFlag)
 
@@ -171,17 +186,8 @@ func findLicensesInDirectory(cfg *viper.Viper) error {
 	if err := licenseLibrary.AddAll(); err != nil {
 		return err
 	}
-
-	options := identifier.Options{
-		ForceResult: true,
-		Enhancements: identifier.Enhancements{
-			AddNotes:       "",
-			AddTextBlocks:  true,
-			FlagAcceptable: cfg.GetBool(configurer.AcceptableFlag),
-			FlagCopyrights: cfg.GetBool(configurer.CopyrightsFlag),
-			FlagKeywords:   cfg.GetBool(configurer.KeywordsFlag),
-		},
-	}
+	// retrieve command line options from flags
+	options := getCommandLineOptions(cfg)
 
 	results, err := identifier.IdentifyLicensesInDirectory(d, options, licenseLibrary)
 	if err != nil {
@@ -212,9 +218,9 @@ func findLicensesInDirectory(cfg *viper.Viper) error {
 			}
 			fmt.Println()
 
-			if ProjectLogger.GetLevel() >= log.INFO {
+			if Logger.GetLevel() >= log.INFO {
 				for _, block := range result.Blocks {
-					ProjectLogger.Infof("%v :: %v", block.Matches, block.Text)
+					Logger.Infof("%v :: %v", block.Matches, block.Text)
 				}
 			}
 		} else {
@@ -225,10 +231,10 @@ func findLicensesInDirectory(cfg *viper.Viper) error {
 }
 
 func findLicensesInFile(cfg *viper.Viper, f string) error {
-	ProjectLogger.Enter()
-	defer ProjectLogger.Exit()
+	Logger.Enter()
+	defer Logger.Exit()
 	startTime := time.Now().UnixMicro()
-	ProjectLogger.Info("Looking for all licenses")
+	Logger.Info("Looking for all licenses")
 
 	licenseLibrary, err := licenses.NewLicenseLibrary(cfg)
 	if err != nil {
@@ -240,16 +246,8 @@ func findLicensesInFile(cfg *viper.Viper, f string) error {
 		return err
 	}
 
-	options := identifier.Options{
-		ForceResult: true,
-		Enhancements: identifier.Enhancements{
-			AddNotes:       "",
-			AddTextBlocks:  true,
-			FlagAcceptable: cfg.GetBool(configurer.AcceptableFlag),
-			FlagCopyrights: cfg.GetBool(configurer.CopyrightsFlag),
-			FlagKeywords:   cfg.GetBool(configurer.KeywordsFlag),
-		},
-	}
+	// retrieve command line options from flags
+	options := getCommandLineOptions(cfg)
 
 	results, err := identifier.IdentifyLicensesInFile(f, options, licenseLibrary)
 	if err != nil {
@@ -283,33 +281,33 @@ func findLicensesInFile(cfg *viper.Viper, f string) error {
 
 		if licenseArg == "" {
 			for _, block := range results.Blocks {
-				ProjectLogger.Infof("%v :: %v", block.Matches, block.Text)
+				Logger.Infof("%v :: %v", block.Matches, block.Text)
 			}
 		}
 	} else {
-		ProjectLogger.Info("No licenses were found")
+		Logger.Info("No licenses were found")
 	}
 
 	if licenseArg != "" {
 		// If a license is also provided, debug against that license.
-		ProjectLogger.Info("Looking for a specific license")
+		Logger.Info("Looking for a specific license")
 		debugResults, err := debugger.DebugLicenseMatchFailure(licenseLibrary.LicenseMap[licenseArg], results.NormalizedText)
 		if err != nil {
 			return err
 		}
 
 		for i, debugResult := range debugResults {
-			ProjectLogger.Infof("Matching Pattern %v\n", i)
-			ProjectLogger.Info(debugResult)
+			Logger.Infof("Matching Pattern %v\n", i)
+			Logger.Info(debugResult)
 		}
 	}
 
 	if cfg.GetBool(configurer.HashFlag) {
-		ProjectLogger.Infof("File Hash: %v", results.Hash.Md5)
+		Logger.Infof("File Hash: %v", results.Hash.Md5)
 	}
 	if cfg.GetBool(configurer.NormalizedFlag) {
-		ProjectLogger.Info("Normalized Text:")
-		ProjectLogger.Info(results.NormalizedText)
+		Logger.Info("Normalized Text:")
+		Logger.Info(results.NormalizedText)
 	}
 
 	logScanTimeMS(startTime)
@@ -324,7 +322,7 @@ func notGlobalInit(c *cobra.Command) {
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
-	if ProjectLogger.GetLevel() >= log.DEBUG {
+	if Logger.GetLevel() >= log.DEBUG {
 		_ = doc.GenMarkdownTree(rootCmd, "./cmd/")
 	}
 	if err := rootCmd.Execute(); err != nil {

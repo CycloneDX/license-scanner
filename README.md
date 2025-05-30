@@ -129,6 +129,7 @@ Flags:
   -l, --license string      Display match debugging for the given license
       --list                List the license templates to be used
   -n, --normalized          Flag normalized
+      --overwrite           Overwrite existing directories and files when using --addAll flag
   -q, --quiet               Set logging to quiet
       --spdx string         Set of embedded SPDX templates to use (default "default")
       --spdxPath string     Path to external SPDX templates to use
@@ -559,4 +560,6 @@ When importing, only one of `--spdx, --spdxPath, --custom, --customPath` can be 
 
 ## Updating license templates
 
-If your imported files need to be re-validated and precheck files need to be regenerated, you can use `--updateAll` with `--spdx`, `--spdxPath`, `--custom`, or `--customPath` to update them in place. This would be needed if your templates and precheck files got out-of-sync either due to changes in those files or updated license-scanner code which requires updated prechecks.
+If your imported files need to be re-validated and precheck files regenerated, you can use `--updateAll` with `--spdx`, `--spdxPath`, `--custom`, or `--customPath` to update them in place.
+
+- *This type of update would be needed if your templates and precheck files got out-of-sync either due to changes in those files or updated license-scanner code which requires updated prechecks.*

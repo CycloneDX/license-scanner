@@ -1,0 +1,5 @@
+{
+  "StaticBlocks": [
+    "the copyright holders of gmsh give you permission to combine gmsh with code included in the standard release of netgen (from joachim sch'oberl),metis (from george karypis at the university of minnesota),opencascade (from open cascade s.a.s) and paraview (from kitware,inc.) under their respective licenses. you may copy and distribute such a system following the terms of the gnu gpl for gmsh and the licenses of the other code concerned,provided that you include the source code of that other code when and as the gnu gpl requires distribution of source code. note that people who make modified versions of gmsh are not obligated to grant this special exception for their modified versions; it is their choice whether to do so. the gnu general public license gives permission to release a modified version without this exception; this exception also makes it possible to release a modified version which carries forward this exception."
+  ]
+}

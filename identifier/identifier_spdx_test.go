@@ -47,7 +47,7 @@ func Test_identifyLicensesInSPDXTestDataDirectory(t *testing.T) {
 		t.Errorf("IdentifyLicensesInDirectory(%v) err = %v", testDataDir, err)
 	}
 
-	const expected = 581
+	const expected = 724
 	actual := 0
 	for _, result := range results {
 		result := result

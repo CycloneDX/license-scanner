@@ -1,6 +1,8 @@
 {
   "StaticBlocks": [
     "this",
-    "is free software; the free software foundation gives unlimited permission to copy and/or distribute it,with or without modifications,as long as this notice is preserved. this program is distributed in the hope that it will be useful,but without any warranty,to the extent permitted by law; without even the implied warranty of merchantability or fitness for a particular purpose."
+    "is free software;",
+    "gives unlimited permission to copy and/or distribute it,with or without modifications,as long as this notice is preserved. this",
+    "is distributed in the hope that it will be useful,but without any warranty,to the extent permitted by law; without even the implied warranty of merchantability or fitness for a particular purpose."
   ]
 }

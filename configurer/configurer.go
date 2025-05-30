@@ -10,7 +10,6 @@ import (
 	"runtime"
 
 	"github.com/spf13/pflag"
-
 	"github.com/spf13/viper"
 )
 
@@ -35,6 +34,7 @@ const (
 	SpdxPathFlag    = "spdxPath"
 	CustomFlag      = "custom"
 	CustomPathFlag  = "customPath"
+	OverwriteFlag   = "overwrite"
 )
 
 var (
@@ -147,4 +147,5 @@ func AddDefaultFlags(flagSet *pflag.FlagSet) {
 	flagSet.String(SpdxPathFlag, "", "Path to external SPDX templates to use")
 	flagSet.String(CustomFlag, DefaultResource, "Custom templates to use")
 	flagSet.String(CustomPathFlag, "", "Path to external custom templates to use")
+	flagSet.Bool(OverwriteFlag, false, "Overwrite existing directories and files when using --addAll flag")
 }

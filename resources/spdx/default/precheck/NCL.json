@@ -1,0 +1,11 @@
+{
+  "StaticBlocks": [
+    "redistribution and use",
+    "in source and binary forms,with or without modification,",
+    "permitted provided that the following conditions are met:",
+    "neither the name of ncar's computational and information systems laboratory,the university corporation for atmospheric research,nor the name of its",
+    "contributors may be used to endorse or promote products derived from this software without specific prior written permission.",
+    "redistribution of source code must retain the above copyright notice,this list of conditions,and the disclaimer below.",
+    "redistribution in binary form must reproduce the above copyright notice,this list of conditions,and the disclaimer below in the documentation and/or other materials provided with the distribution. this software is provided 'as is',without warranty of any kind,express or implied,including,but not limited to the warranties of merchantability,fitness for a particular purpose and noninfringement. in no event shall the contributors or copyright holders be liable for any claim,indirect,incidental,special,exemplary,or consequential damages or other liability,whether in an action of contract,tort or otherwise,arising from,out of or in connection with the software or the use or other dealings with the software."
+  ]
+}
