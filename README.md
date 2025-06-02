@@ -14,8 +14,8 @@ integrate it in your own tools.
 ### Compatability
 
 * Building from source requires Go 1.18 or newer
-* CycloneDX output is based on v1.4
-* SPDX template matching has been tested with SPDX license template versions 3.17 and 3.18
+* CycloneDX output is based on v1.6
+* SPDX template matching has been tested with SPDX license template versions 3.17, 3.18, 3.21 and 3.26
 
 ### Installing as a CLI
 
@@ -425,6 +425,7 @@ The following runtime flags may be used to modify the behavior:
 
 * Resource flags (import destination): one of `--spdx`, `--spdxPath`, `--custom`, `--customPath`
 * Config file location: `--configPath`, `--configName`
+* `--overwrite` will overwrite existing directories and files at the target path when using the `--spdx` or `--spdxPath` flags.  *This helps when successive calls to `--addAll` are needed by preventing the need for manual deletion of the target path.*
 
 ### List mode
 
@@ -554,9 +555,11 @@ When importing, only one of `--spdx, --spdxPath, --custom, --customPath` can be 
 1. Ensure that the destination directory named `resources/spdx/<versionDir>` is not in use.
 1. Run the `license-scanner --addAll <dir> --spdx <versionDir>` command. For example:
    ```shell
-   license-scanner --addAll ~/Downloads/license-list-data-3.17 --spdx my3.17
+   license-scanner --addAll ~/Downloads/license-list-data-3.xx --spdx my3.xx
    ```
-1. The new templates, json, testdata, and generated precheck files will all be put in the `resources/spdx/my3.17` directory and will be available as embedded resources when you build a *license-scanner* binary or build your own binary using the API.
+1. The new templates, json, testdata, and generated precheck files will all be put in the `resources/spdx/my3.xx` directory and will be available as embedded resources when you build a *license-scanner* binary or build your own binary using the API.
+	- *If you want to make the new templates the defaults, copy the contents of the `resources/spdx/my3.xx` directory to the `resources/spdx/default` directory.  This would be done when contributing new SPDX release content to this tool.*
+1. As a final step, update the file `resources/LIST.md` with the new set of supported license by using the output of the `license-scanner --list` command.
 
 ## Updating license templates
 
