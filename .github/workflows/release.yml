@@ -40,23 +40,24 @@ jobs:
     - name: List of the GitHub Actions environment variables on Windows
       run: env | sort
 
-    # Generate an SBOM
+      # Generate an SBOM
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
         go-version: 1.21
     - name: Install SBOM generator (latest)
-      run: go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@v1.7.0
+      run: go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@latest
     - name: Generate SBOM (from `go.mod`)
+      # run: cyclonedx-gomod mod -json=true "-output ${{env.APP_NAME}}-${{env.APP_VERSION}}.bom.json" .
       run: cyclonedx-gomod mod -json=true -output ${{env.SBOM_NAME}}
 
-    # Release binaries in all GOOS/GOARCH combinations (with all config. files)
-    - uses: wangyoucao577/go-release-action@v1.35
+      # Release binaries in all GOOS/GOARCH combinations (with all config. files)
+    - uses: wangyoucao577/go-release-action@v1.50
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         goos: ${{ matrix.goos }}
         goarch: ${{ matrix.goarch }}
-        extra_files: LICENSE ${{env.SBOM_NAME}}
+        extra_files: LICENSE README.md ${{env.SBOM_NAME}}
         # "auto" will use ZIP for Windows, otherwise default is TAR
         compress_assets: auto
         # NOTE: This verbose flag may be removed
