@@ -46,7 +46,7 @@ jobs:
       with:
         go-version: 1.18
     - name: Install SBOM generator (latest)
-      run: go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@latest
+      run: go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@v1.7.0
     - name: Generate SBOM (from `go.mod`)
       run: cyclonedx-gomod mod -json=true -output ${{env.SBOM_NAME}}
 
